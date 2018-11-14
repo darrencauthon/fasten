@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+  mariadb:
+    image: 'bitnami/mariadb:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+
+  redis:
+    image: redis:latest
+
+  myapp:
+    tty: true # Enables debugging capabilities when attached to this container.
+    image: 'bitnami/rails:latest'
+    labels:
+      kompose.service.type: nodeport
+    depends_on:
+      - mariadb
+      - redis
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq
+    depends_on:
+      - mariadb
+      - redis
+    volumes:
+      - .:/app
+    env_file:
+      - .env
