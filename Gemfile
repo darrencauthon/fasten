@@ -7,6 +7,8 @@ ruby '2.4.5'
 gem 'rails', '~> 5.2.1'
 # Use mysql as the database for Active Record
 gem 'mysql2', '>= 0.4.4', '< 0.6.0'
+# User pusher to interact with poxa
+gem 'pusher'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
