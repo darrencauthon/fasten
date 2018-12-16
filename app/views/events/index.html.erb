@@ -21,7 +21,7 @@
     const channel = pusher.subscribe('channel');
 
     channel.bind('event', function ({ message }) {
-      nodes.add({ id: nodes.length, label: message });
+      nodes.add({ id: nodes.length + 1, label: message });
     });
   }
 
