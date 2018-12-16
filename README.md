@@ -22,3 +22,14 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+### Pushing a message to Poxa
+
+```
+rails console
+```
+
+```ruby
+channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
+channels_client.trigger('channel', 'event', message: 'Fasten your seatbelt!');
+```

@@ -1,5 +1,6 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
 <link type="text/css" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pusher/4.3.1/pusher.min.js"></script>
 
 <h1>Events</h1>
 
@@ -7,7 +8,24 @@
 
 <script type="text/javascript">
   retrieveEvents().then(events => showEventBubbles(events));
+  listenForPusherEvents();
 
+  function listenForPusherEvents() {
+    var pusher = new Pusher('app_key', {
+      wsHost: '192.168.99.100',
+      wsPort: 8080,
+      enabledTransports: ['ws', 'flash'],
+      disabledTransports: ['flash']
+    });
+
+    const channel = pusher.subscribe('channel');
+
+    channel.bind('event', function ({ message }) {
+      nodes.add({ id: nodes.length, label: message });
+    });
+  }
+
+  var nodes;
   function retrieveEvents() {
     var promise = new Promise((resolve, reject) => {
 
@@ -31,7 +49,7 @@
   }
 
   function showEventBubbles(events) {
-    var nodes = new vis.DataSet(events.map(thisEvent => {
+    nodes = new vis.DataSet(events.map(thisEvent => {
       return {
         id: thisEvent.id,
         label: thisEvent.message

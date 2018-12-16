@@ -1,6 +1,12 @@
 version: '2'
-
 services:
+  poxa:
+    image: edgurgel/poxa-automated:latest
+    ports:
+      - 8080:8080
+    volumes:
+      - ./poxa.conf:/app/poxa/releases/0.8.0/poxa.conf
+
   mariadb:
     image: 'bitnami/mariadb:latest'
     environment:
