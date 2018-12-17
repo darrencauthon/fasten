@@ -9,8 +9,8 @@ class EventsController < ApplicationController
   end
 
   def create
-    event = broadcast params[:message]
-    broadcast "event ##{event.id} was fired"
+    event = create_and_broadcast params[:message]
+    create_and_broadcast "event ##{event.id} was fired"
     render plain: event.to_json
   end
   
@@ -25,7 +25,7 @@ class EventsController < ApplicationController
     channels_client.trigger('channel', 'event', message: event.message);
   end
 
-  def broadcast(message)
+  def create_and_broadcast(message)
     event = create_event message
     publish event
 
