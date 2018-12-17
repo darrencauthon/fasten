@@ -13,6 +13,8 @@ class EventsController < ApplicationController
     broadcast "event ##{event.id} was fired"
     render plain: event.to_json
   end
+  
+  private
 
   def create_event(message)
     Event.create message: message
