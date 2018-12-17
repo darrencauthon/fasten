@@ -9,8 +9,12 @@ class EventsController < ApplicationController
   end
 
   def create
-    event = create_and_broadcast params[:message]
-    create_and_broadcast "event ##{event.id} was fired"
+    first_event = create params[:message]
+    publish first_event
+    
+    second_event = create "event ##{event.id} was fired"
+    publish second_event
+
     render plain: event.to_json
   end
   
@@ -23,12 +27,5 @@ class EventsController < ApplicationController
   def publish(event)
     channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
     channels_client.trigger('channel', 'event', message: event.message);
-  end
-
-  def create_and_broadcast(message)
-    event = create_event message
-    publish event
-
-    event
   end
 end
