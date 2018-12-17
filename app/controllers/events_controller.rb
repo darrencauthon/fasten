@@ -27,6 +27,6 @@ class EventsController < ApplicationController
     event = create_event message
     publish event
 
-    return event
+    event
   end
 end
