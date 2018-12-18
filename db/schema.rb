@@ -10,12 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_15_180007) do
+ActiveRecord::Schema.define(version: 2018_12_18_023038) do
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "prior_event_id"
+    t.integer "prior_event"
+    t.index ["prior_event_id"], name: "index_events_on_prior_event_id"
   end
 
 end
