@@ -9,15 +9,15 @@ class EventsController < ApplicationController
   end
 
   def create
-    first_event = create params[:message]
+    first_event = create_event params[:message]
     publish first_event
-    
-    second_event = create "event ##{event.id} was fired"
+
+    second_event = create_event "event ##{first_event.id} was fired"
     publish second_event
 
-    render plain: event.to_json
+    render plain: first_event.to_json
   end
-  
+
   private
 
   def create_event(message)
