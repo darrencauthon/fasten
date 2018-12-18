@@ -28,14 +28,10 @@ class EventsController < ApplicationController
 
   def create_event(message, prior_event=nil)
     event = Event.new message: message
-    link_event_to(event, prior_event) if prior_event
+    event.prior_event_id = prior_event.id if prior_event
 
     event.save
     event
-  end
-
-  def link_event_to(event, prior_event)
-    event.prior_event_id = prior_event.id
   end
 
   def publish(event)
