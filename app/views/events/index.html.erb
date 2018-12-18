@@ -20,12 +20,14 @@
 
     const channel = pusher.subscribe('channel');
 
-    channel.bind('event', function ({ message }) {
-      nodes.add({ id: nodes.length + 1, label: message });
+    channel.bind('event', function ({ id, message, prior_event_id }) {
+      nodes.add({ id: id, label: message });
+      edges.add({ from: id, to: prior_event_id });
     });
   }
 
   var nodes;
+  var edges;
   function retrieveEvents() {
     var promise = new Promise((resolve, reject) => {
 
@@ -49,14 +51,18 @@
   }
 
   function showEventBubbles(events) {
+    var edgesData = [];
     nodes = new vis.DataSet(events.map(thisEvent => {
+      edgesData.push({ from: thisEvent.id, to: thisEvent.prior_event_id });
+
       return {
         id: thisEvent.id,
-        label: thisEvent.message
+        label: thisEvent.message,
+        priorEventId: thisEvent.prior_event_id
       };
     }));
 
-    var edges = new vis.DataSet([]);
+    edges = new vis.DataSet(edgesData);
 
     var container = document.getElementById('mynetwork');
     var data = {
