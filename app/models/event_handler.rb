@@ -4,6 +4,14 @@ class EventHandler
   
   def fire(data); end
   
+  def create_event(message, prior_event=nil)
+    event = Event.new message: message
+    event.prior_event_id = prior_event.id if prior_event
+
+    event.save
+    event
+  end
+  
 end
 
 class Apple < EventHandler
