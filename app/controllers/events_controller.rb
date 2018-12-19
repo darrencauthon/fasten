@@ -10,23 +10,22 @@ class EventsController < ApplicationController
 
   def create
     event = Apple.new.fire {message: params[:message]}
+    publish event
+    
     event = Orange.new.receive event
+    publish event
+    
     event = Banana.new.receive event
+    publish event
+    
     event = Pear.new.receive event
+    publish event
 
     render plain: event.to_json
   end
 
   private
-
-  def create_event(message, prior_event=nil)
-    event = Event.new message: message
-    event.prior_event_id = prior_event.id if prior_event
-
-    event.save
-    event
-  end
-
+  
   def publish(event)
     channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
     channels_client.trigger('channel', 'event', message: event.message, prior_event_id: event.prior_event_id, id: event.id);
