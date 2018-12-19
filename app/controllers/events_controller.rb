@@ -9,33 +9,125 @@ class EventsController < ApplicationController
   end
 
   def create
-    first_event = create_event params[:message]
-    publish first_event
+    washington = Washington.new params[:message]
+    washington.publish
 
-    second_event = create_event "event ##{first_event.id} was fired", first_event
-    publish second_event
+    truman = Truman.new "event ##{washington.event_id} was fired"
+    truman.subscribe_to washington
+    truman.publish
 
-    third_event = create_event "event ##{second_event.id} was fired", second_event
-    publish third_event
+    nixon = Nixon.new "event ##{truman.event_id} was fired"
+    nixon.subscribe_to truman
+    nixon.publish
 
-    fourth_event = create_event "event ##{third_event.id} was fired", third_event
-    publish fourth_event
+    clinton = Clinton.new "event ##{nixon.event_id} was fired"
+    clinton.subscribe_to nixon
+    clinton.publish
 
-    render plain: first_event.to_json
+    render plain: washington.to_json
+  end
+end
+
+class Washington
+  def initialize(message)
+    @event = self.create_event message
   end
 
-  private
+  def event_id
+    @event.id
+  end
 
-  def create_event(message, prior_event=nil)
+  def publish
+    channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
+    channels_client.trigger('channel', 'event', message: @event.message, prior_event_id: @event.prior_event_id, id: @event.id);
+  end
+
+  def create_event(message)
     event = Event.new message: message
-    event.prior_event_id = prior_event.id if prior_event
 
     event.save
     event
   end
 
-  def publish(event)
+  def to_json
+    @event.to_json
+  end
+end
+
+
+class Truman
+  def initialize(message)
+    @event = self.create_event message
+  end
+
+  def event_id
+    @event.id
+  end
+
+  def publish
     channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
-    channels_client.trigger('channel', 'event', message: event.message, prior_event_id: event.prior_event_id, id: event.id);
+    channels_client.trigger('channel', 'event', message: @event.message, prior_event_id: @event.prior_event_id, id: @event.id);
+  end
+
+  def subscribe_to washington
+    @event.prior_event_id = washington.event_id
+    @event.save
+  end
+
+  def create_event(message)
+    event = Event.new message: message
+
+    event.save
+    event
+  end
+end
+
+class Nixon
+  def initialize(message)
+    @event = self.create_event message
+  end
+
+  def event_id
+    @event.id
+  end
+
+  def publish
+    channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
+    channels_client.trigger('channel', 'event', message: @event.message, prior_event_id: @event.prior_event_id, id: @event.id);
+  end
+
+  def subscribe_to truman
+    @event.prior_event_id = truman.event_id
+    @event.save
+  end
+
+  def create_event(message)
+    event = Event.new message: message
+
+    event.save
+    event
+  end
+end
+
+class Clinton
+  def initialize(message)
+    @event = self.create_event message
+  end
+
+  def publish
+    channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
+    channels_client.trigger('channel', 'event', message: @event.message, prior_event_id: @event.prior_event_id, id: @event.id);
+  end
+
+  def subscribe_to nixon
+    @event.prior_event_id = nixon.event_id
+    @event.save
+  end
+
+  def create_event(message)
+    event = Event.new message: message
+
+    event.save
+    event
   end
 end
