@@ -9,19 +9,12 @@ class EventsController < ApplicationController
   end
 
   def create
-    first_event = create_event params[:message]
-    publish first_event
+    event = Apple.new.fire {message: params[:message]}
+    event = Orange.new.receive event
+    event = Banana.new.receive event
+    event = Pear.new.receive event
 
-    second_event = create_event "event ##{first_event.id} was fired", first_event
-    publish second_event
-
-    third_event = create_event "event ##{second_event.id} was fired", second_event
-    publish third_event
-
-    fourth_event = create_event "event ##{third_event.id} was fired", third_event
-    publish fourth_event
-
-    render plain: first_event.to_json
+    render plain: event.to_json
   end
 
   private
