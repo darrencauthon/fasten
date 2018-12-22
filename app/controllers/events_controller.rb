@@ -1,3 +1,5 @@
+require_relative '../models/event_handler.rb'
+
 class EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
@@ -9,30 +11,22 @@ class EventsController < ApplicationController
   end
 
   def create
-    first_event = create_event params[:message]
-    publish first_event
+    event = Apple.new.fire({ message: params[:message] })
+    publish event
 
-    second_event = create_event "event ##{first_event.id} was fired", first_event
-    publish second_event
+    event = Orange.new.receive event
+    publish event
 
-    third_event = create_event "event ##{second_event.id} was fired", second_event
-    publish third_event
+    event = Banana.new.receive event
+    publish event
 
-    fourth_event = create_event "event ##{third_event.id} was fired", third_event
-    publish fourth_event
+    event = Pear.new.receive event
+    publish event
 
-    render plain: first_event.to_json
+    render plain: event.to_json
   end
 
   private
-
-  def create_event(message, prior_event=nil)
-    event = Event.new message: message
-    event.prior_event_id = prior_event.id if prior_event
-
-    event.save
-    event
-  end
 
   def publish(event)
     channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
