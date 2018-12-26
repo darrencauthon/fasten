@@ -1,4 +1,6 @@
 require_relative '../models/event_handler.rb'
+require_relative '../models/subscription.rb'
+require_relative '../models/subscription_handler.rb'
 
 class EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
@@ -14,7 +16,12 @@ class EventsController < ApplicationController
     event = Apple.new.fire({ message: params[:message] })
     publish event
 
-    event = Orange.new.receive event
+    subscription_data = Subscription.new
+    subscription_data.message = "event ##{event.id} was fired"
+    subscription_data.prior_event = event
+    subscription_data.event_handler_type = Orange
+
+    event = SubscriptionHandler.new.receive subscription_data
     publish event
 
     event = Banana.new.receive event
