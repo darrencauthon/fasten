@@ -16,9 +16,7 @@ ActiveRecord::Schema.define(version: 2018_12_18_023038) do
     t.string "message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "prior_event_id"
-    t.integer "prior_event"
-    t.index ["prior_event_id"], name: "index_events_on_prior_event_id"
+    t.integer "prior_event_id"
   end
 
 end
