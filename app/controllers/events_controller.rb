@@ -12,12 +12,12 @@ class EventsController < ApplicationController
     event = EventHandler.new.fire({ message: params[:message] })
     publish event
 
-    things = [{ name: 'Orange', type: EventHandler },
-              { name: 'Banana', type: EventHandler },
-              { name: 'Pear',   type: EventHandler }]
+    things = [{ name: 'Orange', type: 'EventHandler' },
+              { name: 'Banana', type: 'EventHandler' },
+              { name: 'Pear',   type: 'EventHandler' }]
 
     things.each do |thing|
-      event = thing[:type].new.receive event
+      event = thing[:type].constantize.new.receive event
       publish event
     end
 
