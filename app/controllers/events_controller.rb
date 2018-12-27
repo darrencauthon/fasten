@@ -14,14 +14,12 @@ class EventsController < ApplicationController
     event = Apple.new.fire({ message: params[:message] })
     publish event
 
-    event = Orange.new.receive event
-    publish event
+    things = [Orange, Banana, Pear]
 
-    event = Banana.new.receive event
-    publish event
-
-    event = Pear.new.receive event
-    publish event
+    things.each do |thing|
+      event = thing.new.receive event
+      publish event
+    end
 
     render plain: event.to_json
   end
