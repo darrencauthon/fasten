@@ -28,6 +28,7 @@ class EventsController < ApplicationController
 
   def publish(event)
     channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
-    channels_client.trigger('channel', 'event', message: event.message, prior_event_id: event.prior_event_id, id: event.id);
+    data = { message: event.message, prior_event_id: event.prior_event_id, id: event.id }
+    channels_client.trigger('channel', 'event', data);
   end
 end
