@@ -9,15 +9,25 @@ class EventsController < ApplicationController
   end
 
   def create
-    event = EventHandler.new.fire({ message: params[:message] })
-    publish event
 
-    things = [{ name: 'Orange', type: 'EventHandler' },
-              { name: 'Banana', type: 'EventHandler' },
-              { name: 'Pear',   type: 'EventHandler' }]
+    originating_data = { message: params[:message] }
 
-    things.each do |thing|
-      event = thing[:type].constantize.new.receive event
+    steps = [{ name: 'Apple',  type: 'EventHandler' },
+             { name: 'Orange', type: 'EventHandler' },
+             { name: 'Banana', type: 'EventHandler' },
+             { name: 'Pear',   type: 'EventHandler' }]
+
+    steps.each_with_index { |x| x[:method] =
+
+
+    steps.reduce(originating_data) do |k, i|
+      i[:type].constantize.new.send(:receive, k)
+    end
+
+    steps.each_with_index do |step, i|
+      event =  (i == 0)
+               ? step[:type].constantize.new.fire(originating_data)
+               : step[:type].constantize.new.receive(event)
       publish event
     end
 
