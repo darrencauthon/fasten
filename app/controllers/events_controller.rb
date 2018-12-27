@@ -17,19 +17,18 @@ class EventsController < ApplicationController
              { name: 'Banana', type: 'EventHandler' },
              { name: 'Pear',   type: 'EventHandler' }]
 
-    steps.each_with_index { |x| x[:method] =
+    steps.each_with_index { |x, i| x[:method] = (i == 0 ? :fire : :receive) }
 
-
-    steps.reduce(originating_data) do |k, i|
-      i[:type].constantize.new.send(:receive, k)
+    event = steps.reduce(originating_data) do |k, i|
+      i[:type].constantize.new.send(i[:method], k)
     end
 
-    steps.each_with_index do |step, i|
-      event =  (i == 0)
-               ? step[:type].constantize.new.fire(originating_data)
-               : step[:type].constantize.new.receive(event)
-      publish event
-    end
+    #steps.each_with_index do |step, i|
+    #  event =  (i == 0)
+    #           ? step[:type].constantize.new.fire(originating_data)
+    #           : step[:type].constantize.new.receive(event)
+    #  publish event
+    #end
 
     render plain: event.to_json
   end
