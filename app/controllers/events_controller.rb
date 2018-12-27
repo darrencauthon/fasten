@@ -1,5 +1,3 @@
-require_relative '../models/event_handler.rb'
-
 class EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
@@ -11,13 +9,15 @@ class EventsController < ApplicationController
   end
 
   def create
-    event = Apple.new.fire({ message: params[:message] })
+    event = EventHandler.new.fire({ message: params[:message] })
     publish event
 
-    things = [Orange, Banana, Pear]
+    things = [{ name: 'Orange', type: EventHandler },
+              { name: 'Banana', type: EventHandler },
+              { name: 'Pear',   type: EventHandler }]
 
     things.each do |thing|
-      event = thing.new.receive event
+      event = thing[:type].new.receive event
       publish event
     end
 
