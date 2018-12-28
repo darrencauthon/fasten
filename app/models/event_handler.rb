@@ -11,12 +11,7 @@ class EventHandler
   end
 
   def create_event(data)
-    event = Event.new message: data[:message]
-    event.prior_event_id = data[:prior_event].id if data.has_key?(:prior_event)
-
-    event.data = data[:data] || {}
-    event.save
-    event
+    Event.new message: data[:message]
   end
 
 end
