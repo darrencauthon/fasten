@@ -12,6 +12,8 @@ class EventHandler
     event = Event.new message: data[:message]
     event.prior_event_id = data[:prior_event].id if data.has_key?(:prior_event)
 
+    event.data = {} if event.data.nil?
+    event.data[:testing] = 'abc'
     event.save
     event
   end
