@@ -2,6 +2,8 @@ class EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
+    darren = Faraday.get('http://google.com')
+    render json: darren.body
   end
 
   def all
