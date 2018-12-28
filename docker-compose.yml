@@ -30,13 +30,13 @@ services:
     env_file:
       - .env
 
-  sidekiq:
-    build: .
-    command: bundle exec sidekiq
-    depends_on:
-      - mariadb
-      - redis
-    volumes:
-      - .:/app
-    env_file:
-      - .env
+#  sidekiq:
+#    build: .
+#    command: bundle exec sidekiq
+#    depends_on:
+#      - mariadb
+#      - redis
+#    volumes:
+#      - .:/app
+#    env_file:
+#      - .env
