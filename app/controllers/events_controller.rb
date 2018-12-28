@@ -1,5 +1,3 @@
-require_relative '../models/event_handler.rb'
-
 class EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
@@ -11,17 +9,19 @@ class EventsController < ApplicationController
   end
 
   def create
-    event = Apple.new.fire({ message: params[:message] })
-    publish event
 
-    event = Orange.new.receive event
-    publish event
+    originating_data = { message: params[:message] }
 
-    event = Banana.new.receive event
-    publish event
+    steps = [{ name: 'Apple',  type: 'EventHandler' },
+             { name: 'Orange', type: 'EventHandler' },
+             { name: 'Banana', type: 'EventHandler' },
+             { name: 'Pear',   type: 'EventHandler' }]
 
-    event = Pear.new.receive event
-    publish event
+    steps.each_with_index { |x, i| x[:method] = (i == 0 ? :fire : :receive) }
+
+    event = steps.reduce(originating_data) do |k, i|
+      i[:type].constantize.new.send(i[:method], k)
+    end
 
     render plain: event.to_json
   end
@@ -30,6 +30,7 @@ class EventsController < ApplicationController
 
   def publish(event)
     channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
-    channels_client.trigger('channel', 'event', message: event.message, prior_event_id: event.prior_event_id, id: event.id);
+    data = { message: event.message, prior_event_id: event.prior_event_id, id: event.id }
+    channels_client.trigger('channel', 'event', data);
   end
 end

@@ -17,15 +17,3 @@ class EventHandler
   end
 
 end
-
-class Apple < EventHandler
-end
-
-class Orange < EventHandler
-end
-
-class Banana < EventHandler
-end
-
-class Pear < EventHandler
-end
