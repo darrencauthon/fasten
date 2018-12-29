@@ -18,17 +18,21 @@ class Workflow
 
       event = step.send(step_data[:method], last_event)
 
-      event.prior_event_id = last_event.id if last_event.is_a?(Event)
-      event.data = event.data || {}
-      event.save
-      
-      publish event
+      process event, last_event
       
       event
     end
   end
 
   private
+
+  def process(event, last_event)
+    event.prior_event_id = last_event.id if last_event.is_a?(Event)
+    event.data = event.data || {}
+    event.save
+      
+    publish event
+  end
 
   def publish(event)
     channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
