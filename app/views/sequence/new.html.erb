@@ -1,20 +1,18 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
 
 <div id="new-sequence">
-  <%= form_tag("/events/create", method: :post) do %>
-      <h3>New Sequence</h3>
-      <hr />
-      <h3>Ready:</h3>
-      <div>
-        <label>Step Name</label>
-        <input v-model="stepName" />
-      </div>
-      <div>
-        <label>Step Type</label>
-        <input v-model="stepType" />
-      </div>
-      <button @click="addStep(stepName, stepType)" type="button">step: add</button>
-  <% end %>
+  <h3>New Sequence</h3>
+  <hr />
+  <h3>Ready:</h3>
+  <div>
+    <label>Step Name</label>
+    <input v-model="stepName" />
+  </div>
+  <div>
+    <label>Step Type</label>
+    <input v-model="stepType" />
+  </div>
+  <button @click="addStep(stepName, stepType)" type="button">step: add</button>
   <hr />
   <table>
     <h3>Aim:</h3>
