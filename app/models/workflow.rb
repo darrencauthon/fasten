@@ -31,11 +31,11 @@ class Workflow
 
     last_event = event
 
-    event = step.send(method, event)
+    events = [step.send(method, event)].flatten
 
-    persist event, last_event
+    events.each { |x| persist x, last_event }
 
-    event
+    events.first
 
   end
 
