@@ -33,12 +33,13 @@ class Workflow
 
     event = step.send(method, event)
 
-    process event, last_event
+    persist event, last_event
 
     event
+
   end
 
-  def process(event, last_event)
+  def persist(event, last_event)
     event.prior_event_id = last_event.id if last_event.is_a?(Event)
     event.data = event.data || {}
     event.save
