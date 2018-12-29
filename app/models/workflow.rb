@@ -12,16 +12,21 @@ class Workflow
 
     steps.each_with_index { |x, i| x[:method] = (i == 0 ? :fire : :receive) }
 
-    steps.reduce(data) do |last_event, step_data|
+    last_event = data
 
-      step = step_data[:type].constantize.new
+    steps.each do |step|
 
-      event = step.send(step_data[:method], last_event)
+      method = step[:method]
+      step = step[:type].constantize.new
+
+      event = step.send(method, last_event)
 
       process event, last_event
       
-      event
+      last_event = event
+
     end
+
   end
 
   private
