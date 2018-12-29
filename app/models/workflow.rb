@@ -23,7 +23,6 @@ class Workflow
       
       e
     end
-
   end
 
   private
