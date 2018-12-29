@@ -1,8 +1,7 @@
 class EventHandler
 
   def receive(event)
-    self.create_event message: "event ##{event.id} was fired",
-    prior_event: event
+    self.create_event message: "event ##{event.id} was fired"
   end
 
   def fire(data)
