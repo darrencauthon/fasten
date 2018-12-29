@@ -19,11 +19,13 @@ class EventsController < ApplicationController
 
     steps.each_with_index { |x, i| x[:method] = (i == 0 ? :fire : :receive) }
 
-    event = steps.reduce(originating_data) do |k, i|
-      i[:type].constantize.new.send(i[:method], k)
+    steps.reduce(originating_data) do |last_event, step_data|
+      event = step_data[:type].constantize.new.send(step_data[:method], last_event)
+      publish event
+      event
     end
 
-    render plain: event.to_json
+    render plain: 'OK'
   end
 
   private
