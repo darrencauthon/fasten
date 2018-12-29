@@ -1,0 +1,78 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+
+<div id="new-sequence">
+  <%= form_tag("/events/create", method: :post) do %>
+      <h3>New Sequence</h3>
+      <hr />
+      <h3>Ready:</h3>
+      <div>
+        <label>Step Name</label>
+        <input v-model="stepName" />
+      </div>
+      <div>
+        <label>Step Type</label>
+        <input v-model="stepType" />
+      </div>
+      <button @click="addStep(stepName, stepType)" type="button">step: add</button>
+  <% end %>
+  <hr />
+  <table>
+    <h3>Aim:</h3>
+    <tr>
+      <td>Name</td>
+      <td>Type</td>
+    </tr>
+    <tr v-for="item in items">
+      <td>{{ item.name }}</td>
+      <td>{{ item.type }}</td>
+      <td><button type="button" @click="removeStep(item)">row: remove</button></td>
+    </tr>
+  </table>
+  <hr />
+  <div>
+    <h3>And Fire:</h3>
+    <label>Message</label>
+    <input v-model="message" />
+  </div>
+  <div>
+    <button @click="fireEvent(message)" type="button">sequence: fire</button>
+  </div>
+</div>
+<script type="text/javascript">
+var items = [{ name: 'Apple',  type: 'EventHandler' },
+             { name: 'Orange', type: 'EventHandler' },
+             { name: 'Banana', type: 'EventHandler' },
+             { name: 'Pear',   type: 'EventHandler' }];
+var app = new Vue({
+  el: '#new-sequence',
+  data: {
+    items: items,
+    stepName: 'Pickle',
+    stepType: 'EventHandler',
+    message: 'Buckle up!'
+  },
+  methods: {
+    addStep: (stepName, stepType) => items.push({ name: stepName, type: stepType }),
+    removeStep: item => {
+      const index = items.indexOf(item);
+      items.splice(index, 1);
+    },
+    fireEvent: (message) => {
+      postSequence(message, items);
+    }
+  }
+});
+
+function postSequence(message, sequence) {
+  const url = `/events/create?message=${message}`;
+  return fetch(url, {
+      method : "POST",
+      body: JSON.stringify(items),
+      params: { message: 'test' }
+  }).then(
+      response => response.text()
+  ).then(
+      html => console.log(html)
+  );
+}
+</script>

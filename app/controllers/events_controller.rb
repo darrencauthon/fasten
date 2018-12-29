@@ -11,11 +11,7 @@ class EventsController < ApplicationController
   def create
 
     originating_data = { message: params[:message] }
-
-    steps = [{ name: 'Apple',  type: 'EventHandler' },
-             { name: 'Orange', type: 'EventHandler' },
-             { name: 'Banana', type: 'EventHandler' },
-             { name: 'Pear',   type: 'EventHandler' }]
+    steps = JSON.parse(request.body.read, symbolize_names: true)
 
     steps.each_with_index { |x, i| x[:method] = (i == 0 ? :fire : :receive) }
 
