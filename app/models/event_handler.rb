@@ -2,7 +2,6 @@ class EventHandler
 
   def receive(event)
     self.create_event message: "event ##{event.id} was fired",
-    data: { testing: 'abcdef' },
     prior_event: event
   end
 
