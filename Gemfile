@@ -61,6 +61,7 @@ group :test do
 end
 
 gem 'faraday'
+gem 'faraday-encoding'
 gem 'sidekiq'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
