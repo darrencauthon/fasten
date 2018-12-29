@@ -13,15 +13,15 @@ class Workflow
     steps.each_with_index { |x, i| x[:method] = (i == 0 ? :fire : :receive) }
 
     steps.reduce(data) do |last_event, step_data|
-      e = step_data[:type].constantize.new.send(step_data[:method], last_event)
+      event = step_data[:type].constantize.new.send(step_data[:method], last_event)
 
-      e.prior_event_id = last_event.id if last_event.is_a?(Event)
-      e.data = e.data || {}
-      e.save
+      event.prior_event_id = last_event.id if last_event.is_a?(Event)
+      event.data = event.data || {}
+      event.save
       
-      publish e
+      publish event
       
-      e
+      event
     end
   end
 
