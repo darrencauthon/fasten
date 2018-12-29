@@ -19,17 +19,24 @@ class Workflow
       method = step[:method]
       step = step[:type].constantize.new
 
-      event = step.send(method, last_event)
-
-      process event, last_event
-      
-      last_event = event
+      last_event = handle step, method, last_event
 
     end
 
   end
 
   private
+
+  def handle(step, method, event)
+
+    last_event = event
+
+    event = step.send(method, event)
+
+    process event, last_event
+
+    event
+  end
 
   def process(event, last_event)
     event.prior_event_id = last_event.id if last_event.is_a?(Event)
