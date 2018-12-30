@@ -7,10 +7,10 @@ class Workflow
 
     definition[:steps]
       .each_with_index { |x, i| x[:next_steps] = [definition[:steps][i+1]].reject { |x| x.nil? } }
-      .each_with_index { |x, i| x[:method] = lambda { |e| x[:type].constantize.new.receive e } }
+      .each_with_index { |x, i| x[:method] = lambda { |e| Workflow.build_event_handler_for(x).receive e } }
 
     workflow.first_step = definition[:steps].first
-    workflow.first_step[:method] = lambda { |e| workflow.first_step[:type].constantize.new.fire e }
+    workflow.first_step[:method] = lambda { |e| Workflow.build_event_handler_for(workflow.first_step).fire e }
 
     workflow
   end
@@ -20,19 +20,22 @@ class Workflow
 
     workflow.first_step = definition[:first_step]
 
-    workflow.first_step[:method] = lambda { |e| workflow.first_step[:type].constantize.new.fire e }
-
-    set_up_the_method workflow.first_step
+    set_up_the_method(workflow.first_step) { |e| Workflow.build_event_handler_for(workflow.first_step).fire e }
 
     workflow
   end
 
-  def self.set_up_the_method(step)
-    if step[:method].nil?
-      step[:method] = lambda { |e| step[:type].constantize.new.receive e }
-    end
+  def self.set_up_the_method(step, &block)
+    step[:method] = block || lambda { |e| Workflow.build_event_handler_for(step).receive e }
+    step[:config] = {} if step[:config].nil?
     return if step[:next_steps].nil?
     step[:next_steps].each { |x| set_up_the_method(x) }
+  end
+
+  def self.build_event_handler_for(step)
+    event_handler = step[:type].constantize.new
+    event_handler.config = step[:config] if event_handler.respond_to?(:config)
+    event_handler
   end
 
   def start(data)
