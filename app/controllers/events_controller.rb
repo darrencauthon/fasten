@@ -43,7 +43,7 @@ class EventsController < ApplicationController
 
     steps = [{ name: 'Apple',  type: 'WebRequest' }]
 
-    workflow = Workflow.build_given_a_hierarchy(first_step: { name: 'Apple', type: 'WebRequest', next_steps: [{ name: 'Orange',  type: 'EventHandler' }, { name: 'Orange',  type: 'EventHandler' }] })
+    workflow = Workflow.build_given_a_hierarchy(first_step: { name: 'Apple', type: 'WebRequest', config: { url: 'http://google.com' }, next_steps: [{ name: 'Orange',  type: 'WebRequest', config: { url: 'http://bing.com' } }, { name: 'Banana',  type: 'WebRequest', config: { url: 'http://yahoo.com' } }] })
 
     result = workflow.start(originating_data)
 
