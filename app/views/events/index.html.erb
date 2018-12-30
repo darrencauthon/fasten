@@ -12,7 +12,7 @@
 
   function listenForPusherEvents() {
     var pusher = new Pusher('app_key', {
-      wsHost: '192.168.99.100',
+      wsHost: 'localhost',
       wsPort: 8080,
       enabledTransports: ['ws', 'flash'],
       disabledTransports: ['flash']
