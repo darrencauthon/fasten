@@ -20,9 +20,9 @@ class Workflow
     steps.each do |step|
 
       method = step[:method]
-      step = step[:type].constantize.new
+      event_handler = step[:type].constantize.new
 
-      last_event = handle step, method, last_event
+      last_event = handle event_handler, method, last_event
 
     end
 
