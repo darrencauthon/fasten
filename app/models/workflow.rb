@@ -43,11 +43,9 @@ class Workflow
 
   end
 
-  def handle(method, event)
+  def handle(method, last_event)
 
-    last_event = event
-
-    events = [method.call(event)].flatten
+    events = [method.call(last_event)].flatten
 
     events.each { |x| persist x, last_event }
 
