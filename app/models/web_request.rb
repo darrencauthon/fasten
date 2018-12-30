@@ -5,6 +5,17 @@ class WebRequest
   def fire(data)
     url = data[:url] || config[:url]
 
+    get url
+  end
+
+  def receive(event)
+     url = event.data[:url] || config[:url]
+
+     get url
+  end
+
+  def get(url)
+
     conn = Faraday.new do |connection|
       connection.response :encoding
       connection.adapter Faraday.default_adapter
