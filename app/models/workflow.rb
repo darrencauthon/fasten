@@ -39,9 +39,7 @@ class Workflow
 
     return if step[:next_step].nil?
 
-    next_event = events.first 
-
-    execute_step step[:next_step], next_event
+    events.each { |x| execute_step step[:next_step], x }
 
   end
 
