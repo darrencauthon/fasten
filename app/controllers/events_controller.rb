@@ -20,9 +20,35 @@ class EventsController < ApplicationController
     steps.each_with_index { |x, i| x[:method] = (i == 0 ? :fire : :receive) }
 
     steps.reduce(originating_data) do |last_event, step_data|
-      event = step_data[:type].constantize.new.send(step_data[:method], last_event)
-      publish event
-      event
+      e = i[:type].constantize.new.send(i[:method], k)
+
+      e.prior_event_id = k.id if k.is_a?(Event)
+      e.data = e.data || {}
+      e.save
+      
+      publish e
+      
+      e
+    end
+
+    render plain: event.to_json
+  end
+
+  def create_web
+
+    originating_data = { url: params[:url] }
+
+    steps = [{ name: 'Apple',  type: 'WebRequest' }]
+
+    steps.each_with_index { |x, i| x[:method] = (i == 0 ? :fire : :receive) }
+
+    event = steps.reduce(originating_data) do |k, i|
+      e = i[:type].constantize.new.send(i[:method], k)
+
+      e.prior_event_id = k.id if k.is_a?(Event)
+      e.data = e.data || {}
+      e.save
+      e
     end
 
     render plain: 'OK'
