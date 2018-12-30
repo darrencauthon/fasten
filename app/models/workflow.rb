@@ -27,6 +27,7 @@ class Workflow
 
   def self.set_up_the_method(step, &block)
     step[:method] = block || lambda { |e| step[:type].constantize.new.receive e }
+    step[:config] = {} if step[:config].nil?
     return if step[:next_steps].nil?
     step[:next_steps].each { |x| set_up_the_method(x) }
   end
