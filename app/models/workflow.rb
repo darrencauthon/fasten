@@ -33,7 +33,9 @@ class Workflow
   end
 
   def self.build_event_handler_for(step)
-    step[:type].constantize.new
+    event_handler = step[:type].constantize.new
+    event_handler.config = step[:config] if event_handler.respond_to?(:config)
+    event_handler
   end
 
   def start(data)
