@@ -20,17 +20,13 @@ class Workflow
 
     workflow.first_step = definition[:first_step]
 
-    workflow.first_step[:method] = lambda { |e| workflow.first_step[:type].constantize.new.fire e }
-
-    set_up_the_method workflow.first_step
+    set_up_the_method(workflow.first_step) { |e| workflow.first_step[:type].constantize.new.fire e }
 
     workflow
   end
 
-  def self.set_up_the_method(step)
-    if step[:method].nil?
-      step[:method] = lambda { |e| step[:type].constantize.new.receive e }
-    end
+  def self.set_up_the_method(step, &block)
+    step[:method] = block || lambda { |e| step[:type].constantize.new.receive e }
     return if step[:next_steps].nil?
     step[:next_steps].each { |x| set_up_the_method(x) }
   end
