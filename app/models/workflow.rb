@@ -33,9 +33,7 @@ class Workflow
 
   def execute_step(step, event)
 
-    method = step[:method]
-
-    next_event = handle method, event
+    next_event = handle step[:method], event
 
     return if step[:next_step].nil?
 
