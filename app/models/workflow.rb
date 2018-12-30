@@ -8,14 +8,10 @@ class Workflow
     steps = definition[:steps]
     steps
       .each_with_index { |x, i| x[:next_step] = steps[i+1] }
-      .each_with_index do |step, i|
-	 if i == 0
-	   step[:method] = lambda { |e| step[:type].constantize.new.fire e }
-	 else
-	   step[:method] = lambda { |e| step[:type].constantize.new.receive e }
-	 end
-      end
+      .each_with_index { |x, i| x[:method] = lambda { |e| x[:type].constantize.new.receive e } }
+
     workflow.first_step = steps.first
+    workflow.first_step[:method] = lambda { |e| workflow.first_step[:type].constantize.new.fire e }
 
     workflow
   end
