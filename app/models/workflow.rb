@@ -1,13 +1,13 @@
 class Workflow
 
-  attr_accessor :steps
+  attr_accessor :first_step
 
   def self.build(definition)
     workflow = Workflow.new
 
-    workflow.steps = definition[:steps]
-    workflow.steps
-      .each_with_index { |x, i| x[:next_step] = workflow.steps[i+1] }
+    steps = definition[:steps]
+    steps
+      .each_with_index { |x, i| x[:next_step] = steps[i+1] }
       .each_with_index do |step, i|
 	 if i == 0
 	   step[:method] = lambda { |e| step[:type].constantize.new.fire e }
@@ -15,6 +15,7 @@ class Workflow
 	   step[:method] = lambda { |e| step[:type].constantize.new.receive e }
 	 end
       end
+    workflow.first_step = steps.first
 
     workflow
   end
@@ -23,9 +24,9 @@ class Workflow
 
     last_event = data
 
-    return if steps.empty?
+    return if first_step.nil?
 
-    execute_step steps.first, last_event
+    execute_step first_step, last_event
 
   end
 
