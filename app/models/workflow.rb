@@ -34,11 +34,11 @@ class Workflow
 
     events = [step[:method].call(event)].flatten
 
-    events.each { |x| persist x, event }
+    events.each { |e| persist e, event }
 
     return if step[:next_step].nil?
 
-    events.each { |x| execute_step step[:next_step], x }
+    events.each { |e| execute_step step[:next_step], e }
 
   end
 
