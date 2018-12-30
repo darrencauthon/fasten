@@ -33,7 +33,9 @@ class Workflow
 
   def execute_step(step, event)
 
-    next_event = handle step[:method], event
+    events = handle step[:method], event
+
+    next_event = events.first
 
     return if step[:next_step].nil?
 
@@ -47,7 +49,7 @@ class Workflow
 
     events.each { |x| persist x, last_event }
 
-    events.first
+    events
 
   end
 
