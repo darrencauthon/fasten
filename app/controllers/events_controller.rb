@@ -37,4 +37,17 @@ class EventsController < ApplicationController
     render plain: result.to_json
   end
 
+  def create_with_tree
+
+    originating_data = { url: params[:url] }
+
+    steps = [{ name: 'Apple',  type: 'WebRequest' }]
+
+    workflow = Workflow.build_given_a_hierarchy(first_step: { name: 'Apple', type: 'WebRequest', next_steps: [{ name: 'Orange',  type: 'EventHandler' }, { name: 'Orange',  type: 'EventHandler' }] })
+
+    result = workflow.start(originating_data)
+
+    render plain: result.to_json
+  end
+
 end

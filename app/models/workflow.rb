@@ -6,13 +6,33 @@ class Workflow
     workflow = Workflow.new
 
     definition[:steps]
-      .each_with_index { |x, i| x[:next_step] = definition[:steps][i+1] }
+      .each_with_index { |x, i| x[:next_steps] = [definition[:steps][i+1]].reject { |x| x.nil? } }
       .each_with_index { |x, i| x[:method] = lambda { |e| x[:type].constantize.new.receive e } }
 
     workflow.first_step = definition[:steps].first
     workflow.first_step[:method] = lambda { |e| workflow.first_step[:type].constantize.new.fire e }
 
     workflow
+  end
+
+  def self.build_given_a_hierarchy(definition)
+    workflow = Workflow.new
+
+    workflow.first_step = definition[:first_step]
+
+    workflow.first_step[:method] = lambda { |e| workflow.first_step[:type].constantize.new.fire e }
+
+    set_up_the_method workflow.first_step
+
+    workflow
+  end
+
+  def self.set_up_the_method(step)
+    if step[:method].nil?
+      step[:method] = lambda { |e| step[:type].constantize.new.receive e }
+    end
+    return if step[:next_steps].nil?
+    step[:next_steps].each { |x| set_up_the_method(x) }
   end
 
   def start(data)
@@ -31,9 +51,11 @@ class Workflow
 
     events.each { |e| persist e, event }
 
-    return if step[:next_step].nil?
+    return if step[:next_steps].nil?
 
-    events.each { |e| execute_step step[:next_step], e }
+    step[:next_steps].each do |next_step|
+      events.each { |e| execute_step next_step, e }
+    end
 
   end
 
