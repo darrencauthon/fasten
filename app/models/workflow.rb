@@ -6,7 +6,9 @@ class Workflow
     workflow = Workflow.new
 
     workflow.steps = definition[:steps]
-    workflow.steps.each_with_index { |x, i| x[:method] = (i == 0 ? :fire : :receive) }
+    workflow.steps
+      .each_with_index { |x, i| x[:method] = (i == 0 ? :fire : :receive) }
+      .each_with_index { |x, i| x[:next_step] = workflow.steps[i+1] }
 
     workflow
   end
