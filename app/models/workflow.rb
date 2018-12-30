@@ -32,11 +32,11 @@ class Workflow
 
   private
 
-  def handle(step, method, event)
+  def handle(event_handler, method, event)
 
     last_event = event
 
-    events = [step.send(method, event)].flatten
+    events = [event_handler.send(method, event)].flatten
 
     events.each { |x| persist x, last_event }
 
