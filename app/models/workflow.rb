@@ -4,13 +4,14 @@ class Workflow
 
   def self.build(definition)
     workflow = Workflow.new
+
     workflow.steps = definition[:steps]
+    workflow.steps.each_with_index { |x, i| x[:method] = (i == 0 ? :fire : :receive) }
+
     workflow
   end
 
   def start(data)
-
-    steps.each_with_index { |x, i| x[:method] = (i == 0 ? :fire : :receive) }
 
     last_event = data
 
