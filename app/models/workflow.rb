@@ -9,6 +9,13 @@ class Workflow
     workflow.steps
       .each_with_index { |x, i| x[:method] = (i == 0 ? :fire : :receive) }
       .each_with_index { |x, i| x[:next_step] = workflow.steps[i+1] }
+      .each_with_index do |step, i|
+	 if i == 0
+	   step[:call_me] = lambda { |e| step[:type].constantize.new.fire e }
+	 else
+	   step[:call_me] = lambda { |e| step[:type].constantize.new.receive e }
+	 end
+      end
 
     workflow
   end
@@ -19,24 +26,29 @@ class Workflow
 
     return if steps.empty?
 
-    steps.each do |step|
-
-      method = step[:method]
-      event_handler = step[:type].constantize.new
-
-      last_event = handle event_handler, method, last_event
-
-    end
+    execute_step steps.first, last_event
 
   end
 
   private
 
-  def handle(event_handler, method, event)
+  def execute_step(step, event)
+
+    call_me = step[:call_me]
+
+    next_event = handle call_me, event
+
+    return if step[:next_step].nil?
+
+    execute_step step[:next_step], next_event
+
+  end
+
+  def handle(call_me, event)
 
     last_event = event
 
-    events = [event_handler.send(method, event)].flatten
+    events = [call_me.call(event)].flatten
 
     events.each { |x| persist x, last_event }
 
