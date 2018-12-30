@@ -168,12 +168,7 @@
       nodes: nodes,
       edges: edges
     };
-    var options = {
-      physics: {
-        //enabled: false
-      }
-    };
-    network = new vis.Network(container, data, options);
+    network = new vis.Network(container, data);
     network.on("selectNode", function (params) {
       const selectedNode = nodes._data[params.nodes[0]];
       if (nextClickIsFrom) {
