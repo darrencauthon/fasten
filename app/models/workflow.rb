@@ -6,7 +6,7 @@ class Workflow
     workflow = Workflow.new
 
     definition[:steps]
-      .each_with_index { |x, i| x[:next_step] = definition[:steps][i+1] }
+      .each_with_index { |x, i| x[:next_steps] = [definition[:steps][i+1]].reject { |x| x.nil? } }
       .each_with_index { |x, i| x[:method] = lambda { |e| x[:type].constantize.new.receive e } }
 
     workflow.first_step = definition[:steps].first
@@ -31,9 +31,11 @@ class Workflow
 
     events.each { |e| persist e, event }
 
-    return if step[:next_step].nil?
+    return if step[:next_steps].nil?
 
-    events.each { |e| execute_step step[:next_step], e }
+    step[:next_steps].each do |next_step|
+      events.each { |e| execute_step next_step, e }
+    end
 
   end
 
