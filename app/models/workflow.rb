@@ -22,11 +22,9 @@ class Workflow
 
   def start(data)
 
-    last_event = data
-
     return if first_step.nil?
 
-    execute_step first_step, last_event
+    execute_step first_step, data
 
   end
 
