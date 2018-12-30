@@ -33,23 +33,15 @@ class Workflow
 
   def execute_step(step, event)
 
-    events = handle step[:method], event
+    events = [step[:method].call(event)].flatten
+
+    events.each { |x| persist x, event }
 
     next_event = events.first
 
     return if step[:next_step].nil?
 
     execute_step step[:next_step], next_event
-
-  end
-
-  def handle(method, last_event)
-
-    events = [method.call(last_event)].flatten
-
-    events.each { |x| persist x, last_event }
-
-    events
 
   end
 
