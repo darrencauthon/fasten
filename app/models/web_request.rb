@@ -1,7 +1,9 @@
 class WebRequest
 
+  attr_accessor :config
+
   def fire(data)
-    url = data[:url]
+    url = data[:url] || config[:url]
 
     conn = Faraday.new do |connection|
       connection.response :encoding
@@ -10,7 +12,7 @@ class WebRequest
 
 
     response = conn.get url
-    Event.new message: "#{data[:url]} reported #{response.status}", data: { 
+    Event.new message: "#{url} reported #{response.status}", data: {
       status: response.status,
       reason_phrase: response.reason_phrase,
       response_headers: response.headers,
