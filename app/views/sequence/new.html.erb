@@ -57,9 +57,9 @@
       stepType: 'EventHandler',
       message: 'Buckle up!',
       network: {
-        selected: { step: {} },
+        selected:     { step: {} },
         selectedFrom: { step: {} },
-        selectedTo: { step: {} },
+        selectedTo:   { step: {} },
       }
     },
     methods: {
@@ -99,27 +99,30 @@
         const index = items.indexOf(item);
         items.splice(index, 1);
       },
-      fireEvent: (message) => {
-        const nodesMap = new Map();
-        nodes.forEach(n => nodesMap.set(n.id, n));
-
-        var sortedEdges = edges.map(e => e).filter(e => e.from != undefined && e.to != undefined).sort((a,b) => a.from - b.from);
-        var steps = Array.from(new Set(sortedEdges.map(edge => {
-          const fromNode = nodesMap.get(edge.from);
-          const toNode = nodesMap.get(edge.to);
-
-          return [fromNode, toNode];
-        }).flat())).map(node => node.step);
-        postSequence(message, steps);
-      }
+      fireEvent: (message) => postSequence(nodes, message)
     }
   });
 
-  function postSequence(message, sequence) {
+  function buildWorkflowFromNodes(nodes) {
+    const nodesMap = new Map();
+    nodes.forEach(n => nodesMap.set(n.id, n));
+
+    var sortedEdges = edges.map(e => e).filter(e => e.from != undefined && e.to != undefined).sort((a,b) => a.from - b.from);
+    var steps = Array.from(new Set(sortedEdges.map(edge => {
+      const fromNode = nodesMap.get(edge.from);
+      const toNode = nodesMap.get(edge.to);
+
+      return [fromNode, toNode];
+    }).flat())).map(node => node.step);
+
+    return steps;
+  }
+
+  function postSequence(nodes, message) {
     const url = `/events/create?message=${message}`;
     return fetch(url, {
         method : "POST",
-        body: JSON.stringify(sequence),
+        body: JSON.stringify(buildWorkflowFromNodes(nodes)),
         params: { message: 'test' }
     }).then(
         response => response.text()
@@ -135,7 +138,7 @@
                { name: 'Orange', type: 'EventHandler' },
                { name: 'Banana', type: 'EventHandler' },
                { name: 'Pear',   type: 'EventHandler' }];
-  items.reduce((parent, item) => addStep(item, parent), {});
+  items.reduce((parent, item) => addStep(item, parent), null);
 
   function addStep(item, parentNode, child, options) {
     const { name, type } = item;
@@ -168,7 +171,8 @@
       nodes: nodes,
       edges: edges
     };
-    network = new vis.Network(container, data);
+    var options = {};
+    network = new vis.Network(container, data, options);
     network.on("selectNode", function (params) {
       const selectedNode = nodes._data[params.nodes[0]];
       if (nextClickIsFrom) {
