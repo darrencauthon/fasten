@@ -5,12 +5,11 @@ class Workflow
   def self.build(definition)
     workflow = Workflow.new
 
-    steps = definition[:steps]
-    steps
-      .each_with_index { |x, i| x[:next_step] = steps[i+1] }
+    definition[:steps]
+      .each_with_index { |x, i| x[:next_step] = definition[:steps][i+1] }
       .each_with_index { |x, i| x[:method] = lambda { |e| x[:type].constantize.new.receive e } }
 
-    workflow.first_step = steps.first
+    workflow.first_step = definition[:steps].first
     workflow.first_step[:method] = lambda { |e| workflow.first_step[:type].constantize.new.fire e }
 
     workflow
