@@ -60,6 +60,7 @@ group :test do
   gem 'chromedriver-helper'
 end
 
+gem 'liquid'
 gem 'faraday'
 gem 'faraday-encoding'
 gem 'sidekiq'
