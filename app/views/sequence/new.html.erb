@@ -1,31 +1,32 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+<link type="text/css" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" />
 
 <div id="new-sequence">
   <h3>New Sequence</h3>
   <hr />
-  <h3>Ready:</h3>
+  <h3>Selected node: <span>{{ network.selected.step }}</span></h3>
   <div>
-    <label>Step Name</label>
-    <input v-model="stepName" />
+    <label>Name</label>
+    <input v-model="network.selected.step.name" />
   </div>
   <div>
-    <label>Step Type</label>
-    <input v-model="stepType" />
+    <label>Type</label>
+    <input v-model="network.selected.step.type" />
   </div>
-  <button @click="addStep(stepName, stepType)" type="button">step: add</button>
+  <button @click="refreshStep(network.selected)" type="button">step: save</button>
   <hr />
-  <table>
-    <h3>Aim:</h3>
-    <tr>
-      <td>Name</td>
-      <td>Type</td>
-    </tr>
-    <tr v-for="item in items">
-      <td>{{ item.name }}</td>
-      <td>{{ item.type }}</td>
-      <td><button type="button" @click="removeStep(item)">row: remove</button></td>
-    </tr>
-  </table>
+  <h3>Link up:</span></h3>
+  <div>
+    <label><button type="button" @click="expectFrom()">From</button></label>
+    <span v-if="network.selectedFrom">{{ network.selectedFrom.label }}</span>
+  </div>
+  <div>
+    <label><button type="button" @click="expectTo()">To</button></label>
+    <span v-if="network.selectedTo">{{ network.selectedTo.label }}</span>
+  </div>
+  <button @click="addEdge(network.selectedFrom, network.selectedTo)" type="button">step: link</button>
+  <button @click="removeEdge(network.selectedFrom, network.selectedTo)" type="button">step: un-link</button>
   <hr />
   <div>
     <h3>And Fire:</h3>
@@ -35,42 +36,155 @@
   <div>
     <button @click="fireEvent(message)" type="button">sequence: fire</button>
   </div>
+  <div>
+    <button @click="addStep({})" type="button">step: add</button>
+  </div>
 </div>
-<script type="text/javascript">
-var items = [{ name: 'Apple',  type: 'EventHandler' },
-             { name: 'Orange', type: 'EventHandler' },
-             { name: 'Banana', type: 'EventHandler' },
-             { name: 'Pear',   type: 'EventHandler' }];
-var app = new Vue({
-  el: '#new-sequence',
-  data: {
-    items: items,
-    stepName: 'Pickle',
-    stepType: 'EventHandler',
-    message: 'Buckle up!'
-  },
-  methods: {
-    addStep: (stepName, stepType) => items.push({ name: stepName, type: stepType }),
-    removeStep: item => {
-      const index = items.indexOf(item);
-      items.splice(index, 1);
-    },
-    fireEvent: (message) => {
-      postSequence(message, items);
-    }
-  }
-});
 
-function postSequence(message, sequence) {
-  const url = `/events/create?message=${message}`;
-  return fetch(url, {
-      method : "POST",
-      body: JSON.stringify(items),
-      params: { message: 'test' }
-  }).then(
-      response => response.text()
-  ).then(
-      html => console.log(html)
-  );
-}
+
+<div id='mynetwork' style="height:300px; width: 800px; border: 1px solid black;"></div>
+<script type="text/javascript">
+  var network;
+  var nodes = new vis.DataSet([]);
+  var edges = new vis.DataSet([]);
+  var nextClickIsFrom = false;
+  var nextClickIsTo = false;
+  var app = new Vue({
+    el: '#new-sequence',
+    data: {
+      nodes: nodes,
+      stepName: 'Pickle',
+      stepType: 'EventHandler',
+      message: 'Buckle up!',
+      network: {
+        selected: { step: {} },
+        selectedFrom: { step: {} },
+        selectedTo: { step: {} },
+      }
+    },
+    methods: {
+      addEdge: (fromNode, toNode) => {
+        edges.add({
+          from: fromNode.id,
+          to: toNode.id,
+          arrows: { to: true }
+        });
+      },
+      removeEdge: (fromNode, toNode) => {
+        var edgesToRemove = [];
+        edges.forEach(edge => {
+          if (edge.from === fromNode.id && edge.to === toNode.id) {
+            edgesToRemove.push(edge);
+          }
+        });
+
+        edgesToRemove.forEach(edge => {
+          edges.remove(edge.id);
+        });
+      },
+      expectFrom: () => {
+        nextClickIsFrom = true;
+      },
+      expectTo: () => {
+        nextClickIsTo = true;
+      },
+      refreshStep: (node) => {
+        const options = Object.assign(node, {
+          label: `${node.step.name}:${node.step.type}`,
+        });
+        nodes.update(options);
+      },
+      addStep: addStep,
+      removeStep: item => {
+        const index = items.indexOf(item);
+        items.splice(index, 1);
+      },
+      fireEvent: (message) => {
+        const nodesMap = new Map();
+        nodes.forEach(n => nodesMap.set(n.id, n));
+
+        var sortedEdges = edges.map(e => e).filter(e => e.from != undefined && e.to != undefined).sort((a,b) => a.from - b.from);
+        var steps = Array.from(new Set(sortedEdges.map(edge => {
+          const fromNode = nodesMap.get(edge.from);
+          const toNode = nodesMap.get(edge.to);
+
+          return [fromNode, toNode];
+        }).flat())).map(node => node.step);
+        postSequence(message, steps);
+      }
+    }
+  });
+
+  function postSequence(message, sequence) {
+    const url = `/events/create?message=${message}`;
+    return fetch(url, {
+        method : "POST",
+        body: JSON.stringify(sequence),
+        params: { message: 'test' }
+    }).then(
+        response => response.text()
+    ).then(
+        html => console.log(html)
+    );
+  }
+
+  const nodeWidth = 60;
+  const containerWidth = 800;
+  initializeNetwork();
+  var items = [{ name: 'Apple',  type: 'EventHandler' },
+               { name: 'Orange', type: 'EventHandler' },
+               { name: 'Banana', type: 'EventHandler' },
+               { name: 'Pear',   type: 'EventHandler' }];
+  items.reduce((parent, item) => addStep(item, parent), {});
+
+  function addStep(item, parentNode, child, options) {
+    const { name, type } = item;
+    const newNode = Object.assign({
+      id: nodes.length,
+      label: `${name}:${type}`,
+      widthConstraint: nodeWidth,
+      shape: 'box',
+      step: item
+    }, options);
+
+    if (parentNode) {
+      const newEdge = {
+        from: parentNode.id,
+        to: newNode.id,
+        arrows: { to: true }
+      };
+      edges.add(newEdge);
+      newNode.parentNode = parentNode;
+    }
+
+    nodes.add(newNode);
+
+    return newNode;
+  }
+
+  function initializeNetwork(steps) {
+    var container = document.getElementById('mynetwork');
+    var data = {
+      nodes: nodes,
+      edges: edges
+    };
+    var options = {
+      physics: {
+        //enabled: false
+      }
+    };
+    network = new vis.Network(container, data, options);
+    network.on("selectNode", function (params) {
+      const selectedNode = nodes._data[params.nodes[0]];
+      if (nextClickIsFrom) {
+        app.network.selectedFrom = selectedNode;
+        nextClickIsFrom = false;
+      } else if (nextClickIsTo) {
+        app.network.selectedTo = selectedNode;
+        nextClickIsTo = false;
+      } else {
+        app.network.selected = selectedNode;
+      }
+    });
+  }
 </script>
