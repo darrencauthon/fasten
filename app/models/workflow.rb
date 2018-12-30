@@ -37,9 +37,9 @@ class Workflow
 
     events.each { |x| persist x, event }
 
-    next_event = events.first
-
     return if step[:next_step].nil?
+
+    next_event = events.first 
 
     execute_step step[:next_step], next_event
 
