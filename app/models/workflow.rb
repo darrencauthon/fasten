@@ -1,34 +1,49 @@
 class Workflow
 
-  attr_accessor :steps
+  attr_accessor :first_step
 
   def self.build(definition)
     workflow = Workflow.new
-    workflow.steps = definition[:steps]
+
+    definition[:steps]
+      .each_with_index { |x, i| x[:next_step] = definition[:steps][i+1] }
+      .each_with_index { |x, i| x[:method] = lambda { |e| x[:type].constantize.new.receive e } }
+
+    workflow.first_step = definition[:steps].first
+    workflow.first_step[:method] = lambda { |e| workflow.first_step[:type].constantize.new.fire e }
+
     workflow
   end
 
   def start(data)
 
-    steps.each_with_index { |x, i| x[:method] = (i == 0 ? :fire : :receive) }
+    return if first_step.nil?
 
-    steps.reduce(data) do |last_event, step_data|
+    execute_step first_step, data
 
-      step = step_data[:type].constantize.new
-
-      event = step.send(step_data[:method], last_event)
-
-      event.prior_event_id = last_event.id if last_event.is_a?(Event)
-      event.data = event.data || {}
-      event.save
-      
-      publish event
-      
-      event
-    end
   end
 
   private
+
+  def execute_step(step, event)
+
+    events = [step[:method].call(event)].flatten
+
+    events.each { |e| persist e, event }
+
+    return if step[:next_step].nil?
+
+    events.each { |e| execute_step step[:next_step], e }
+
+  end
+
+  def persist(event, last_event)
+    event.prior_event_id = last_event.id if last_event.is_a?(Event)
+    event.data = event.data || {}
+    event.save
+      
+    publish event
+  end
 
   def publish(event)
     channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
