@@ -15,6 +15,26 @@ class Workflow
     workflow
   end
 
+  def self.build_given_a_hierarchy(definition)
+    workflow = Workflow.new
+
+    workflow.first_step = definition[:first_step]
+
+    workflow.first_step[:method] = lambda { |e| workflow.first_step[:type].constantize.new.fire e }
+
+    set_up_the_method workflow.first_step
+
+    workflow
+  end
+
+  def self.set_up_the_method(step)
+    if step[:method].nil?
+      step[:method] = lambda { |e| step[:type].constantize.new.receive e }
+    end
+    return if step[:next_steps].nil?
+    step[:next_steps].each { |x| set_up_the_method(x) }
+  end
+
   def start(data)
 
     return if first_step.nil?

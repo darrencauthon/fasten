@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   post 'events/create_web'
   get 'events/create_web'
 
+  post 'events/create_with_tree'
+  get 'events/create_with_tree'
+
   mount Sidekiq::Web => '/sidekiq'
 end
 
