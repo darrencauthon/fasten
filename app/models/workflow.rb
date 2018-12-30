@@ -17,6 +17,8 @@ class Workflow
 
     last_event = data
 
+    return if steps.empty?
+
     steps.each do |step|
 
       method = step[:method]
