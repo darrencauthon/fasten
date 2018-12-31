@@ -35,6 +35,18 @@ class Workflow
   def self.build_event_handler_for(step, event)
     event_handler = step[:type].constantize.new
     event_handler.config = step[:config] if event_handler.respond_to?(:config)
+
+    event_handler.config.each do |config|
+      key = config[0]
+      value = config[1]
+      if value.is_a?(String)
+        template = Liquid::Template.parse(value)
+	event_handler.config[key] = template.render(event.respond_to?(:data) ? event.data : event)
+      end
+    end
+
+    raise event_handler.config.to_json
+
     event_handler
   end
 
