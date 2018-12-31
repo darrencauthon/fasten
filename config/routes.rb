@@ -1,5 +1,6 @@
 require 'sidekiq/web'
 Rails.application.routes.draw do
+  get 'sequence/new'
   get 'events/index'
   get 'events/all'
   post 'events/create'
@@ -13,4 +14,3 @@ Rails.application.routes.draw do
 
   mount Sidekiq::Web => '/sidekiq'
 end
-
