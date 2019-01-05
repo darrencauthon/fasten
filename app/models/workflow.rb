@@ -48,11 +48,11 @@ class Workflow
 
   private
 
-  def execute_step(step, event)
+  def execute_step(step, event_data)
+    events = [step[:method].call(event_data)].flatten
+    events.each { |e| e.step_guid = step[:guid] }
 
-    events = [step[:method].call(event)].flatten
-
-    events.each { |e| persist e, event }
+    events.each { |e| persist e, event_data }
 
     return if step[:next_steps].nil?
 
@@ -66,13 +66,13 @@ class Workflow
     event.prior_event_id = last_event.id if last_event.is_a?(Event)
     event.data = event.data || {}
     event.save
-      
+
     publish event
   end
 
   def publish(event)
     channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
-    data = { message: event.message, prior_event_id: event.prior_event_id, id: event.id }
+    data = { message: event.message, prior_event_id: event.prior_event_id, id: event.id, step_guid: event.step_guid }
     channels_client.trigger('channel', 'event', data);
   end
 
