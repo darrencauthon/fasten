@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'sequence/new'
   get 'events/index'
   get 'events/all'
+  get 'events/aggregate'
   post 'events/create'
   get 'events/create'
 
