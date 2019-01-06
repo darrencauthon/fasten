@@ -14,6 +14,10 @@
     <label>Type</label>
     <input v-model="network.selected.step.type" />
   </div>
+  <div>
+    <label>Step Guid</label>
+    <input v-model="network.selected.step.guid" />
+  </div>
   <button @click="refreshStep(network.selected)" type="button">step: save</button>
   <hr />
   <h3>Link up:</span></h3>
@@ -134,17 +138,17 @@
   const nodeWidth = 60;
   const containerWidth = 800;
   initializeNetwork();
-  var items = [{ name: 'Apple',  type: 'EventHandler' },
-               { name: 'Orange', type: 'EventHandler' },
-               { name: 'Banana', type: 'EventHandler' },
-               { name: 'Pear',   type: 'EventHandler' }];
+  var items = [{ name: 'Apple',  type: 'EventHandler', guid: 'apple' },
+               { name: 'Orange', type: 'EventHandler', guid: 'orange' },
+               { name: 'Banana', type: 'EventHandler', guid: 'banana' },
+               { name: 'Pear',   type: 'EventHandler', guid: 'pear' }];
   items.reduce((parent, item) => addStep(item, parent), null);
 
   function addStep(item, parentNode, child, options) {
-    const { name, type } = item;
+    const { name, type, guid } = item;
     const newNode = Object.assign({
       id: nodes.length,
-      label: `${name}:${type}`,
+      label: `${name}:${type}:${guid}`,
       widthConstraint: nodeWidth,
       shape: 'box',
       step: item
