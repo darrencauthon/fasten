@@ -44,7 +44,7 @@
     <button @click="fireEvent(message)" type="button">sequence: fire</button>
   </div>
   <div>
-    <button @click="addStep({})" type="button">step: add</button>
+    <button @click="addBlankStep()" type="button">step: add</button>
   </div>
 </div>
 
@@ -55,35 +55,10 @@
   setupDefaultInputs(diagram);
 
   function setupDefaultInputs() {
-    var items = [{ name: 'Apple',  type: 'EventHandler', guid: 'apple' },
+    var steps = [{ name: 'Apple',  type: 'EventHandler', guid: 'apple' },
                { name: 'Orange', type: 'EventHandler', guid: 'orange' },
                { name: 'Banana', type: 'EventHandler', guid: 'banana' },
                { name: 'Pear',   type: 'EventHandler', guid: 'pear' }];
-    items.reduce((parent, item) => addStep(diagram, item, parent), null);
-  }
-
-  function addStep(diagram, item, parentNode, child, options) {
-    const { name, type, guid } = item;
-    const newNode = Object.assign({
-      id: diagram.nodes.length,
-      label: `${name}:${type}:${guid}`,
-      widthConstraint: 60,
-      shape: 'box',
-      step: item
-    }, options);
-
-    if (parentNode) {
-      const newEdge = {
-        from: parentNode.id,
-        to: newNode.id,
-        arrows: { to: true }
-      };
-      diagram.edges.add(newEdge);
-      newNode.parentNode = parentNode;
-    }
-
-    diagram.nodes.add(newNode);
-
-    return newNode;
+    steps.reduce((parent, thisStep) => addStepAsNode(diagram, thisStep, parent), null);
   }
 </script>

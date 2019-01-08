@@ -9,28 +9,6 @@
 <div id='mynetwork' style="height:300px; width: 800px; border: 1px solid black;"></div>
 <script type="text/javascript">
   const diagram = createBlankNetworkDiagram('mynetwork');
-  retrieveAllEvents().then(events => events.forEach(event => addEventToNodes(event)));
-  listenForPusherEvents(event => addEventToNodes(event));
-
-  var addEventToNodes = function() {
-    const stepGuidMap = new Map();
-
-    return function(event) {
-      if (stepGuidMap.get(event.step_guid)) {
-        const node = stepGuidMap.get(event.step_guid);
-        node.count++;
-        node.label = `Step: #${event.step_guid} ${node.count}`
-        diagram.nodes.update(node);
-        return;
-      }
-
-      const node = {
-        id: event.step_guid,
-        label: `Step: #${event.step_guid} 0`,
-        count: 0
-      }
-      stepGuidMap.set(event.step_guid, node);
-      diagram.nodes.add(node);
-    };
-  }();
+  retrieveAllEvents().then(events => events.forEach(event => addEventInstanceAsAggregateNodes(diagram, event)));
+  listenForPusherEvents(event => addEventInstanceAsAggregateNodes(diagram, event));
 </script>

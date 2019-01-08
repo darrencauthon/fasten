@@ -47,7 +47,7 @@ function buildEventCreationApp(elementId, diagram) {
         });
         diagram.nodes.update(options);
       },
-      addStep: addStep,
+      addBlankStep: () => addStepAsNode(diagram, {}),
       removeStep: item => {
         const index = items.indexOf(item);
         items.splice(index, 1);
