@@ -1,5 +1,5 @@
 var pusherConfig = {
-  wsHost: 'localhost',
+  wsHost: '192.168.99.100',
   wsPort: 8080
 };
 
@@ -28,8 +28,6 @@ function buildSequenceFromNodes(diagram) {
 
   return steps;
 }
-
-
 
 function retrieveAllEvents() {
   return fetch('/events/all').then(response => response.json())

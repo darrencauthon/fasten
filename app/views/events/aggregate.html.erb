@@ -2,98 +2,35 @@
 <link type="text/css" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pusher/4.3.1/pusher.min.js"></script>
 
+<script type="text/javascript" src="/assets/event-stream.js"></script>
+<script type="text/javascript" src="/assets/event-visualization.js"></script>
+<script type="text/javascript" src="/assets/event-creation-app.js"></script>
+
 <div id='mynetwork' style="height:300px; width: 800px; border: 1px solid black;"></div>
 <script type="text/javascript">
-  var network;
-  var nodes = new vis.DataSet([]);
-  var edges = new vis.DataSet([]);
+  const diagram = createBlankNetworkDiagram('mynetwork');
+  retrieveAllEvents().then(events => events.forEach(event => addEventToNodes(event)));
+  listenForPusherEvents(event => addEventToNodes(event));
 
-  const nodeWidth = 60;
-  const containerWidth = 800;
+  var addEventToNodes = function() {
+    const stepGuidMap = new Map();
 
-  const stepGuidMap = new Map();
-  retrieveEvents().then(events => showAggregateEventBubbles(events));
-  listenForPusherEvents();
+    return function(event) {
+      if (stepGuidMap.get(event.step_guid)) {
+        const node = stepGuidMap.get(event.step_guid);
+        node.count++;
+        node.label = `Step: #${event.step_guid} ${node.count}`
+        diagram.nodes.update(node);
+        return;
+      }
 
-  function addStepNode(step, options) {
-    const { type, guid } = step;
-    const newNode = Object.assign({
-      id: nodes.length,
-      label: `${type} #${guid} count: 0`,
-      widthConstraint: nodeWidth,
-      shape: 'box',
-      guid: guid
-    }, options);
-
-    nodes.add(newNode);
-
-    return newNode;
-  }
-
-  function retrieveEvents() {
-    var promise = new Promise((resolve, reject) => {
-
-      var xhr = new XMLHttpRequest();
-      xhr.onload = function() {
-        if (xhr.status >= 200 && xhr.status < 300) {
-          var events = JSON.parse(xhr.response);
-          resolve(events);
-        } else {
-          alert('Request failed, see console');
-          console.error('Request failed', xhr);
-          reject();
-        }
-      };
-
-      xhr.open('GET', '/events/all');
-      xhr.send();
-    });
-
-    return promise;
-  }
-
-  function addEventToNodes(event) {
-    if (stepGuidMap.get(event.step_guid)) {
-      const node = stepGuidMap.get(event.step_guid);
-      node.count++;
-      node.label = `Step: #${event.step_guid} ${node.count}`
-      nodes.update(node);
-      return;
-    }
-
-    const node = {
-      id: event.step_guid,
-      label: `Step: #${event.step_guid} 0`,
-      count: 0
-    }
-    stepGuidMap.set(event.step_guid, node);
-    nodes.add(node);
-  }
-
-  function showAggregateEventBubbles(events) {
-    events.map(thisEvent => addEventToNodes(thisEvent));
-
-    edges = new vis.DataSet([]);
-
-    var container = document.getElementById('mynetwork');
-    var data = {
-      nodes: nodes,
-      edges: edges
+      const node = {
+        id: event.step_guid,
+        label: `Step: #${event.step_guid} 0`,
+        count: 0
+      }
+      stepGuidMap.set(event.step_guid, node);
+      diagram.nodes.add(node);
     };
-    var options = {};
-    var network = new vis.Network(container, data, options);
-  }
-
-  function listenForPusherEvents() {
-    var pusher = new Pusher('app_key', {
-      wsHost: '192.168.99.100',
-      wsPort: 8080,
-      enabledTransports: ['ws', 'flash'],
-      disabledTransports: ['flash']
-    });
-
-    const channel = pusher.subscribe('channel');
-
-    channel.bind('event', event => addEventToNodes(event));
-  }
+  }();
 </script>
