@@ -9,9 +9,7 @@
 <div id='mynetwork' style="height:800px"></div>
 <script type="text/javascript">
   const diagram = createBlankNetworkDiagram('mynetwork');
-  fetch('/events/all')
-    .then(response => response.json())
-    .then(events => showEventBubbles(diagram, events));
+  retrieveAllEvents().then(events => showEventBubbles(diagram, events));
   listenForPusherEvents(({ id, message, prior_event_id }) => {
     diagram.nodes.add({ id: id, label: message });
     diagram.edges.add({ from: id, to: prior_event_id });

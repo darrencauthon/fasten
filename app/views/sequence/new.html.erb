@@ -1,6 +1,9 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
 <link type="text/css" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" />
+<script type="text/javascript" src="/assets/event-stream.js"></script>
+<script type="text/javascript" src="/assets/event-visualization.js"></script>
+<script type="text/javascript" src="/assets/event-creation-app.js"></script>
 
 <div id="new-sequence">
   <h3>New Sequence</h3>
@@ -45,111 +48,26 @@
   </div>
 </div>
 
-
 <div id='mynetwork' style="height:300px; width: 800px; border: 1px solid black;"></div>
 <script type="text/javascript">
-  var network;
-  var nodes = new vis.DataSet([]);
-  var edges = new vis.DataSet([]);
-  var nextClickIsFrom = false;
-  var nextClickIsTo = false;
-  var app = new Vue({
-    el: '#new-sequence',
-    data: {
-      nodes: nodes,
-      stepName: 'Pickle',
-      stepType: 'EventHandler',
-      message: 'Buckle up!',
-      network: {
-        selected:     { step: {} },
-        selectedFrom: { step: {} },
-        selectedTo:   { step: {} },
-      }
-    },
-    methods: {
-      addEdge: (fromNode, toNode) => {
-        edges.add({
-          from: fromNode.id,
-          to: toNode.id,
-          arrows: { to: true }
-        });
-      },
-      removeEdge: (fromNode, toNode) => {
-        var edgesToRemove = [];
-        edges.forEach(edge => {
-          if (edge.from === fromNode.id && edge.to === toNode.id) {
-            edgesToRemove.push(edge);
-          }
-        });
+  const diagram = createBlankNetworkDiagram('mynetwork');
+  const app = buildEventCreationApp('#new-sequence', diagram);
+  setupDefaultInputs(diagram);
 
-        edgesToRemove.forEach(edge => {
-          edges.remove(edge.id);
-        });
-      },
-      expectFrom: () => {
-        nextClickIsFrom = true;
-      },
-      expectTo: () => {
-        nextClickIsTo = true;
-      },
-      refreshStep: (node) => {
-        const options = Object.assign(node, {
-          label: `${node.step.name}:${node.step.type}`,
-        });
-        nodes.update(options);
-      },
-      addStep: addStep,
-      removeStep: item => {
-        const index = items.indexOf(item);
-        items.splice(index, 1);
-      },
-      fireEvent: (message) => postSequence(nodes, message)
-    }
-  });
-
-  function buildWorkflowFromNodes(nodes) {
-    const nodesMap = new Map();
-    nodes.forEach(n => nodesMap.set(n.id, n));
-
-    var sortedEdges = edges.map(e => e).filter(e => e.from != undefined && e.to != undefined).sort((a,b) => a.from - b.from);
-    var steps = Array.from(new Set(sortedEdges.map(edge => {
-      const fromNode = nodesMap.get(edge.from);
-      const toNode = nodesMap.get(edge.to);
-
-      return [fromNode, toNode];
-    }).flat())).map(node => node.step);
-
-    return steps;
-  }
-
-  function postSequence(nodes, message) {
-    const url = `/events/create?message=${message}`;
-    return fetch(url, {
-        method : "POST",
-        body: JSON.stringify(buildWorkflowFromNodes(nodes)),
-        params: { message: 'test' }
-    }).then(
-        response => response.text()
-    ).then(
-        html => console.log(html)
-    );
-  }
-
-  const nodeWidth = 60;
-  const containerWidth = 800;
-  initializeNetwork();
-  var items = [{ name: 'Apple',  type: 'EventHandler', guid: 'apple' },
+  function setupDefaultInputs() {
+    var items = [{ name: 'Apple',  type: 'EventHandler', guid: 'apple' },
                { name: 'Orange', type: 'EventHandler', guid: 'orange' },
                { name: 'Banana', type: 'EventHandler', guid: 'banana' },
                { name: 'Pear',   type: 'EventHandler', guid: 'pear' }];
-  items.reduce((parent, item) => addStep(item, parent), null);
+    items.reduce((parent, item) => addStep(diagram, item, parent), null);
+  }
 
-  function addStep(item, parentNode, child, options) {
+  function addStep(diagram, item, parentNode, child, options) {
     const { name, type, guid } = item;
     const newNode = Object.assign({
-      id: nodes.length,
+      id: diagram.nodes.length,
       label: `${name}:${type}:${guid}`,
-      widthConstraint: nodeWidth,
+      widthConstraint: 60,
       shape: 'box',
       step: item
     }, options);
@@ -160,34 +78,12 @@
         to: newNode.id,
         arrows: { to: true }
       };
-      edges.add(newEdge);
+      diagram.edges.add(newEdge);
       newNode.parentNode = parentNode;
     }
 
-    nodes.add(newNode);
+    diagram.nodes.add(newNode);
 
     return newNode;
-  }
-
-  function initializeNetwork(steps) {
-    var container = document.getElementById('mynetwork');
-    var data = {
-      nodes: nodes,
-      edges: edges
-    };
-    var options = {};
-    network = new vis.Network(container, data, options);
-    network.on("selectNode", function (params) {
-      const selectedNode = nodes._data[params.nodes[0]];
-      if (nextClickIsFrom) {
-        app.network.selectedFrom = selectedNode;
-        nextClickIsFrom = false;
-      } else if (nextClickIsTo) {
-        app.network.selectedTo = selectedNode;
-        nextClickIsTo = false;
-      } else {
-        app.network.selected = selectedNode;
-      }
-    });
   }
 </script>
