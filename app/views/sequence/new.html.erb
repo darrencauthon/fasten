@@ -5,22 +5,25 @@
 <script type="text/javascript" src="/assets/event-visualization.js"></script>
 <script type="text/javascript" src="/assets/event-creation-app.js"></script>
 
+<div id='mynetwork' style="height:300px; width: 800px; border: 1px solid black;"></div>
 <div id="new-sequence">
   <h3>New Sequence</h3>
   <hr />
   <h3>Selected node: <span>{{ network.selected.step }}</span></h3>
-  <div>
-    <label>Name</label>
-    <input v-model="network.selected.step.name" />
-  </div>
-  <div>
-    <label>Type</label>
-    <input v-model="network.selected.step.type" />
-  </div>
-  <div>
-    <label>Step Guid</label>
-    <input v-model="network.selected.step.guid" />
-  </div>
+  <table>
+    <tr>
+      <td><label>Name</label></td>
+      <td><input v-model="network.selected.step.name" /></td>
+    </tr>
+    <tr>
+      <td><label>Type</label></td>
+      <td><input v-model="network.selected.step.type" /></td>
+    </tr>
+    <tr>
+      <td><label>Step Guid</label></td>
+      <td><input v-model="network.selected.step.guid" /></td>
+    </tr>
+  </table>
   <button @click="refreshStep(network.selected)" type="button">step: save</button>
   <hr />
   <h3>Link up:</span></h3>
@@ -47,8 +50,6 @@
     <button @click="addBlankStep()" type="button">step: add</button>
   </div>
 </div>
-
-<div id='mynetwork' style="height:300px; width: 800px; border: 1px solid black;"></div>
 <script type="text/javascript">
   const diagram = createBlankNetworkDiagram('mynetwork');
   const app = buildEventCreationApp('#new-sequence', diagram);
