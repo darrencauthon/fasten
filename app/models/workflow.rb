@@ -51,7 +51,6 @@ class Workflow
   def execute_step(step, event_data)
     events = [step[:method].call(event_data)].flatten
     events.each { |e| e.step_guid = step[:guid] }
-
     events.each { |e| persist e, event_data }
 
     return if step[:next_steps].nil?

@@ -33,7 +33,7 @@ function retrieveAllEvents() {
   return fetch('/events/all').then(response => response.json())
 }
 
-function fireSequence(workflow, message) {
+function saveSequence(workflow, message) {
   const url = `/events/create?message=${message}`;
   return fetch(url, {
       method : "POST",

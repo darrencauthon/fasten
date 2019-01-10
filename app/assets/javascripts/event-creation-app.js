@@ -51,7 +51,7 @@ function buildEventCreationApp(elementId, diagram) {
         const index = items.indexOf(item);
         items.splice(index, 1);
       },
-      fireEvent: (message) => fireSequence(buildSequenceFromNodes(diagram), message)
+      saveEvent: (message) => saveSequence(buildSequenceFromNodes(diagram), message)
     }
   });
 

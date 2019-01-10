@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'events/all'
   get 'events/aggregate'
   post 'events/create'
+  get 'events/fire'
   get 'events/create'
 
   post 'events/create_web'
