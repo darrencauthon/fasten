@@ -1,7 +1,4 @@
 function buildEventCreationApp(elementId, diagram) {
-  var nextClickIsFrom = false;
-  var nextClickIsTo = false;
-
   const app = new Vue({
     el: elementId,
     data: {
@@ -13,7 +10,9 @@ function buildEventCreationApp(elementId, diagram) {
         selected:     { step: {} },
         selectedFrom: { step: {} },
         selectedTo:   { step: {} },
-      }
+      },
+      nextClickIsFrom: true,
+      nextClickIsTo: false
     },
     methods: {
       addEdge: (fromNode, toNode) => {
@@ -36,10 +35,10 @@ function buildEventCreationApp(elementId, diagram) {
         });
       },
       expectFrom: () => {
-        nextClickIsFrom = true;
+        app.nextClickIsFrom = true;
       },
       expectTo: () => {
-        nextClickIsTo = true;
+        app.nextClickIsTo = true;
       },
       refreshStep: (node) => {
         const options = Object.assign(node, {
@@ -58,13 +57,15 @@ function buildEventCreationApp(elementId, diagram) {
 
   diagram.network.on("selectNode", function (params) {
     const selectedNode = diagram.nodes._data[params.nodes[0]];
-    if (nextClickIsFrom) {
+    if (app.nextClickIsFrom) {
       app.network.selectedFrom = selectedNode;
-      nextClickIsFrom = false;
-    } else if (nextClickIsTo) {
+      app.nextClickIsFrom = false;
+      app.nextClickIsTo = true;
+      app.network.selected = selectedNode;
+    } else if (app.nextClickIsTo) {
       app.network.selectedTo = selectedNode;
-      nextClickIsTo = false;
-    } else {
+      app.nextClickIsTo = false;
+      app.nextClickIsFrom = true;
       app.network.selected = selectedNode;
     }
   });

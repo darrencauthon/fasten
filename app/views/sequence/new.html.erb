@@ -4,51 +4,46 @@
 <script type="text/javascript" src="/assets/event-stream.js"></script>
 <script type="text/javascript" src="/assets/event-visualization.js"></script>
 <script type="text/javascript" src="/assets/event-creation-app.js"></script>
+<link type="text/css" src="/assets/application.css" />
 
 <div id='mynetwork' style="height:300px; width: 800px; border: 1px solid black;"></div>
 <div id="new-sequence">
-  <h3>New Sequence</h3>
+  <div id='fire-sequence'>
+    <input v-model="message" /><br />
+    <button>FIRE</button>
+  </div>
+
   <hr />
-  <h3>Selected node: <span>{{ network.selected.step }}</span></h3>
-  <table>
-    <tr>
-      <td><label>Name</label></td>
-      <td><input v-model="network.selected.step.name" /></td>
-    </tr>
-    <tr>
-      <td><label>Type</label></td>
-      <td><input v-model="network.selected.step.type" /></td>
-    </tr>
-    <tr>
-      <td><label>Step Guid</label></td>
-      <td><input v-model="network.selected.step.guid" /></td>
-    </tr>
-  </table>
-  <button @click="refreshStep(network.selected)" type="button">step: save</button>
+  <button id="new-step" @click="addBlankStep()" type="button">step: add a new one</button>
   <hr />
-  <h3>Link up:</span></h3>
-  <div>
-    <label><button type="button" @click="expectFrom()">From</button></label>
+  <div id="edit-node" class="node-style">
+    <h3>Edit node: <span>{{ network.selected.step }}</span></h3>
+    <table>
+      <tr>
+        <td><label>Name</label></td>
+        <td><input v-model="network.selected.step.name" /></td>
+      </tr>
+      <tr>
+        <td><label>Type</label></td>
+        <td><input v-model="network.selected.step.type" /></td>
+      </tr>
+      <tr>
+        <td><label>Step Guid</label></td>
+        <td><input v-model="network.selected.step.guid" /></td>
+      </tr>
+    </table>
+    <button @click="refreshStep(network.selected)" type="button">step: save</button>
+  </div>
+  <hr />
+  <h3>Link nodes together: <span v-if="nextClickIsFrom || nextClickIsTo">Select a node</span></h3>
+  <div class="node-style">
     <span v-if="network.selectedFrom">{{ network.selectedFrom.label }}</span>
   </div>
-  <div>
-    <label><button type="button" @click="expectTo()">To</button></label>
+  <div class="node-style">
     <span v-if="network.selectedTo">{{ network.selectedTo.label }}</span>
   </div>
   <button @click="addEdge(network.selectedFrom, network.selectedTo)" type="button">step: link</button>
   <button @click="removeEdge(network.selectedFrom, network.selectedTo)" type="button">step: un-link</button>
-  <hr />
-  <div>
-    <h3>And Fire:</h3>
-    <label>Message</label>
-    <input v-model="message" />
-  </div>
-  <div>
-    <button @click="fireEvent(message)" type="button">sequence: fire</button>
-  </div>
-  <div>
-    <button @click="addBlankStep()" type="button">step: add</button>
-  </div>
 </div>
 <script type="text/javascript">
   const diagram = createBlankNetworkDiagram('mynetwork');

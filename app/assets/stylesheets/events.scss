@@ -1,3 +1,37 @@
 // Place all the styles related to the events controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#new-step {
+  background: #45ff45;
+  border-radius: 1rem;
+  border: 1px solid black;
+  color: black;
+  font-size: 2rem;
+  width: 15rem;
+}
+#fire-sequence {
+  cursor: pointer;
+  width: 100%;
+}
+#fire-sequence input {
+  font-size: 3rem;
+}
+#fire-sequence button {
+  background-color: red;
+  border-radius: 1rem;
+  color: white;
+  cursor: pointer;
+  font-size: 5rem;
+  font-weight: bold;
+  height: 10rem;
+  width: 50%;
+}
+.node-style {
+  background: #9bc4fa;;
+  border: 1px solid #6aa5f1;
+  font-family: sans-serif;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 1rem;
+}
