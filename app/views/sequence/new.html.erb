@@ -10,7 +10,7 @@
 <div id="new-sequence">
   <div id='fire-sequence'>
     <input v-model="message" /><br />
-    <button>FIRE</button>
+    <button @click="fireEvent(message)" type="button">FIRE</button>
   </div>
 
   <hr />
