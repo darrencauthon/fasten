@@ -14,19 +14,37 @@ function listenForPusherEvents(callback) {
   channel.bind('event', callback);
 }
 
-function buildSequenceFromNodes(diagram) {
+function getAllSteps(diagram) {
+  const nodesMap = getNodesMap(diagram)
+  const steps = [];
+  nodesMap.forEach(node => {
+    steps.push(node.step);
+  });
+
+  return steps;
+}
+
+function getNodesMap(diagram) {
   const nodesMap = new Map();
   diagram.nodes.forEach(n => nodesMap.set(n.id, n));
 
-  var sortedEdges = diagram.edges.map(e => e).filter(e => e.from != undefined && e.to != undefined).sort((a,b) => a.from - b.from);
-  var steps = Array.from(new Set(sortedEdges.map(edge => {
-    const fromNode = nodesMap.get(edge.from);
-    const toNode = nodesMap.get(edge.to);
+  return nodesMap;
+}
 
-    return [fromNode, toNode];
-  }).flat())).map(node => node.step);
+function getFirstStep(steps) {
+  const allNextSteps = steps.map(step => step.next_steps).flat();
+  return steps.filter(step => !allNextSteps.includes(step))[0];
+}
 
-  return steps;
+function buildSequenceFromNodes(diagram) {
+  const steps = getAllSteps(diagram);
+  const firstStep = getFirstStep(steps);
+
+  const sequence = {
+    first_step: firstStep
+  }
+
+  return sequence;
 }
 
 function retrieveAllEvents() {

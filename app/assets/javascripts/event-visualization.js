@@ -50,27 +50,43 @@ var addEventInstanceAsAggregateNodes = function() {
   };
 }();
 
-function addStepAsNode(diagram, step, parentNode, options) {
-  const { name, type, guid } = step;
-  const newNode = Object.assign({
+function buildStepNodeObject(step, properties) {
+  const { name, type, guid, next_steps } = step;
+  return Object.assign({
     id: diagram.nodes.length,
     label: `${name}:${type}:${guid}`,
     widthConstraint: 60,
     shape: 'box',
     step: step
-  }, options);
+  }, properties);
+}
+
+function buildLine(fromNode, toNode) {
+  return {
+    from: fromNode.id,
+    to: toNode.id,
+    arrows: { to: true }
+  }
+}
+
+function addStepAsNode(diagram, step, parentNode) {
+  const { name, type, guid, next_steps } = step;
+  const newNode = buildStepNodeObject(step, { id: diagram.nodes.length });
 
   if (parentNode) {
-    const newEdge = {
-      from: parentNode.id,
-      to: newNode.id,
-      arrows: { to: true }
-    };
+    const newEdge = buildLine(parentNode, newNode);
     diagram.edges.add(newEdge);
     newNode.parentNode = parentNode;
   }
 
   diagram.nodes.add(newNode);
+
+  if (step.next_steps) {
+    const nextSteps = step.next_steps.forEach(step => addStepAsNode(diagram, step, newNode));
+    return [newNode].concat(nextSteps);
+  } else {
+    return [newNode];
+  }
 
   return newNode;
 }

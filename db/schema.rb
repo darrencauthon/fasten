@@ -22,8 +22,8 @@ ActiveRecord::Schema.define(version: 2019_01_10_025053) do
   end
 
   create_table "sequences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "name"
-    t.string "steps"
+    t.text "name"
+    t.text "steps", limit: 4294967295
   end
 
 end

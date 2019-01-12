@@ -51,10 +51,11 @@
   setupDefaultInputs(diagram);
 
   function setupDefaultInputs() {
-    var steps = [{ name: 'Apple',  type: 'EventHandler', guid: 'apple' },
-               { name: 'Orange', type: 'EventHandler', guid: 'orange' },
-               { name: 'Banana', type: 'EventHandler', guid: 'banana' },
-               { name: 'Pear',   type: 'EventHandler', guid: 'pear' }];
-    steps.reduce((parent, thisStep) => addStepAsNode(diagram, thisStep, parent), null);
+    const pearStep = { name: 'Pear',   type: 'EventHandler', guid: 'pear' }
+    const bananaStep = { name: 'Banana', type: 'EventHandler', guid: 'banana', next_steps: [pearStep] };
+    const orangeStep = { name: 'Orange', type: 'EventHandler', guid: 'orange', next_steps: [bananaStep] };
+    const appleStep = { name: 'Apple',  type: 'EventHandler', guid: 'apple', next_steps: [orangeStep] };
+    var steps = { first_step: appleStep };
+    addStepAsNode(diagram, steps.first_step);
   }
 </script>

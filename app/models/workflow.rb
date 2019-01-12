@@ -27,7 +27,7 @@ class Workflow
 
   def self.set_up_the_method(step, &block)
     step[:method] = block || lambda { |e| Workflow.build_event_handler_for(step).receive e }
-    step[:config] = {} if step[:config].nil?
+    step[:config] = { name: step[:name] } if step[:config].nil?
     return if step[:next_steps].nil?
     step[:next_steps].each { |x| set_up_the_method(x) }
   end

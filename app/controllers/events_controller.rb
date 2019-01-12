@@ -12,9 +12,9 @@ class EventsController < ApplicationController
     originating_data = { message: params[:message] }
     steps_encoded = request.body.read
     steps = JSON.parse(steps_encoded, symbolize_names: true)
-
+    puts steps
     sequence = Sequence.new
-    sequence.name = steps[0][:name]
+    sequence.name = steps[:first_step][:name]
     sequence.steps = steps_encoded
     sequence.save
 
@@ -23,14 +23,10 @@ class EventsController < ApplicationController
 
   def fire
     sequence = Sequence.where(name: params[:message]).first
-
     return render plain: "no sequence found for \"#{params[:message]}\"" unless sequence
 
     steps = JSON.parse(sequence.steps, symbolize_names: true)
-    steps.each { |s| s[:config] = { name: s[:name] } }
-    steps.unshift({ type: 'WorkflowInitiator' })
-
-    workflow = Workflow.build(steps: steps)
+    workflow = Workflow.build_given_a_hierarchy(steps)
     result = workflow.start({ message: params[:message] })
 
     render plain: result.to_json
