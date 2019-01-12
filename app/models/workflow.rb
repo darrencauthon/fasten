@@ -5,19 +5,6 @@ class Workflow
   def self.build(definition)
     workflow = Workflow.new
 
-    definition[:steps]
-      .each_with_index { |x, i| x[:next_steps] = [definition[:steps][i+1]].reject { |x| x.nil? } }
-      .each_with_index { |x, i| x[:method] = lambda { |e| Workflow.build_event_handler_for(x).receive e } }
-
-    workflow.first_step = definition[:steps].first
-    workflow.first_step[:method] = lambda { |e| Workflow.build_event_handler_for(workflow.first_step).fire e }
-
-    workflow
-  end
-
-  def self.build_given_a_hierarchy(definition)
-    workflow = Workflow.new
-
     workflow.first_step = definition[:first_step]
 
     set_up_the_method(workflow.first_step) { |e| Workflow.build_event_handler_for(workflow.first_step).fire e }

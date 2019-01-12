@@ -26,21 +26,8 @@ class EventsController < ApplicationController
     return render plain: "no sequence found for \"#{params[:message]}\"" unless sequence
 
     steps = JSON.parse(sequence.steps, symbolize_names: true)
-    workflow = Workflow.build_given_a_hierarchy(steps)
+    workflow = Workflow.build(steps)
     result = workflow.start({ message: params[:message] })
-
-    render plain: result.to_json
-  end
-
-  def create_web
-
-    originating_data = { url: params[:url] }
-
-    steps = [{ name: 'Apple',  type: 'WebRequest' }]
-
-    workflow = Workflow.build(steps: steps)
-
-    result = workflow.start(originating_data)
 
     render plain: result.to_json
   end
@@ -51,7 +38,7 @@ class EventsController < ApplicationController
 
     steps = [{ name: 'Apple',  type: 'WebRequest' }]
 
-    workflow = Workflow.build_given_a_hierarchy(first_step: { name: 'Apple', type: 'WebRequest', config: { url: 'http://google.com' }, next_steps: [{ name: 'Orange',  type: 'WebRequest', config: { url: 'http://bing.com' } }, { name: 'Banana',  type: 'WebRequest', config: { url: 'http://yahoo.com' } }] })
+    workflow = Workflow.build(first_step: { name: 'Apple', type: 'WebRequest', config: { url: 'http://google.com' }, next_steps: [{ name: 'Orange',  type: 'WebRequest', config: { url: 'http://bing.com' } }, { name: 'Banana',  type: 'WebRequest', config: { url: 'http://yahoo.com' } }] })
 
     result = workflow.start(originating_data)
 
