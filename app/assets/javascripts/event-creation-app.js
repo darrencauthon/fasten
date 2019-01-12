@@ -21,6 +21,11 @@ function buildEventCreationApp(elementId, diagram) {
           to: toNode.id,
           arrows: { to: true }
         });
+        if (!fromNode.step.next_steps) {
+          fromNode.step.next_steps = [];
+        }
+
+        fromNode.step.next_steps.push(toNode.step);
       },
       removeEdge: (fromNode, toNode) => {
         var edgesToRemove = [];
