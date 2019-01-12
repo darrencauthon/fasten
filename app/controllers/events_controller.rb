@@ -12,7 +12,7 @@ class EventsController < ApplicationController
     originating_data = { message: params[:message] }
     steps_encoded = request.body.read
     steps = JSON.parse(steps_encoded, symbolize_names: true)
-    puts steps
+
     sequence = Sequence.new
     sequence.name = steps[:first_step][:name]
     sequence.steps = steps_encoded
