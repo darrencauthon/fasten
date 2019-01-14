@@ -34,7 +34,7 @@ class Workflow
 
   def self.build_event_handler_for(step)
     event_handler = step[:type].constantize.new
-    event_handler.config = step[:config] if event_handler.respond_to?(:config)
+    event_handler.config = SymbolizedHash.new(step[:config]) if event_handler.respond_to?(:config)
     event_handler
   end
 
