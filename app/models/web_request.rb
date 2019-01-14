@@ -9,7 +9,7 @@ class WebRequest
   end
 
   def receive(event)
-     url = event.data[:url] || config[:url]
+     url = event.symbolized_data[:url] || config[:url]
 
      get url
   end
