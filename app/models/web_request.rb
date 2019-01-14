@@ -2,12 +2,6 @@ class WebRequest
 
   attr_accessor :config
 
-  def fire(data)
-    url = data[:url] || config[:url]
-
-    get url
-  end
-
   def receive(event)
      url = event.symbolized_data[:url] || config[:url]
 

@@ -10,7 +10,6 @@ class Workflow
       .each_with_index { |x, i| x[:method] = lambda { |e| Workflow.build_event_handler_for(x).receive e } }
 
     workflow.first_step = definition[:steps].first
-    workflow.first_step[:method] = lambda { |e| Workflow.build_event_handler_for(workflow.first_step).fire e }
 
     workflow
   end
@@ -20,7 +19,7 @@ class Workflow
 
     workflow.first_step = definition[:first_step]
 
-    set_up_the_method(workflow.first_step) { |e| Workflow.build_event_handler_for(workflow.first_step).fire e }
+    set_up_the_method(workflow.first_step) { |e| Workflow.build_event_handler_for(workflow.first_step).receive e }
 
     workflow
   end
@@ -38,11 +37,11 @@ class Workflow
     event_handler
   end
 
-  def start(data)
+  def start(event)
 
     return if first_step.nil?
 
-    execute_step first_step, data
+    execute_step first_step, event
 
   end
 
