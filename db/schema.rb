@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 2019_01_10_025053) do
     t.text "step_guid"
   end
 
-  create_table "sequences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "workflows", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.text "name"
     t.text "steps", limit: 4294967295
   end

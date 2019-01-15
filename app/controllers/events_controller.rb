@@ -13,20 +13,18 @@ class EventsController < ApplicationController
     steps_encoded = request.body.read
     steps = JSON.parse(steps_encoded, symbolize_names: true)
 
-    sequence = Sequence.new
-    sequence.name = steps[:first_step][:name]
-    sequence.steps = steps_encoded
-    sequence.save
+    workflow = Workflow.new
+    workflow.name = steps[:first_step][:name]
+    workflow.steps = steps_encoded
+    workflow.save
 
     render plain: 'ok'
   end
 
   def fire
-    sequence = Sequence.where(name: params[:message]).first
-    return render plain: "no sequence found for \"#{params[:message]}\"" unless sequence
+    workflow = Workflow.find_workflow params[:message]
+    return render plain: "no workflow found for \"#{params[:message]}\"" unless workflow
 
-    steps = JSON.parse(sequence.steps, symbolize_names: true)
-    workflow = Workflow.build(steps)
     result = workflow.start({ message: params[:message] })
 
     render plain: result.to_json

@@ -1,6 +1,6 @@
-class CreateSequences < ActiveRecord::Migration[5.2]
+class CreateWorkflows < ActiveRecord::Migration[5.2]
   def change
-    create_table :sequences do |t|
+    create_table :workflows do |t|
       t.text :name
       t.text :steps, limit: 4294967295
     end
