@@ -15,7 +15,7 @@ class EventsController < ApplicationController
 
     workflow = Workflow.new
     workflow.name = steps[:first_step][:name]
-    workflow.steps = steps_encoded
+    workflow.steps_encoded_as_json = steps_encoded
     workflow.save
 
     render plain: 'ok'

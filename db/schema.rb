@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 2019_01_10_025053) do
 
   create_table "workflows", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.text "name"
-    t.text "steps", limit: 4294967295
+    t.text "steps_encoded_as_json", limit: 4294967295
   end
 
 end

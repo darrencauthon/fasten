@@ -1,20 +1,20 @@
 class Workflow < ApplicationRecord
 
   attr_accessor :first_step
-  attr_accessor :step_event_handlers
+  attr_accessor :steps
 
   def self.find_workflow name
     saved_workflow = Workflow.where(name: name).first
     return unless saved_workflow
 
-    saved_workflow.step_event_handlers = JSON.parse(saved_workflow.steps, symbolize_names: true)
+    saved_workflow.steps = JSON.parse(saved_workflow.steps_encoded_as_json, symbolize_names: true)
     saved_workflow.build
 
     saved_workflow
   end
 
   def build
-    self.first_step = self.step_event_handlers[:first_step]
+    self.first_step = self.steps[:first_step]
 
     self.set_up_the_method(self.first_step) { |e| Workflow.build_event_handler_for(self.first_step).fire e }
 
