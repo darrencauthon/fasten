@@ -23,6 +23,14 @@ Things you may want to cover:
 
 * ...
 
+### Starting the application
+
+```bash
+docker-compose -f docker-compose.yml up
+# http://localhost:3000
+```
+
+
 ### Pushing a message to Poxa
 
 ```
