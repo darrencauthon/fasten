@@ -24,13 +24,29 @@ class Workflow
     workflow
   end
 
+  def self.mash(config, event)
+
+    config
+      .select { |_, y| y.is_a? String }
+      .each do |key, value|
+	template = Liquid::Template.parse value
+        config[key] = template.render event.data
+      end
+
+
+    config
+
+  end
+
   def self.set_up_the_method(step)
 
     step[:method] = lambda do |e|
       event_handler = Workflow.build_event_handler_for step
+
+      event_handler.config = mash(event_handler.config, e)
+
       event_handler.receive e
     end
-
     step[:config] = {} if step[:config].nil?
     return if step[:next_steps].nil?
     step[:next_steps].each { |x| set_up_the_method(x) }
