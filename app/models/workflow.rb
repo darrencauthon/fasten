@@ -5,20 +5,7 @@ class Workflow
   def self.build(definition)
     workflow = Workflow.new
 
-    definition[:steps]
-      .each_with_index { |x, i| x[:next_steps] = [definition[:steps][i+1]].reject { |x| x.nil? } }
-
-    workflow.first_step = definition[:steps].first
-    set_up_the_method workflow.first_step
-
-    workflow
-  end
-
-  def self.build_given_a_hierarchy(definition)
-    workflow = Workflow.new
-
-    workflow.first_step = definition[:first_step]
-
+    workflow.first_step = definition[:steps][:first_step]
     set_up_the_method workflow.first_step
 
     workflow

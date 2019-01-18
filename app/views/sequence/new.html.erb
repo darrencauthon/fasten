@@ -6,7 +6,7 @@
 <script type="text/javascript" src="/assets/event-creation-app.js"></script>
 
 <div id="new-sequence">
-  <h3>New Sequence</h3>
+  <h3>New Workflow</h3>
   <hr />
   <h3>Selected node: <span>{{ network.selected.step }}</span></h3>
   <div>
@@ -41,7 +41,7 @@
     <input v-model="message" />
   </div>
   <div>
-    <button @click="fireEvent(message)" type="button">sequence: fire</button>
+    <button @click="fireWorkflow(message)" type="button">workflow: fire</button>
   </div>
   <div>
     <button @click="addBlankStep()" type="button">step: add</button>
@@ -53,12 +53,12 @@
   const diagram = createBlankNetworkDiagram('mynetwork');
   const app = buildEventCreationApp('#new-sequence', diagram);
   setupDefaultInputs(diagram);
-
   function setupDefaultInputs() {
-    var steps = [{ name: 'Apple',  type: 'EventHandler', guid: 'apple' },
-               { name: 'Orange', type: 'EventHandler', guid: 'orange' },
-               { name: 'Banana', type: 'EventHandler', guid: 'banana' },
-               { name: 'Pear',   type: 'EventHandler', guid: 'pear' }];
-    steps.reduce((parent, thisStep) => addStepAsNode(diagram, thisStep, parent), null);
+    const pearStep = { name: 'Pear',   type: 'EventHandler', guid: 'pear' }
+    const bananaStep = { name: 'Banana', type: 'EventHandler', guid: 'banana', next_steps: [pearStep] };
+    const orangeStep = { name: 'Orange', type: 'EventHandler', guid: 'orange', next_steps: [bananaStep] };
+    const appleStep = { name: 'Apple',  type: 'EventHandler', guid: 'apple', next_steps: [orangeStep] };
+    var steps = { first_step: appleStep };
+    addStepAsNode(diagram, steps.first_step);
   }
 </script>
