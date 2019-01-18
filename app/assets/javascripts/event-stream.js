@@ -15,20 +15,9 @@ function listenForPusherEvents(callback) {
 }
 
 function getAllSteps(diagram) {
-  const nodesMap = getNodesMap(diagram)
-  const steps = [];
-  nodesMap.forEach(node => {
-    steps.push(node.step);
-  });
-
-  return steps;
-}
-
-function getNodesMap(diagram) {
   const nodesMap = new Map();
   diagram.nodes.forEach(n => nodesMap.set(n.id, n));
-
-  return nodesMap;
+  return Array.from(nodesMap.entries()).map(mapEntry => mapEntry[1].step);
 }
 
 function getFirstStep(steps) {
