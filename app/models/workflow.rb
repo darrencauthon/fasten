@@ -45,8 +45,11 @@ class Workflow
 
       event_handler.receive e
     end
+
     step[:config] = {} if step[:config].nil?
+
     return if step[:next_steps].nil?
+
     step[:next_steps].each { |x| set_up_the_method(x) }
 
   end
