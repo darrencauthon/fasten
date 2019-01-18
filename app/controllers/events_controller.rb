@@ -48,12 +48,19 @@ class EventsController < ApplicationController
       first_step: {
                     name: 'Apple',
 		    type: 'WebRequest',
-                    config: { url: 'http://www.yahoo.com' },
+                    config: { url: '{{url}}' },
 		    next_steps: [
 		      {
 		        name: 'Banana',
 			type: 'WebRequest',
-		        config: { url: '{{url | replace: "http:", "https:"}}' }
+		        config: { url: '{{url | replace: "http:", "https:"}}' },
+			next_steps: [
+			  {
+			    name: 'Orange',
+			    type: 'Trigger',
+			    config: { rules: [{path: 'status', value: '301'}] }
+			  }
+			]
                       }
 		    ]
 		  }
