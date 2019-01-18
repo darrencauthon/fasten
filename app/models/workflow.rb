@@ -46,7 +46,7 @@ class Workflow
       event_handler.receive e
     end
 
-    step[:config] = {} if step[:config].nil?
+    step[:config] = SymbolizedHash.new if step[:config].nil?
 
     return if step[:next_steps].nil?
 
