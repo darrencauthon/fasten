@@ -27,7 +27,8 @@ class Workflow
   def self.set_up_the_method(step)
 
     step[:method] = lambda do |e|
-      Workflow.build_event_handler_for(step).receive e
+      event_handler = Workflow.build_event_handler_for step
+      event_handler.receive e
     end
 
     step[:config] = {} if step[:config].nil?
