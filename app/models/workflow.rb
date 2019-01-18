@@ -7,9 +7,9 @@ class Workflow
 
     definition[:steps]
       .each_with_index { |x, i| x[:next_steps] = [definition[:steps][i+1]].reject { |x| x.nil? } }
-      .each_with_index { |x, i| x[:method] = lambda { |e| Workflow.build_event_handler_for(x).receive e } }
 
     workflow.first_step = definition[:steps].first
+    set_up_the_method workflow.first_step
 
     workflow
   end
@@ -24,8 +24,8 @@ class Workflow
     workflow
   end
 
-  def self.set_up_the_method(step, &block)
-    step[:method] = block || lambda { |e| Workflow.build_event_handler_for(step).receive e }
+  def self.set_up_the_method(step)
+    step[:method] = lambda { |e| Workflow.build_event_handler_for(step).receive e }
     step[:config] = {} if step[:config].nil?
     return if step[:next_steps].nil?
     step[:next_steps].each { |x| set_up_the_method(x) }
