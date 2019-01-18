@@ -26,7 +26,6 @@ class Workflow
   end
 
   def self.mash(config, event)
-
     config
       .select { |_, y| y.is_a? String }
       .each do |key, value|
@@ -34,9 +33,7 @@ class Workflow
         config[key] = template.render SymbolizedHash.new(event.data)
       end
 
-
     config
-
   end
 
   def self.set_up_the_method(step)
