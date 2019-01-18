@@ -58,7 +58,7 @@ class EventsController < ApplicationController
 			  {
 			    name: 'Orange',
 			    type: 'Trigger',
-			    config: { rules: [{path: 'status', value: '301'}] }
+			    config: { rules: [{path: 'status', value: '200'}] }
 			  }
 			]
                       }
