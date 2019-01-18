@@ -30,7 +30,7 @@ class Workflow
       .select { |_, y| y.is_a? String }
       .each do |key, value|
 	template = Liquid::Template.parse value
-        config[key] = template.render event.data
+        config[key] = template.render event.symbolized_data
       end
 
 
