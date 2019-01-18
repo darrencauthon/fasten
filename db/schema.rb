@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_05_200736) do
+ActiveRecord::Schema.define(version: 2019_01_18_035625) do
 
   create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "prior_event_id"
-    t.text "data"
+    t.text "data", limit: 4294967295
     t.text "step_guid"
   end
 
