@@ -3,7 +3,7 @@ class WebRequest
   attr_accessor :config
 
   def receive(event)
-     url = event.symbolized_data[:url] || config[:url]
+     url = config[:url]
 
      get url
   end
