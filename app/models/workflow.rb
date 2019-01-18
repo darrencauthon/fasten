@@ -19,7 +19,7 @@ class Workflow
 
     workflow.first_step = definition[:first_step]
 
-    set_up_the_method(workflow.first_step) { |e| Workflow.build_event_handler_for(workflow.first_step).receive e }
+    set_up_the_method workflow.first_step
 
     workflow
   end
