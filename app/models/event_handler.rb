@@ -5,8 +5,4 @@ class EventHandler
      Event.new(message: "hello world")]
   end
 
-  def fire(data)
-    Event.new message: data[:message]
-  end
-
 end
