@@ -31,6 +31,7 @@ class Workflow
       .each do |key, value|
 	template = Liquid::Template.parse value
         config[key] = template.render event.data
+	#raise [template, value, event.data, config].to_json if key == :thing
       end
 
 
