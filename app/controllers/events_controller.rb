@@ -58,7 +58,8 @@ class EventsController < ApplicationController
 			  {
 			    name: 'Orange',
 			    type: 'Trigger',
-			    config: { rules: [{path: 'status', value: '200'}] }
+			    config: { message: 'The status was {{status}}',
+			              rules: [{path: 'status', value: '200'}] }
 			  }
 			]
                       }
