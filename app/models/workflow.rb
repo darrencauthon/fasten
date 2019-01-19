@@ -29,11 +29,26 @@ class Workflow
     config
       .select { |_, y| y.is_a? String }
       .each do |key, value|
-	template = Liquid::Template.parse value
-        config[key] = template.render SymbolizedHash.new(event.data)
+
+        config[key] = value
       end
 
     config
+  end
+
+  def self.mash(config, event)
+    config
+      .select { |_, y| y.is_a? String }
+      .each do |key, value|
+        config[key] = mash_single_value(value, event)
+      end
+
+    config
+  end
+
+  def self.mash_single_value(value, event)
+    template = Liquid::Template.parse value
+    template.render SymbolizedHash.new(event.data)
   end
 
   def self.set_up_the_method(step)
