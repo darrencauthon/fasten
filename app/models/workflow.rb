@@ -9,6 +9,7 @@ class Workflow
       .each_with_index { |x, i| x[:next_steps] = [definition[:steps][i+1]].reject { |x| x.nil? } }
 
     workflow.first_step = definition[:steps].first
+
     set_up_the_method workflow.first_step
 
     workflow
@@ -24,11 +25,33 @@ class Workflow
     workflow
   end
 
+  def self.mash(config, event)
+    config
+      .select { |_, y| y.is_a? String }
+      .each do |key, value|
+	template = Liquid::Template.parse value
+        config[key] = template.render SymbolizedHash.new(event.data)
+      end
+
+    config
+  end
+
   def self.set_up_the_method(step)
-    step[:method] = lambda { |e| Workflow.build_event_handler_for(step).receive e }
-    step[:config] = {} if step[:config].nil?
+
+    step[:method] = lambda do |event|
+      event_handler = Workflow.build_event_handler_for step
+
+      event_handler.config = mash(event_handler.config, event)
+
+      event_handler.receive event
+    end
+
+    step[:config] = SymbolizedHash.new if step[:config].nil?
+
     return if step[:next_steps].nil?
+
     step[:next_steps].each { |x| set_up_the_method(x) }
+
   end
 
   def self.build_event_handler_for(step)
