@@ -75,6 +75,10 @@ class Workflow
 
     events.each { |e| e.step_guid = step[:guid] }
 
+    events
+      .reject { |x| x.message }
+      .each   { |e| e.message = 'do something here' }
+
     events.each { |e| persist e, event_data }
 
     return if step[:next_steps].nil?
