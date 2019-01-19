@@ -47,8 +47,9 @@ class Workflow
   end
 
   def self.mash_single_value(value, event)
-    template = Liquid::Template.parse value
-    template.render SymbolizedHash.new(event.data)
+    Liquid::Template
+      .parse(value)
+      .render SymbolizedHash.new(event.data)
   end
 
   def self.set_up_the_method(step)
