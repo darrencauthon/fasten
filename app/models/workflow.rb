@@ -58,11 +58,11 @@ class Workflow
 
       events
         .reject { |x| x.message }
-        .each   { |e| e.message = mash_single_value(event_handler.config[:message], event) }
+        .each   { |e| e.message = mash_single_value(event_handler.config[:message], e) }
 
       events
         .select { |x| x.message.to_s == '' }
-        .each   { |e| e.message = "Event #{event.id}" }
+        .each   { |e| e.message = "Event #{e.id}" }
 
       events
 
