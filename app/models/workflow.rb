@@ -56,6 +56,8 @@ class Workflow
         .reject { |x| x.message }
         .each   { |e| e.message = mash_single_value(event_handler.config[:message], event) }
 
+      events
+
     end
 
     step[:config] = SymbolizedHash.new if step[:config].nil?
