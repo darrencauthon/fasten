@@ -91,6 +91,14 @@ class EventsController < ApplicationController
         name:   'Get the data',
         type:   'WebRequest',
         config: { url: '{{url}}' }
+        next_steps: [
+                      {
+                        name:    'Parse the JSON data',
+                        type:    'JsonParser',
+                        path:    'body',
+                        message: 'Data is {{Date}}'
+                      }
+                    ]
       }
     )
 
