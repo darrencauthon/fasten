@@ -89,7 +89,7 @@ class Workflow
   private
 
   def execute_step(step, event_data)
-    events = [step[:method].call(event_data)].flatten.reject { |x| x.nil? }
+    events = [step[:method].call(event_data)].flatten
 
     events.each { |e| e.step_guid = step[:guid] }
 
