@@ -53,6 +53,8 @@ class EventsController < ApplicationController
 
   def demo
 
+    Event.delete_all
+
     originating_event = Event.create(message: 'Demo Spark', data: {
       url: params[:url]
     })
