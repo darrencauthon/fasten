@@ -9,8 +9,6 @@ class JsonParser
 
     event = Event.new data: JSON.parse(json)
 
-    raise event.inspect
-
     event
 
   end
