@@ -29,11 +29,16 @@ class Workflow
     config
       .select { |_, y| y.is_a? String }
       .each do |key, value|
-	template = Liquid::Template.parse value
-        config[key] = template.render SymbolizedHash.new(event.data)
+        config[key] = mash_single_value(value, event)
       end
 
     config
+  end
+
+  def self.mash_single_value(value, event)
+    Liquid::Template
+      .parse(value)
+      .render SymbolizedHash.new(event.data)
   end
 
   def self.set_up_the_method(step)
@@ -43,7 +48,20 @@ class Workflow
 
       event_handler.config = mash(event_handler.config, event)
 
-      event_handler.receive event
+      events = [event_handler.receive(event)]
+                 .flatten
+		 .select { |x| x.is_a? Event }
+
+      events
+        .reject { |x| x.message }
+        .each   { |e| e.message = mash_single_value(event_handler.config[:message], event) }
+
+      events
+        .select { |x| x.message.to_s == '' }
+        .each   { |e| e.message = "Event #{event.id}" }
+
+      events
+
     end
 
     step[:config] = SymbolizedHash.new if step[:config].nil?
@@ -72,6 +90,7 @@ class Workflow
 
   def execute_step(step, event_data)
     events = [step[:method].call(event_data)].flatten
+
     events.each { |e| e.step_guid = step[:guid] }
 
     events.each { |e| persist e, event_data }
