@@ -17,7 +17,7 @@ class WebRequest
 
 
     response = conn.get url
-    Event.new message: "#{url} reported #{response.status}", data: {
+    Event.new data: {
       status: response.status,
       url: url,
       reason_phrase: response.reason_phrase,
