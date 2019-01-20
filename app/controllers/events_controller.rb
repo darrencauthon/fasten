@@ -62,7 +62,7 @@ class EventsController < ApplicationController
     workflow = Workflow.build_given_a_hierarchy(
       first_step: {
         name: 'Apple', type: 'WebRequest', config: { url: '{{url}}' }
-      }}
+      }
     )
 
     result = workflow.start(originating_event)
