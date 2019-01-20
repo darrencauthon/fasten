@@ -58,8 +58,14 @@ class EventsController < ApplicationController
 			  {
 			    name: 'Orange',
 			    type: 'Trigger',
-			    config: { message: 'The status was {{status}}',
+			    config: { message: 'The web request was successful! Status: {{status}}',
 			              rules: [{path: 'status', value: '200'}] }
+			  },
+			  {
+			    name: 'Mango',
+			    type: 'Trigger',
+			    config: { message: 'The web request was a redirect! Status: {{status}}',
+			              rules: [{path: 'status', value: '301'}] }
 			  }
 			]
                       }
