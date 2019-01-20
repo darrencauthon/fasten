@@ -88,7 +88,9 @@ class EventsController < ApplicationController
 
     workflow = Workflow.build_given_a_hierarchy(
       first_step: {
-        name: 'Apple', type: 'WebRequest', config: { url: '{{url}}' }
+        name:   'Get the data',
+        type:   'WebRequest',
+        config: { url: '{{url}}' }
       }
     )
 
