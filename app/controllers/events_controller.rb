@@ -53,11 +53,9 @@ class EventsController < ApplicationController
 
   def demo
 
-    originating_event = Event.create(message: 'Spark', data: {
+    originating_event = Event.create(message: 'Demo Spark', data: {
       url: params[:url]
     })
-
-    steps = [{ name: 'Get the data',  type: 'WebRequest' }]
 
     workflow = Workflow.build_given_a_hierarchy(
       first_step: {
