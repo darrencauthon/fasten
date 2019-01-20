@@ -5,9 +5,10 @@ class JsonParser
   def receive(event)
 
     path = config[:path]
-    json = event.data[path]
+    data = event.data[path]
+    json = data ? JSON.parse(data) : {}
 
-    Event.new data: JSON.parse(json)
+    Event.new data: json
 
   end
 
