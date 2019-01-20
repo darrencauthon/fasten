@@ -29,17 +29,6 @@ class Workflow
     config
       .select { |_, y| y.is_a? String }
       .each do |key, value|
-
-        config[key] = value
-      end
-
-    config
-  end
-
-  def self.mash(config, event)
-    config
-      .select { |_, y| y.is_a? String }
-      .each do |key, value|
         config[key] = mash_single_value(value, event)
       end
 
@@ -59,7 +48,14 @@ class Workflow
 
       event_handler.config = mash(event_handler.config, event)
 
-      event_handler.receive event
+      events = [event_handler.receive(event)]
+                 .flatten
+		 .select { |x| x.is_a? Event }
+
+      events
+        .reject { |x| x.message }
+        .each   { |e| e.message = mash_single_value(event_handler.config[:message], event) }
+
     end
 
     step[:config] = SymbolizedHash.new if step[:config].nil?
@@ -90,10 +86,6 @@ class Workflow
     events = [step[:method].call(event_data)].flatten
 
     events.each { |e| e.step_guid = step[:guid] }
-
-    events
-      .reject { |x| x.message }
-      .each   { |e| e.message = 'do something here' }
 
     events.each { |e| persist e, event_data }
 
