@@ -15,7 +15,6 @@ class WebRequest
       connection.adapter Faraday.default_adapter
     end
 
-
     response = conn.get url
     Event.new data: {
       status: response.status,

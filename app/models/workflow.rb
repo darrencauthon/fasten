@@ -57,6 +57,10 @@ class Workflow
         .each   { |e| e.message = mash_single_value(event_handler.config[:message], event) }
 
       events
+        .select { |x| x.message.to_s == '' }
+        .each   { |e| e.message = "Event #{event.id}" }
+
+      events
 
     end
 
