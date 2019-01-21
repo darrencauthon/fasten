@@ -7,7 +7,7 @@ class EventFormatter
     config[:instructions].each do |key, value|
       data[key] = Workflow.mash_single_value(value, event)
     end
-    raise Event.new(data: data).inspect
+    Event.new data: data
   end
 
 end
