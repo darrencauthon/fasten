@@ -114,7 +114,20 @@ class EventsController < ApplicationController
                                                                   merge_mode: 'merge',
                                                                   message: 'Format the data to send an alert',
                                                                   instructions: { subject: 'this is the subject' }
-                                                                }
+                                                                },
+                                                        next_steps: [
+                                                                      {
+                                                                        name: 'Send the notification',
+                                                                        type: 'Post',
+                                                                        config: {
+                                                                                  message: 'Post the data',
+                                                                                  url: 'the URL'
+                                                                                  content_type: 'json',
+                                                                                  method: 'POST',
+                                                                                  headers: {}
+                                                                                }
+                                                                      }
+                                                                    ]
                                                       }
                                                     ]
                                       }
