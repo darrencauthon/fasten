@@ -105,7 +105,18 @@ class EventsController < ApplicationController
                                                     merge_mode: 'merge',
                                                     message: 'This event has not happened in {{MinutesAgo}} minutes',
                                                     rules: [ { path: 'MinutesAgo', value: '0' } ]
-                                                }
+                                                },
+                                        next_steps: [
+                                                      {
+                                                        name: 'Format the data to send an alert',
+                                                        type: 'EventFormatter',
+                                                        config: {
+                                                                  merge_mode: 'merge',
+                                                                  message: 'Format the data to send an alert',
+                                                                  instructions: { subject: 'this is the subject' }
+                                                                }
+                                                      }
+                                                    ]
                                       }
                                     ]
                       }
