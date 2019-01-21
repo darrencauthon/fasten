@@ -99,12 +99,12 @@ class EventsController < ApplicationController
                         path:    'body',
                         next_steps: [
                                       {
-                                        name: 'Format the data',
-                                        type: 'EventFormatter',
+                                        name: 'Note when the event has not happened in time',
+                                        type: 'Trigger',
                                         config: {
                                                     merge_mode: 'merge',
-                                                    message: 'Format this {{darren}}',
-                                                    instructions: { darren: '{{status}} cauthon' }
+                                                    message: 'This event has not happened in {{MinutesAgo}} minutes',
+                                                    rules: [ { path: 'MinutesAgo', value: '0' } ]
                                                 }
                                       }
                                     ]
