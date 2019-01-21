@@ -54,7 +54,7 @@ class Workflow
 
       events = [event_handler.receive(event)]
                  .flatten
-		 .select { |x| x.is_a? Event }
+                 .select { |x| x.is_a? Event }
 
       events
         .reject { |x| x.message }
