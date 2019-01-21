@@ -101,7 +101,11 @@ class EventsController < ApplicationController
                                       {
                                         name: 'Format the data',
                                         type: 'EventFormatter',
-                                        config: { merge_mode: 'merge', message: 'Format this {{darren}}', instructions: { darren: '{{status}} cauthon' } }
+                                        config: {
+                                                    merge_mode: 'merge',
+                                                    message: 'Format this {{darren}}',
+                                                    instructions: { darren: '{{status}} cauthon' }
+                                                }
                                       }
                                     ]
                       }
