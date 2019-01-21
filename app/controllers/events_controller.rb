@@ -95,9 +95,15 @@ class EventsController < ApplicationController
                       {
                         name:    'Parse the JSON data',
                         type:    'JsonParser',
-                        config:  { path: 'body', message: 'Date {{Date}} {{MinutesAgo}}}' },
+                        config:  { merge_mode: 'merge', path: 'body', message: 'Date {{Date}} {{MinutesAgo}}}' },
                         path:    'body',
-                        message: 'Data is {{Date}}'
+                        next_steps: [
+                                      {
+                                        name: 'Format the data',
+                                        type: 'EventFormatter',
+                                        config: { merge_mode: 'merge', message: 'Format this {{darren}}', instructions: { darren: '{{status}} cauthon' } }
+                                      }
+                                    ]
                       }
                     ]
       }
