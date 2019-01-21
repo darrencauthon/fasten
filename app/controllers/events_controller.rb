@@ -121,7 +121,7 @@ class EventsController < ApplicationController
                                                                         type: 'Post',
                                                                         config: {
                                                                                   message: 'Post the data',
-                                                                                  url: 'the URL'
+                                                                                  url: 'the URL',
                                                                                   content_type: 'json',
                                                                                   method: 'POST',
                                                                                   headers: {}
