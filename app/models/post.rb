@@ -19,9 +19,15 @@ class Post
       connection.adapter Faraday.default_adapter
     end
 
-    result = faraday.run_request(config[:method].to_sym,
-      config[:url], data.to_json, config[:headers])
+    response = faraday.run_request(config[:method].to_sym,
+                 config[:url], data.to_json, config[:headers])
 
-    raise result.inspect
+    Event.new data: {
+      status: response.status,
+      url: config[:url],
+      reason_phrase: response.reason_phrase,
+      response_headers: response.headers,
+      body: response.body,
+    }
   end
 end
