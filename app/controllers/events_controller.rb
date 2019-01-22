@@ -125,8 +125,8 @@ class EventsController < ApplicationController
                                                                                   message: 'Post the data',
                                                                                   url: '{{api_url}}',
                                                                                   content_type: 'json',
-                                                                                  method: 'POST',
-                                                                                  headers: { "Authorization" => "{{api_key}}" }
+                                                                                  method: 'post',
+                                                                                  headers: { "Authorization" => "{{api_key}}", "Content-Type" => 'application/json' }
                                                                                 }
                                                                       }
                                                                     ]
