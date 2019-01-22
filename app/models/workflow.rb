@@ -37,6 +37,29 @@ class Workflow
       end
 
     config
+      .select { |_, y| y.is_a? Hash }
+      .reject { |x, _| fields_not_to_mash.include? x.to_s }
+      .each do |key, value|
+        config[key] = mash_all(value, event)
+      end
+
+    config
+  end
+
+  def self.mash_all(config, event)
+    config
+      .select { |_, y| y.is_a? String }
+      .each do |key, value|
+        config[key] = mash_single_value(value, event)
+      end
+
+    config
+      .select { |_, y| y.is_a? Hash }
+      .each do |key, value|
+        config[key] = mash_all(value, event)
+      end
+
+    config
   end
 
   def self.mash_single_value(value, event)
