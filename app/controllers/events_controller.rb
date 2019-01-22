@@ -83,14 +83,16 @@ class EventsController < ApplicationController
     Event.delete_all
 
     originating_event = Event.create(message: 'Demo Spark', data: {
-      url: params[:url]
+      url: params[:url],
+      api_url: params[:api_url],
+      api_key: params[:api_key]
     })
 
     workflow = Workflow.build_given_a_hierarchy(
       first_step: {
         name:   'Get the data',
         type:   'WebRequest',
-        config: { url: '{{url}}' },
+        config: { merge_mode: 'merge', url: '{{url}}' },
         next_steps: [
                       {
                         name:    'Parse the JSON data',
@@ -112,7 +114,7 @@ class EventsController < ApplicationController
                                                         type: 'EventFormatter',
                                                         config: {
                                                                   merge_mode: 'merge',
-                                                                  message: 'Format the data to send an alert',
+                                                                  message: 'Format the data to send an alert {{abc}}',
                                                                   instructions: { subject: 'this is the subject' }
                                                                 },
                                                         next_steps: [
@@ -121,10 +123,10 @@ class EventsController < ApplicationController
                                                                         type: 'Post',
                                                                         config: {
                                                                                   message: 'Post the data',
-                                                                                  url: 'the URL',
+                                                                                  url: '{{api_url}}',
                                                                                   content_type: 'json',
                                                                                   method: 'POST',
-                                                                                  headers: {}
+                                                                                  headers: { "Authorization" => "{{api_key}}" }
                                                                                 }
                                                                       }
                                                                     ]
