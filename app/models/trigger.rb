@@ -12,6 +12,11 @@ class Trigger
 
   def this_matches(event)
     rule = config[:rules][0]
+
+    this_rule_matches_this_event rule, event
+  end
+
+  def this_rule_matches_this_event(rule, event)
     path     = rule[:path]
     match_to = rule[:value].to_s
     value    = event.data[path].to_s
