@@ -37,6 +37,29 @@ class Workflow
       end
 
     config
+      .select { |_, y| y.is_a? Hash }
+      .reject { |x, _| fields_not_to_mash.include? x.to_s }
+      .each do |key, value|
+        config[key] = mash_all(value, event)
+      end
+
+    config
+  end
+
+  def self.mash_all(config, event)
+    config
+      .select { |_, y| y.is_a? String }
+      .each do |key, value|
+        config[key] = mash_single_value(value, event)
+      end
+
+    config
+      .select { |_, y| y.is_a? Hash }
+      .each do |key, value|
+        config[key] = mash_all(value, event)
+      end
+
+    config
   end
 
   def self.mash_single_value(value, event)
@@ -55,6 +78,14 @@ class Workflow
       events = [event_handler.receive(event)]
                  .flatten
                  .select { |x| x.is_a? Event }
+
+      if (event_handler.config[:merge_mode] == 'merge')
+        events.each do |new_event|
+          event.data.keys
+            .reject { |k| new_event.data.keys.include? k }
+            .each   { |k| new_event.data[k] = event.data[k] }
+        end
+      end
 
       events
         .reject { |x| x.message }
