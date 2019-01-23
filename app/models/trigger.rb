@@ -11,11 +11,12 @@ class Trigger
   end
 
   def this_matches(event)
-    path     = config[:rules][0][:path]
-    match_to = config[:rules][0][:value].to_s
+    rule = config[:rules][0]
+    path     = rule[:path]
+    match_to = rule[:value].to_s
     value    = event.data[path].to_s
 
-    comparison_method = config[:rules][0][:type].to_sym
+    comparison_method = rule[:type].to_sym
     value.send(comparison_method, match_to)
   end
 
