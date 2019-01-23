@@ -11,9 +11,7 @@ class Trigger
   end
 
   def this_matches(event)
-    rule = config[:rules][0]
-
-    this_rule_matches_this_event rule, event
+    config[:rules].all? { |r| this_rule_matches_this_event(r, event) }
   end
 
   def this_rule_matches_this_event(rule, event)
