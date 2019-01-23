@@ -15,7 +15,7 @@ class Trigger
     match_to = config[:rules][0][:value].to_s
     value    = event.data[path].to_s
 
-    comparison_method = :==
+    comparison_method = config[:rules][0][:type].to_sym
     value.send(comparison_method, match_to)
   end
 

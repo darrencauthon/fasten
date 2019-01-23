@@ -106,7 +106,7 @@ class EventsController < ApplicationController
                                         config: {
                                                     merge_mode: 'merge',
                                                     message: 'This event has not happened in {{MinutesAgo}} minutes',
-                                                    rules: [ { path: 'MinutesAgo', value: '0' } ]
+                                                    rules: [ { path: 'MinutesAgo', value: '0', type: '!=' } ]
                                                 },
                                         next_steps: [
                                                       {
