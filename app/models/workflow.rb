@@ -5,17 +5,94 @@ class Workflow
   def self.build(definition)
     workflow = Workflow.new
 
-    workflow.first_step = definition[:steps][:first_step]
+    workflow.first_step = definition[:first_step]
+
+    puts definition
     set_up_the_method workflow.first_step
 
     workflow
   end
 
+  def self.mash(config, event)
+
+    fields_not_to_mash = ['message']
+
+    config
+      .select { |_, y| y.is_a? String }
+      .reject { |x, _| fields_not_to_mash.include? x.to_s }
+      .each do |key, value|
+        config[key] = mash_single_value(value, event)
+      end
+
+    config
+      .select { |_, y| y.is_a? Hash }
+      .reject { |x, _| fields_not_to_mash.include? x.to_s }
+      .each do |key, value|
+        config[key] = mash_all(value, event)
+      end
+
+    config
+  end
+
+  def self.mash_all(config, event)
+    config
+      .select { |_, y| y.is_a? String }
+      .each do |key, value|
+        config[key] = mash_single_value(value, event)
+      end
+
+    config
+      .select { |_, y| y.is_a? Hash }
+      .each do |key, value|
+        config[key] = mash_all(value, event)
+      end
+
+    config
+  end
+
+  def self.mash_single_value(value, event)
+    Liquid::Template
+      .parse(value)
+      .render SymbolizedHash.new(event.data)
+  end
+
   def self.set_up_the_method(step)
-    step[:method] = lambda { |e| Workflow.build_event_handler_for(step).receive e }
-    step[:config] = {} if step[:config].nil?
+
+    step[:method] = lambda do |event|
+      event_handler = Workflow.build_event_handler_for step
+
+      event_handler.config = mash(event_handler.config, event)
+
+      events = [event_handler.receive(event)]
+                 .flatten
+                 .select { |x| x.is_a? Event }
+
+      if (event_handler.config[:merge_mode] == 'merge')
+        events.each do |new_event|
+          event.data.keys
+            .reject { |k| new_event.data.keys.include? k }
+            .each   { |k| new_event.data[k] = event.data[k] }
+        end
+      end
+
+      events
+        .reject { |x| x.message }
+        .each   { |e| e.message = mash_single_value(event_handler.config[:message], e) }
+
+      events
+        .select { |x| x.message.to_s == '' }
+        .each   { |e| e.message = "Event #{e.id}" }
+
+      events
+
+    end
+
+    step[:config] = SymbolizedHash.new if step[:config].nil?
+
     return if step[:next_steps].nil?
+
     step[:next_steps].each { |x| set_up_the_method(x) }
+
   end
 
   def self.build_event_handler_for(step)
@@ -35,7 +112,8 @@ class Workflow
   private
 
   def execute_step(step, event_data)
-    events = [step[:method].call(event_data)].flatten
+    events = step[:method].call event_data
+
     events.each { |e| e.step_guid = step[:guid] }
 
     events.each { |e| persist e, event_data }
