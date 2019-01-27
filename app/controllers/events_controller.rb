@@ -31,9 +31,7 @@ class EventsController < ApplicationController
       first_step: {
         name: 'Apple',
         type: 'WebRequest',
-        config: {
-          url: '{{url}}'
-        }
+        config: { url: '{{url}}' }
       }
     })
 
@@ -50,31 +48,32 @@ class EventsController < ApplicationController
 
     workflow = Workflow.build(
       first_step: {
-                    name: 'Apple',
-		    type: 'WebRequest',
-                    config: { url: '{{url}}' },
-		    next_steps: [
-		      {
-		        name: 'Banana',
-			type: 'WebRequest',
-		        config: { url: '{{url | replace: "http:", "https:"}}' },
-			next_steps: [
-			  {
-			    name: 'Orange',
-			    type: 'Trigger',
-			    config: { message: 'The web request was successful! Status: {{status}}',
-			              rules: [{path: 'status', value: '200'}] }
-			  },
-			  {
-			    name: 'Mango',
-			    type: 'Trigger',
-			    config: { message: 'The web request was a redirect! Status: {{status}}',
-			              rules: [{path: 'status', value: '301'}] }
-			  }
-			]
-                      }
-		    ]
-		  }
+        name: 'Apple',
+        type: 'WebRequest',
+        config: { url: '{{url}}' },
+        next_steps: [
+          {
+            name: 'Banana',
+            type: 'WebRequest',
+            config: { url: '{{url | replace: "http:", "https:"}}' },
+            next_steps: [
+              {
+                name: 'Orange',
+                type: 'Trigger',
+                config: { message: 'The web request was successful! Status: {{status}}',
+                          rules: [{path: 'status', value: '200'}] }
+              },
+              {
+                name: 'Mango',
+                type: 'Trigger',
+                config: { message: 'The web request was a redirect! Status: {{status}}',
+                          rules: [{path: 'status', value: '301'}]
+                }
+              }
+            ]
+          }
+        ]
+      }
     )
 
     result = workflow.start(originating_event)
