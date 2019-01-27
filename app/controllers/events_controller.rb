@@ -27,9 +27,15 @@ class EventsController < ApplicationController
       url: params[:url]
     })
 
-    definition = { first_step: { name: 'Apple',  type: 'WebRequest' } }
-
-    workflow = Workflow.build(definition)
+    workflow = Workflow.build({
+      first_step: {
+        name: 'Apple',
+        type: 'WebRequest',
+        config: {
+          url: '{{url}}'
+        }
+      }
+    })
 
     result = workflow.start(originating_event)
 
