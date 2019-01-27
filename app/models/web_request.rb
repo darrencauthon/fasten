@@ -3,9 +3,9 @@ class WebRequest
   attr_accessor :config
 
   def receive(event)
-     url = config[:url]
+    url = config[:url]
 
-     get url
+    get url
   end
 
   def get(url)
