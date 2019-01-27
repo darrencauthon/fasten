@@ -12,9 +12,9 @@ class EventsController < ApplicationController
 
     originating_event = Event.create(message: params[:message])
 
-    steps = JSON.parse(request.body.read, symbolize_names: true)
+    definition = JSON.parse(request.body.read, symbolize_names: true)
 
-    workflow = Workflow.build(steps: steps)
+    workflow = Workflow.build(definition)
 
     result = workflow.start(originating_event)
 
