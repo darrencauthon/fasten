@@ -5,7 +5,7 @@ class ContextSetter
 
   def receive(event)
     config[:instructions].each do |key, value|
-      workflow.context = Workflow.mash_single_value(value, event)
+      workflow.context[key] = Workflow.mash_single_value(value, event)
     end
   end
 
