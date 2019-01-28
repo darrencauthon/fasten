@@ -107,6 +107,8 @@ class Workflow
 
     execute_step first_step, event
 
+    WorkflowResult.new
+
   end
 
   private

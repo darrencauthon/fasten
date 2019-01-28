@@ -144,7 +144,7 @@ class EventsController < ApplicationController
 
     result = workflow.start(originating_event)
 
-    render plain: result.to_json, status: 404
+    render plain: result.to_json, status: (result.context[:status] || 200)
   end
 
 end
