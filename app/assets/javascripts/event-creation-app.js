@@ -60,6 +60,11 @@ function buildEventCreationApp(elementId, diagram) {
     }
   });
 
+  const editor = startJsonEditor(() => {
+    app.network.selected.step.config = editor.get();
+    console.log('json', editor.get());
+  });
+
   diagram.network.on("selectNode", function (params) {
     const selectedNode = diagram.nodes._data[params.nodes[0]];
     if (app.nextClickIsFrom) {
@@ -67,11 +72,13 @@ function buildEventCreationApp(elementId, diagram) {
       app.nextClickIsFrom = false;
       app.nextClickIsTo = true;
       app.network.selected = selectedNode;
+      editor.set(selectedNode.step.config || {});
     } else if (app.nextClickIsTo) {
       app.network.selectedTo = selectedNode;
       app.nextClickIsTo = false;
       app.nextClickIsFrom = true;
       app.network.selected = selectedNode;
+      editor.set(selectedNode.step.config || {});
     }
   });
 }
