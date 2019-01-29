@@ -62,7 +62,6 @@ function buildEventCreationApp(elementId, diagram) {
 
   const editor = startJsonEditor(() => {
     app.network.selected.step.config = editor.get();
-    console.log('json', editor.get());
   });
 
   diagram.network.on("selectNode", function (params) {
