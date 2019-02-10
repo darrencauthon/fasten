@@ -12,7 +12,6 @@ class Workflow
 
     workflow.first_step = definition[:first_step]
 
-    puts definition
     set_up_the_method workflow.first_step, workflow
 
     workflow
