@@ -98,6 +98,13 @@ class EventsController < ApplicationController
         config: { merge_mode: 'merge', url: '{{url}}' },
         next_steps: [
                       {
+                        name:    'Set the response to 404',
+                        type:    'ContextSetter',
+                        config: {
+                                  instructions: { status: '404' }
+                                },
+                      },
+                      {
                         name:    'Parse the JSON data',
                         type:    'JsonParser',
                         config:  { merge_mode: 'merge', path: 'body', message: 'Date {{Date}} {{MinutesAgo}}}' },
@@ -144,7 +151,7 @@ class EventsController < ApplicationController
 
     result = workflow.start(originating_event)
 
-    render plain: result.to_json
+    render plain: result.to_json, status: (result.context[:status] || 200)
   end
 
 end

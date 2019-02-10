@@ -1,13 +1,18 @@
 class Workflow
 
   attr_accessor :first_step
+  attr_accessor :context
+
+  def initialize
+    self.context = SymbolizedHash.new
+  end
 
   def self.build(definition)
     workflow = Workflow.new
 
     workflow.first_step = definition[:first_step]
 
-    set_up_the_method workflow.first_step
+    set_up_the_method workflow.first_step, workflow
 
     workflow
   end
@@ -55,10 +60,10 @@ class Workflow
       .render SymbolizedHash.new(event.data)
   end
 
-  def self.set_up_the_method(step)
+  def self.set_up_the_method(step, workflow)
 
     step[:method] = lambda do |event|
-      event_handler = Workflow.build_event_handler_for step
+      event_handler = Workflow.build_event_handler_for step, workflow
 
       event_handler.config = mash(event_handler.config, event)
 
@@ -90,13 +95,14 @@ class Workflow
 
     return if step[:next_steps].nil?
 
-    step[:next_steps].each { |x| set_up_the_method(x) }
+    step[:next_steps].each { |x| set_up_the_method(x, workflow) }
 
   end
 
-  def self.build_event_handler_for(step)
+  def self.build_event_handler_for(step, workflow)
     event_handler = step[:type].constantize.new
     event_handler.config = SymbolizedHash.new(step[:config]) if event_handler.respond_to?(:config)
+    event_handler.workflow = workflow if event_handler.respond_to?(:workflow)
     event_handler
   end
 
@@ -105,6 +111,10 @@ class Workflow
     return if first_step.nil?
 
     execute_step first_step, event
+
+    result = WorkflowResult.new
+    result.context = self.context
+    result
 
   end
 
