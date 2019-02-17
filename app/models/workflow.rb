@@ -68,6 +68,7 @@ class Workflow
 
       if (event_handler.config[:merge_mode] == 'merge')
         events.each do |new_event|
+          new_event.data = Hash.new unless new_event.data
           event.data.keys
             .reject { |k| new_event.data.keys.include? k }
             .each   { |k| new_event.data[k] = event.data[k] }
