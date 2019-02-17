@@ -36,7 +36,14 @@
   </div>
   <div>
     <label>Type</label>
-    <input v-model="network.selected.step.type" />
+    <select v-model="network.selected.step.type">
+      <option value="">Please select</option>
+      <option>WebRequest</option>
+      <option>JsonParser</option>
+      <option>Trigger</option>
+      <option>EventFormatter</option>
+      <option>Post</option>
+    </select>
   </div>
   <div>
     <label>Step Guid</label>

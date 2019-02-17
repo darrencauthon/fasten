@@ -7,7 +7,7 @@ function buildEventCreationApp(elementId, diagram) {
       stepType: 'EventHandler',
       message: 'Buckle up!',
       network: {
-        selected:     { step: {} },
+        selected:     { step: { type: '' } },
         selectedFrom: { step: {} },
         selectedTo:   { step: {} },
       },
