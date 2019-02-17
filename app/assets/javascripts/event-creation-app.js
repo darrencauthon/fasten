@@ -37,7 +37,15 @@ function buildEventCreationApp(elementId, diagram) {
 
         edgesToRemove.forEach(edge => {
           diagram.edges.remove(edge.id);
+
+          const nextStepIndex = fromNode.step.next_steps.findIndex(thisStep => {
+            return thisStep.id === edge.to;
+          });
+
+          fromNode.step.next_steps.splice(nextStepIndex, 1);
         });
+
+
       },
       expectFrom: () => {
         app.nextClickIsFrom = true;
