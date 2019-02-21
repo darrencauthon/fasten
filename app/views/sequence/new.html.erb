@@ -17,11 +17,22 @@
       var editor = new JSONEditor(container, options);
 
       // set json
-      var json = {};
+      var json = {
+        'merge_mode': 'merge'
+      };
       editor.set(json);
 
       // get json
       var json = editor.get();
+
+      const originalSet = editor.set.bind(editor);
+      editor.set = (json) => {
+        if (!json['merge_mode']) {
+          json['merge_mode'] = 'merge';
+        }
+
+        return originalSet(json);
+      };
 
       return editor;
     }
