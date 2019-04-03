@@ -72,11 +72,7 @@ class Workflow
                  .select { |x| x.is_a? Event }
 
       if (event_handler.config[:merge_mode] == 'merge')
-        events.each do |new_event|
-          event.data.keys
-            .reject { |k| new_event.data.keys.include? k }
-            .each   { |k| new_event.data[k] = event.data[k] }
-        end
+        copy_event_data_from event, events
       end
 
       events
@@ -119,6 +115,15 @@ class Workflow
   end
 
   private
+
+  def self.copy_event_data_from source_event, target_events
+    target_events.each do |target_event|
+      target_event.data = Hash.new unless target_event.data
+      source_event.data.keys
+        .reject { |k| target_event.data.keys.include? k }
+        .each   { |k| target_event.data[k] = source_event.data[k] }
+    end
+  end
 
   def execute_step(step, event_data)
     events = step[:method].call event_data

@@ -7,7 +7,7 @@ function buildEventCreationApp(elementId, diagram) {
       stepType: 'EventHandler',
       message: 'Buckle up!',
       network: {
-        selected:     { step: {} },
+        selected:     { step: { type: '' } },
         selectedFrom: { step: {} },
         selectedTo:   { step: {} },
       },
@@ -37,7 +37,15 @@ function buildEventCreationApp(elementId, diagram) {
 
         edgesToRemove.forEach(edge => {
           diagram.edges.remove(edge.id);
+
+          const nextStepIndex = fromNode.step.next_steps.findIndex(thisStep => {
+            return thisStep.id === edge.to;
+          });
+
+          fromNode.step.next_steps.splice(nextStepIndex, 1);
         });
+
+
       },
       expectFrom: () => {
         app.nextClickIsFrom = true;
@@ -60,6 +68,10 @@ function buildEventCreationApp(elementId, diagram) {
     }
   });
 
+  const editor = startJsonEditor(() => {
+    app.network.selected.step.config = editor.get();
+  });
+
   diagram.network.on("selectNode", function (params) {
     const selectedNode = diagram.nodes._data[params.nodes[0]];
     if (app.nextClickIsFrom) {
@@ -67,11 +79,13 @@ function buildEventCreationApp(elementId, diagram) {
       app.nextClickIsFrom = false;
       app.nextClickIsTo = true;
       app.network.selected = selectedNode;
+      editor.set(selectedNode.step.config || {});
     } else if (app.nextClickIsTo) {
       app.network.selectedTo = selectedNode;
       app.nextClickIsTo = false;
       app.nextClickIsFrom = true;
       app.network.selected = selectedNode;
+      editor.set(selectedNode.step.config || {});
     }
   });
 }

@@ -1,10 +1,42 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
 <link type="text/css" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" />
+<link type="text/css" src="/assets/jsoneditor.min.css" />
 <script type="text/javascript" src="/assets/event-stream.js"></script>
 <script type="text/javascript" src="/assets/event-visualization.js"></script>
 <script type="text/javascript" src="/assets/event-creation-app.js"></script>
+<script type="text/javascript" src="/assets/jsoneditor.min.js"></script>
 
+<script>
+    // create the editor
+    function startJsonEditor(onChange) {
+      var container = document.getElementById("jsoneditor");
+      var options = {
+        onChange: () => onChange()
+      };
+      var editor = new JSONEditor(container, options);
+
+      // set json
+      var json = {
+        'merge_mode': 'merge'
+      };
+      editor.set(json);
+
+      // get json
+      var json = editor.get();
+
+      const originalSet = editor.set.bind(editor);
+      editor.set = (json) => {
+        if (!json['merge_mode']) {
+          json['merge_mode'] = 'merge';
+        }
+
+        return originalSet(json);
+      };
+
+      return editor;
+    }
+</script>
 <div id="new-sequence">
   <h3>New Workflow</h3>
   <hr />
@@ -15,11 +47,23 @@
   </div>
   <div>
     <label>Type</label>
-    <input v-model="network.selected.step.type" />
+    <select v-model="network.selected.step.type">
+      <option value="">Please select</option>
+      <option>EventHandler</option>
+      <option>WebRequest</option>
+      <option>JsonParser</option>
+      <option>Trigger</option>
+      <option>EventFormatter</option>
+      <option>Post</option>
+    </select>
   </div>
   <div>
     <label>Step Guid</label>
     <input v-model="network.selected.step.guid" />
+  </div>
+  <div>
+    <label>Step Config</label>
+    <div id="jsoneditor" style="width: 400px; height: 400px;"></div>
   </div>
   <button @click="refreshStep(network.selected)" type="button">step: save</button>
   <hr />
