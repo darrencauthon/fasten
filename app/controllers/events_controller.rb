@@ -169,10 +169,10 @@ class EventsController < ApplicationController
 
     data = {}
     values
-      .reject { |k, _| [:definition, :action, :controller].include? k.to_sym }
+      .reject { |k, _| [:definition, :action, :controller, :message].include? k.to_sym }
       .each   { |k, v| data[k] = v }
 
-    originating_event = Event.create(message: 'Demo Spark', data: data)
+    originating_event = Event.create(message: values[:message], data: data)
 
     definition = values[:definition]
 
