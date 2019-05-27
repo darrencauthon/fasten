@@ -162,13 +162,18 @@ class EventsController < ApplicationController
 
     Event.delete_all
 
+    values = HashWithIndifferentAccess.new
+    params.each { |k, v| values[k] = v }
+
+    values[:definition] = JSON.parse values[:definition]
+
     originating_event = Event.create(message: 'Demo Spark', data: {
-      url: params[:url],
-      api_url: params[:api_url],
-      api_key: params[:api_key]
+      url: values[:url],
+      api_url: values[:api_url],
+      api_key: values[:api_key]
     })
 
-    definition = {}
+    definition = values[:definition]
 
     workflow = Workflow.build definition
 
