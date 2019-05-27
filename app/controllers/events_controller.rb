@@ -158,4 +158,24 @@ class EventsController < ApplicationController
 
   end
 
+  def import_definition
+
+    Event.delete_all
+
+    originating_event = Event.create(message: 'Demo Spark', data: {
+      url: params[:url],
+      api_url: params[:api_url],
+      api_key: params[:api_key]
+    })
+
+    definition = {}
+
+    workflow = Workflow.build definition
+
+    result = workflow.start originating_event
+
+    render plain: result.to_json, status: (result.context[:status] || 200)
+
+  end
+
 end
