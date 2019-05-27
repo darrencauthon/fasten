@@ -19,6 +19,7 @@ class EventsController < ApplicationController
     result = workflow.start(originating_event)
 
     render plain: result.to_json
+
   end
 
   def create_web
@@ -38,6 +39,7 @@ class EventsController < ApplicationController
     result = workflow.start(originating_event)
 
     render plain: result.to_json
+
   end
 
   def create_with_tree
@@ -79,6 +81,7 @@ class EventsController < ApplicationController
     result = workflow.start(originating_event)
 
     render plain: result.to_json
+
   end
 
   def demo
@@ -152,6 +155,7 @@ class EventsController < ApplicationController
     result = workflow.start(originating_event)
 
     render plain: result.to_json, status: (result.context[:status] || 200)
+
   end
 
 end
