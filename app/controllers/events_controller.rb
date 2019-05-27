@@ -167,11 +167,12 @@ class EventsController < ApplicationController
 
     values[:definition] = JSON.parse values[:definition]
 
-    originating_event = Event.create(message: 'Demo Spark', data: {
-      url: values[:url],
-      api_url: values[:api_url],
-      api_key: values[:api_key]
-    })
+    data = {}
+    values
+      .reject { |k, _| [:definition, :action, :controller].include? k.to_sym }
+      .each   { |k, v| data[k] = v }
+
+    originating_event = Event.create(message: 'Demo Spark', data: data)
 
     definition = values[:definition]
 
