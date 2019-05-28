@@ -158,4 +158,30 @@ class EventsController < ApplicationController
 
   end
 
+  def import_definition
+
+    Event.delete_all
+
+    values = HashWithIndifferentAccess.new
+    params.each { |k, v| values[k] = v }
+
+    values[:definition] = JSON.parse values[:definition]
+
+    data = {}
+    values
+      .reject { |k, _| [:definition, :action, :controller, :message].include? k.to_sym }
+      .each   { |k, v| data[k] = v }
+
+    originating_event = Event.create(message: values[:message], data: data)
+
+    definition = values[:definition]
+
+    workflow = Workflow.build definition
+
+    result = workflow.start originating_event
+
+    render plain: result.to_json, status: (result.context[:status] || 200)
+
+  end
+
 end

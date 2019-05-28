@@ -14,5 +14,7 @@ Rails.application.routes.draw do
   post 'events/create_with_tree'
   get 'events/create_with_tree'
 
+  post 'events/import_definition'
+
   mount Sidekiq::Web => '/sidekiq'
 end
