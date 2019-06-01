@@ -4,12 +4,16 @@ var Elephant = function()
   this.createBlankNetworkDiagram = function(elementId) {
     const nodes = new vis.DataSet([]);
     const edges = new vis.DataSet([]);
+
     var container = document.getElementById(elementId);
+
     var data = {
       nodes: nodes,
       edges: edges
     };
+
     var options = {};
+
     var network = new vis.Network(container, data, options);
 
     return { network, nodes, edges }
