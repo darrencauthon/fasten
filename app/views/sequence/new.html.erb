@@ -94,8 +94,9 @@
 
 <div id='mynetwork' style="height:300px; width: 800px; border: 1px solid black;"></div>
 <script type="text/javascript">
-  const diagram = createBlankNetworkDiagram('mynetwork');
-  const app = buildEventCreationApp('#new-sequence', diagram);
+  var elephant = Elephant();
+  const diagram = elephant.createBlankNetworkDiagram('mynetwork');
+  const app = elephant.buildEventCreationApp('#new-sequence', diagram);
   setupDefaultInputs(diagram);
   function setupDefaultInputs() {
     const pearStep =   { name: 'Pear',   type: 'EventHandler', guid: 'pear' }
@@ -103,6 +104,6 @@
     const orangeStep = { name: 'Orange', type: 'EventHandler', guid: 'orange', next_steps: [bananaStep] };
     const appleStep =  { name: 'Apple',  type: 'EventHandler', guid: 'apple',  next_steps: [orangeStep] };
     var steps = { first_step: appleStep };
-    addStepAsNode(diagram, steps.first_step);
+    elephant.addStepAsNode(diagram, steps.first_step);
   }
 </script>
