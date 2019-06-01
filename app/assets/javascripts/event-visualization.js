@@ -53,7 +53,7 @@ var Elephant = function()
     };
   }();
 
-  this.buildStepNodeObject = function(step, properties) {
+  this.buildStepNodeObject = function(step, properties, diagram) {
     const { name, type, guid, next_steps } = step;
     return Object.assign({
       id: diagram.nodes.length,
@@ -74,7 +74,7 @@ var Elephant = function()
 
   this.addStepAsNode = function(diagram, step, parentNode) {
     const { name, type, guid, next_steps } = step;
-    const newNode = buildStepNodeObject(step, { id: diagram.nodes.length });
+    const newNode = buildStepNodeObject(step, { id: diagram.nodes.length }, diagram);
 
     if (parentNode) {
       const newEdge = buildLine(parentNode, newNode);

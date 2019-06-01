@@ -94,11 +94,13 @@
 
 <div id='mynetwork' style="height:300px; width: 800px; border: 1px solid black;"></div>
 <script type="text/javascript">
+
   var elephant = Elephant();
-  const diagram = elephant.createBlankNetworkDiagram('mynetwork');
-  const app = elephant.buildEventCreationApp('#new-sequence', diagram);
-  setupDefaultInputs(diagram);
-  function setupDefaultInputs() {
+
+  const theDiagram = elephant.createBlankNetworkDiagram('mynetwork');
+  const app = elephant.buildEventCreationApp('#new-sequence', theDiagram);
+
+  function setupDefaultInputs(diagram) {
     const pearStep =   { name: 'Pear',   type: 'EventHandler', guid: 'pear' }
     const bananaStep = { name: 'Banana', type: 'EventHandler', guid: 'banana', next_steps: [pearStep] };
     const orangeStep = { name: 'Orange', type: 'EventHandler', guid: 'orange', next_steps: [bananaStep] };
@@ -106,4 +108,7 @@
     var steps = { first_step: appleStep };
     elephant.addStepAsNode(diagram, steps.first_step);
   }
+
+  setupDefaultInputs(theDiagram);
+
 </script>
