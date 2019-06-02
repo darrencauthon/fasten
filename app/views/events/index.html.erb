@@ -11,7 +11,7 @@
 
   const diagram = Elephant.createBlankNetworkDiagram('mynetwork');
 
-  retrieveAllEvents().then(events => diagram.addEvents(events));
+  Events().findAll().then(events => diagram.addEvents(events));
 
   listenForPusherEvents(({ id, message, prior_event_id }) => {
     diagram.nodes.add({ id: id, label: message });
