@@ -1,4 +1,4 @@
-var Elephant = function()
+var EventDiagram = function()
 {
 
   var addBehaviorToTheDiagram = function(diagram)
@@ -78,14 +78,14 @@ var Elephant = function()
 
 }();
 
-var Giraffe = function()
+var AggregateEventDiagram = function()
 {
 
   var thing = {};
 
   thing.createDiagram = function(elementId) {
 
-    var diagram = Elephant.createDiagram(elementId);
+    var diagram = EventDiagram.createDiagram(elementId);
 
     diagram.addEvent = function (event) {
       const map = new Map();

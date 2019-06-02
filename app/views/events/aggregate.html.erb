@@ -10,7 +10,7 @@
 
 <script type="text/javascript">
 
-  const diagram = Giraffe.createDiagram('mynetwork');
+  const diagram = AggregateEventDiagram.createDiagram('mynetwork');
 
   Events.findAll().then(events => diagram.addEvents(events));
 
