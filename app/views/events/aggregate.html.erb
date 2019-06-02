@@ -8,7 +8,13 @@
 
 <div id='mynetwork' style="height:300px; width: 800px; border: 1px solid black;"></div>
 <script type="text/javascript">
-  const diagram = createBlankNetworkDiagram('mynetwork');
-  retrieveAllEvents().then(events => events.forEach(event => addEventInstanceAsAggregateNodes(diagram, event)));
+
+  var elephant = Elephant();
+
+  const diagram = elephant.createBlankNetworkDiagram('mynetwork');
+
+  Events().findAll().then(events => events.forEach(event => addEventInstanceAsAggregateNodes(diagram, event)));
+
   listenForPusherEvents(event => addEventInstanceAsAggregateNodes(diagram, event));
+
 </script>
