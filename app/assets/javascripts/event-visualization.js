@@ -1,12 +1,12 @@
 var Elephant = function()
 {
 
-  var addBehaviorToTheDiagram = function(thing)
+  var addBehaviorToTheDiagram = function(diagram)
   {
-    thing.addEventInstanceAsAggregateNodes = function() {
+    diagram.addEventInstanceAsAggregateNodes = function() {
       const stepGuidMap = new Map();
 
-      return function(diagram, event) {
+      return function(event) {
         if (stepGuidMap.get(event.step_guid)) {
           const node = stepGuidMap.get(event.step_guid);
           node.count++;
@@ -25,7 +25,7 @@ var Elephant = function()
       };
     }();
 
-    thing.addEventInstanceAsIndividualNode = function (diagram, event) {
+    diagram.addEventInstanceAsIndividualNode = function (event) {
       diagram.edges.add({ from: event.id, to: event.prior_event_id });
 
       diagram.nodes.add({
@@ -35,7 +35,7 @@ var Elephant = function()
       });
     };
 
-    return thing;
+    return diagram;
   };
 
 
@@ -59,7 +59,7 @@ var Elephant = function()
 
   this.showEventBubbles = function(diagram, events) {
     events.forEach(thisEvent => {
-      diagram.addEventInstanceAsIndividualNode(diagram, thisEvent);
+      diagram.addEventInstanceAsIndividualNode(thisEvent);
     });
   };
 
