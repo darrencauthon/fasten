@@ -11,7 +11,7 @@
 
   const diagram = Giraffe.createBlankNetworkDiagram('mynetwork');
 
-  Events().findAll().then(events => events.forEach(event => diagram.addEvent(event)));
+  Events().findAll().then(events => diagram.addEvents(events));
 
   listenForPusherEvents(event => diagram.addEvent(event));
 
