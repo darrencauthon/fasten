@@ -68,7 +68,7 @@ var Elephant = function()
       return newNode;
     };
 
-    diagram.showEventBubbles = function(events) {
+    diagram.addEvents = function(events) {
       events.forEach(thisEvent => {
         diagram.addEvent(thisEvent);
       });
