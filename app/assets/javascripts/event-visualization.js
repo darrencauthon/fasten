@@ -25,6 +25,17 @@ var Elephant = function()
       };
     }();
 
+    var buildStepNodeObject = function(step, properties) {
+      const { name, type, guid, next_steps } = step;
+      return Object.assign({
+        id: diagram.nodes.length,
+        label: `${name}:${type}:${guid}`,
+        widthConstraint: 60,
+        shape: 'box',
+        step: step
+      }, properties);
+    };
+
     diagram.addEventInstanceAsIndividualNode = function (event) {
       diagram.edges.add({ from: event.id, to: event.prior_event_id });
 
@@ -37,7 +48,7 @@ var Elephant = function()
 
     diagram.addStepAsNode = function(step, parentNode) {
       const { name, type, guid, next_steps } = step;
-      const newNode = buildStepNodeObject(step, { id: diagram.nodes.length }, diagram);
+      const newNode = buildStepNodeObject(step, { id: diagram.nodes.length });
 
       if (parentNode) {
         const newEdge = { from: parentNode.id, to: newNode.id, arrows: { to: true } };
@@ -83,17 +94,6 @@ var Elephant = function()
     events.forEach(thisEvent => {
       diagram.addEventInstanceAsIndividualNode(thisEvent);
     });
-  };
-
-  this.buildStepNodeObject = function(step, properties, diagram) {
-    const { name, type, guid, next_steps } = step;
-    return Object.assign({
-      id: diagram.nodes.length,
-      label: `${name}:${type}:${guid}`,
-      widthConstraint: 60,
-      shape: 'box',
-      step: step
-    }, properties);
   };
 
   return this;
