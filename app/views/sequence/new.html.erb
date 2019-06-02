@@ -100,7 +100,7 @@
   const orangeStep = { name: 'Orange', type: 'EventHandler', guid: 'orange', next_steps: [bananaStep] };
   const firstStep  = { name: 'Apple',  type: 'EventHandler', guid: 'apple',  next_steps: [orangeStep] };
 
-  const diagram = Elephant.createDiagram('mynetwork');
+  const diagram = EventDiagram.createDiagram('mynetwork');
 
   diagram.addStepAsNode(firstStep);
 
