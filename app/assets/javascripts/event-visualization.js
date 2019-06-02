@@ -36,7 +36,7 @@ var Elephant = function()
       }, properties);
     };
 
-    diagram.addEventInstanceAsIndividualNode = function (event) {
+    diagram.addEvent = function (event) {
       diagram.edges.add({ from: event.id, to: event.prior_event_id });
 
       diagram.nodes.add({
@@ -70,7 +70,7 @@ var Elephant = function()
 
     diagram.showEventBubbles = function(events) {
       events.forEach(thisEvent => {
-        diagram.addEventInstanceAsIndividualNode(thisEvent);
+        diagram.addEvent(thisEvent);
       });
     };
 
