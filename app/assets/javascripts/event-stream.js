@@ -48,10 +48,10 @@ function fireWorkflow(workflow, message) {
   });
 }
 
-var Events = function(){
+var Events = function() {
   this.findAll = function(){
     return fetch('/events/all').then(response => response.json())
   };
 
   return this;
-};
+}();

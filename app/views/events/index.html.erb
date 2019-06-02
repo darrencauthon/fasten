@@ -12,7 +12,7 @@
 
   const diagram = Elephant.createDiagram('mynetwork');
 
-  Events().findAll().then(events => diagram.addEvents(events));
+  Events.findAll().then(events => diagram.addEvents(events));
 
   listenForPusherEvents(event => diagram.addEvent(event));
 
