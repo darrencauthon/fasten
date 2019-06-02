@@ -3,28 +3,6 @@ var Elephant = function()
 
   var addBehaviorToTheDiagram = function(diagram)
   {
-    diagram.addEventInstanceAsAggregateNodes = function() {
-      const map = new Map();
-
-      return function(event) {
-        if (map.get(event.step_guid)) {
-          const node = map.get(event.step_guid);
-          node.count++;
-          node.label = `Step: #${event.step_guid} ${node.count}`
-          diagram.nodes.update(node);
-          return;
-        }
-
-        const node = {
-          id: event.step_guid,
-          label: `Step: #${event.step_guid} 0`,
-          count: 0
-        };
-        map.set(event.step_guid, node);
-        diagram.nodes.add(node);
-      };
-    }();
-
     var buildStepNodeObject = function(step, properties) {
       const { name, type, guid, next_steps } = step;
       return Object.assign({
@@ -76,7 +54,9 @@ var Elephant = function()
   };
 
 
-  this.createBlankNetworkDiagram = function(elementId) {
+  var thing = {};
+
+  thing.createBlankNetworkDiagram = function(elementId) {
     const nodes = new vis.DataSet([]);
     const edges = new vis.DataSet([]);
 
@@ -94,6 +74,45 @@ var Elephant = function()
     return addBehaviorToTheDiagram({ network, nodes, edges });
   };
 
-  return this;
+  return thing;
+
+}();
+
+var Giraffe = function()
+{
+
+  var thing = {};
+
+  thing.createBlankNetworkDiagram = function(elementId) {
+
+    var diagram = Elephant.createBlankNetworkDiagram(elementId);
+
+    diagram.addEvent = function (event) {
+      const map = new Map();
+
+      return function(event) {
+        if (map.get(event.step_guid)) {
+          const node = map.get(event.step_guid);
+          node.count++;
+          node.label = `Step: #${event.step_guid} ${node.count}`
+          diagram.nodes.update(node);
+          return;
+        }
+
+        const node = {
+          id: event.step_guid,
+          label: `Step: #${event.step_guid} 0`,
+          count: 0
+        };
+        map.set(event.step_guid, node);
+        diagram.nodes.add(node);
+      };
+
+    }();
+
+    return diagram;
+  };
+
+  return thing;
 
 }();
