@@ -13,8 +13,8 @@
 
   const diagram = elephant.createBlankNetworkDiagram('mynetwork');
 
-  Events().findAll().then(events => events.forEach(event => addEventInstanceAsAggregateNodes(diagram, event)));
+  Events().findAll().then(events => events.forEach(event => diagram.addEventInstanceAsAggregateNodes(diagram, event)));
 
-  listenForPusherEvents(event => addEventInstanceAsAggregateNodes(diagram, event));
+  listenForPusherEvents(event => diagram.addEventInstanceAsAggregateNodes(diagram, event));
 
 </script>

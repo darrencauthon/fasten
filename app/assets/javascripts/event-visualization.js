@@ -1,6 +1,35 @@
 var Elephant = function()
 {
 
+  var addBehaviorToTheDiagram = function(thing)
+  {
+    thing.addEventInstanceAsAggregateNodes = function() {
+      const stepGuidMap = new Map();
+
+      return function(diagram, event) {
+        if (stepGuidMap.get(event.step_guid)) {
+          const node = stepGuidMap.get(event.step_guid);
+          node.count++;
+          node.label = `Step: #${event.step_guid} ${node.count}`
+          diagram.nodes.update(node);
+          return;
+        }
+
+        const node = {
+          id: event.step_guid,
+          label: `Step: #${event.step_guid} 0`,
+          count: 0
+        };
+        stepGuidMap.set(event.step_guid, node);
+        diagram.nodes.add(node);
+      };
+    }();
+
+    return thing;
+  };
+
+
+
   this.createBlankNetworkDiagram = function(elementId) {
     const nodes = new vis.DataSet([]);
     const edges = new vis.DataSet([]);
@@ -16,7 +45,7 @@ var Elephant = function()
 
     var network = new vis.Network(container, data, options);
 
-    return { network, nodes, edges }
+    return addBehaviorToTheDiagram({ network, nodes, edges });
   };
 
   this.showEventBubbles = function(diagram, events) {
@@ -34,28 +63,6 @@ var Elephant = function()
       priorEventId: event.prior_event_id
     });
   };
-
-  this.addEventInstanceAsAggregateNodes = function() {
-    const stepGuidMap = new Map();
-
-    return function(diagram, event) {
-      if (stepGuidMap.get(event.step_guid)) {
-        const node = stepGuidMap.get(event.step_guid);
-        node.count++;
-        node.label = `Step: #${event.step_guid} ${node.count}`
-        diagram.nodes.update(node);
-        return;
-      }
-
-      const node = {
-        id: event.step_guid,
-        label: `Step: #${event.step_guid} 0`,
-        count: 0
-      };
-      stepGuidMap.set(event.step_guid, node);
-      diagram.nodes.add(node);
-    };
-  }();
 
   this.buildStepNodeObject = function(step, properties, diagram) {
     const { name, type, guid, next_steps } = step;
