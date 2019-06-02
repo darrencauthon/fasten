@@ -25,9 +25,18 @@ var Elephant = function()
       };
     }();
 
+    thing.addEventInstanceAsIndividualNode = function (diagram, event) {
+      diagram.edges.add({ from: event.id, to: event.prior_event_id });
+
+      diagram.nodes.add({
+        id: event.id,
+        label: event.message,
+        priorEventId: event.prior_event_id
+      });
+    };
+
     return thing;
   };
-
 
 
   this.createBlankNetworkDiagram = function(elementId) {
@@ -50,17 +59,7 @@ var Elephant = function()
 
   this.showEventBubbles = function(diagram, events) {
     events.forEach(thisEvent => {
-      addEventInstanceAsIndividualNode(diagram, thisEvent);
-    });
-  };
-
-  this.addEventInstanceAsIndividualNode = function (diagram, event) {
-    diagram.edges.add({ from: event.id, to: event.prior_event_id });
-
-    diagram.nodes.add({
-      id: event.id,
-      label: event.message,
-      priorEventId: event.prior_event_id
+      diagram.addEventInstanceAsIndividualNode(diagram, thisEvent);
     });
   };
 
