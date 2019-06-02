@@ -69,9 +69,7 @@ var Elephant = function()
     };
 
     diagram.addEvents = function(events) {
-      events.forEach(thisEvent => {
-        diagram.addEvent(thisEvent);
-      });
+      events.forEach(x => { diagram.addEvent(x); });
     };
 
     return diagram;
