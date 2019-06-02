@@ -37,7 +37,7 @@ function buildWorkflowFromNodes(diagram) {
 }
 
 function retrieveAllEvents() {
-  return fetch('/events/all').then(response => response.json())
+  return Events().findAll();
 }
 
 function fireWorkflow(workflow, message) {
@@ -47,3 +47,11 @@ function fireWorkflow(workflow, message) {
       body: JSON.stringify(workflow)
   });
 }
+
+var Events = function(){
+  this.findAll = function(){
+    return fetch('/events/all').then(response => response.json())
+  };
+
+  return this;
+};
