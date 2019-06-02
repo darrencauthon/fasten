@@ -4,11 +4,11 @@ var Elephant = function()
   var addBehaviorToTheDiagram = function(diagram)
   {
     diagram.addEventInstanceAsAggregateNodes = function() {
-      const stepGuidMap = new Map();
+      const map = new Map();
 
       return function(event) {
-        if (stepGuidMap.get(event.step_guid)) {
-          const node = stepGuidMap.get(event.step_guid);
+        if (map.get(event.step_guid)) {
+          const node = map.get(event.step_guid);
           node.count++;
           node.label = `Step: #${event.step_guid} ${node.count}`
           diagram.nodes.update(node);
@@ -20,7 +20,7 @@ var Elephant = function()
           label: `Step: #${event.step_guid} 0`,
           count: 0
         };
-        stepGuidMap.set(event.step_guid, node);
+        map.set(event.step_guid, node);
         diagram.nodes.add(node);
       };
     }();
