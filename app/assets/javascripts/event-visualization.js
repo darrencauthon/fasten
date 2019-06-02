@@ -35,6 +35,28 @@ var Elephant = function()
       });
     };
 
+    diagram.addStepAsNode = function(step, parentNode) {
+      const { name, type, guid, next_steps } = step;
+      const newNode = buildStepNodeObject(step, { id: diagram.nodes.length }, diagram);
+
+      if (parentNode) {
+        const newEdge = { from: parentNode.id, to: newNode.id, arrows: { to: true } };
+        diagram.edges.add(newEdge);
+        newNode.parentNode = parentNode;
+      }
+
+      diagram.nodes.add(newNode);
+
+      if (step.next_steps) {
+        const nextSteps = step.next_steps.forEach(step => diagram.addStepAsNode(step, newNode));
+        return [newNode].concat(nextSteps);
+      } else {
+        return [newNode];
+      }
+
+      return newNode;
+    };
+
     return diagram;
   };
 
@@ -72,28 +94,6 @@ var Elephant = function()
       shape: 'box',
       step: step
     }, properties);
-  };
-
-  this.addStepAsNode = function(diagram, step, parentNode) {
-    const { name, type, guid, next_steps } = step;
-    const newNode = buildStepNodeObject(step, { id: diagram.nodes.length }, diagram);
-
-    if (parentNode) {
-      const newEdge = { from: parentNode.id, to: newNode.id, arrows: { to: true } };
-      diagram.edges.add(newEdge);
-      newNode.parentNode = parentNode;
-    }
-
-    diagram.nodes.add(newNode);
-
-    if (step.next_steps) {
-      const nextSteps = step.next_steps.forEach(step => addStepAsNode(diagram, step, newNode));
-      return [newNode].concat(nextSteps);
-    } else {
-      return [newNode];
-    }
-
-    return newNode;
   };
 
   return this;
