@@ -101,12 +101,14 @@
   const app = elephant.buildEventCreationApp('#new-sequence', theDiagram);
 
   function setupDefaultInputs(diagram) {
+
     const pearStep   = { name: 'Pear',   type: 'EventHandler', guid: 'pear' }
     const bananaStep = { name: 'Banana', type: 'EventHandler', guid: 'banana', next_steps: [pearStep] };
     const orangeStep = { name: 'Orange', type: 'EventHandler', guid: 'orange', next_steps: [bananaStep] };
     const firstStep  = { name: 'Apple',  type: 'EventHandler', guid: 'apple',  next_steps: [orangeStep] };
-    var steps = { first_step: firstStep };
-    elephant.addStepAsNode(diagram, steps.first_step);
+
+    elephant.addStepAsNode(diagram, firstStep);
+
   }
 
   setupDefaultInputs(theDiagram);
