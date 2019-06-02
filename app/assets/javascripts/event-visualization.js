@@ -74,20 +74,12 @@ var Elephant = function()
     }, properties);
   };
 
-  this.buildLine = function(fromNode, toNode) {
-    return {
-      from: fromNode.id,
-      to: toNode.id,
-      arrows: { to: true }
-    }
-  };
-
   this.addStepAsNode = function(diagram, step, parentNode) {
     const { name, type, guid, next_steps } = step;
     const newNode = buildStepNodeObject(step, { id: diagram.nodes.length }, diagram);
 
     if (parentNode) {
-      const newEdge = buildLine(parentNode, newNode);
+      const newEdge = { from: parentNode.id, to: newNode.id, arrows: { to: true } };
       diagram.edges.add(newEdge);
       newNode.parentNode = parentNode;
     }
