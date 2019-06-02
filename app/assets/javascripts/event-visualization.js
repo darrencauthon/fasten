@@ -68,6 +68,12 @@ var Elephant = function()
       return newNode;
     };
 
+    diagram.showEventBubbles = function(events) {
+      events.forEach(thisEvent => {
+        diagram.addEventInstanceAsIndividualNode(thisEvent);
+      });
+    };
+
     return diagram;
   };
 
@@ -88,12 +94,6 @@ var Elephant = function()
     var network = new vis.Network(container, data, options);
 
     return addBehaviorToTheDiagram({ network, nodes, edges });
-  };
-
-  this.showEventBubbles = function(diagram, events) {
-    events.forEach(thisEvent => {
-      diagram.addEventInstanceAsIndividualNode(thisEvent);
-    });
   };
 
   return this;
