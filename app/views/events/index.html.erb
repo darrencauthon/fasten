@@ -8,12 +8,18 @@
 
 <div id='mynetwork' style="height:800px"></div>
 <script type="text/javascript">
-  const diagram = createBlankNetworkDiagram('mynetwork');
+
+  var elephant = Elephant();
+
+  const diagram = elephant.createBlankNetworkDiagram('mynetwork');
+
   retrieveAllEvents().then(events => showEventBubbles(diagram, events));
+
   listenForPusherEvents(({ id, message, prior_event_id }) => {
     diagram.nodes.add({ id: id, label: message });
     diagram.edges.add({ from: id, to: prior_event_id });
   });
+
 </script>
 
 
