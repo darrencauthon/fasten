@@ -56,7 +56,7 @@ var Elephant = function()
 
   var thing = {};
 
-  thing.createBlankNetworkDiagram = function(elementId) {
+  thing.createDiagram = function(elementId) {
     const nodes = new vis.DataSet([]);
     const edges = new vis.DataSet([]);
 
@@ -83,9 +83,9 @@ var Giraffe = function()
 
   var thing = {};
 
-  thing.createBlankNetworkDiagram = function(elementId) {
+  thing.createDiagram = function(elementId) {
 
-    var diagram = Elephant.createBlankNetworkDiagram(elementId);
+    var diagram = Elephant.createDiagram(elementId);
 
     diagram.addEvent = function (event) {
       const map = new Map();
