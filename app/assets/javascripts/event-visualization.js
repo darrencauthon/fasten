@@ -96,4 +96,4 @@ var Elephant = function()
 
   return this;
 
-};
+}();

@@ -9,9 +9,7 @@
 <div id='mynetwork' style="height:800px"></div>
 <script type="text/javascript">
 
-  var elephant = Elephant();
-
-  const diagram = elephant.createBlankNetworkDiagram('mynetwork');
+  const diagram = Elephant.createBlankNetworkDiagram('mynetwork');
 
   retrieveAllEvents().then(events => diagram.addEvents(events));
 

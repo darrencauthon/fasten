@@ -9,9 +9,7 @@
 <div id='mynetwork' style="height:300px; width: 800px; border: 1px solid black;"></div>
 <script type="text/javascript">
 
-  var elephant = Elephant();
-
-  const diagram = elephant.createBlankNetworkDiagram('mynetwork');
+  const diagram = Elephant.createBlankNetworkDiagram('mynetwork');
 
   Events().findAll().then(events => events.forEach(event => diagram.addEventInstanceAsAggregateNodes(event)));
 
