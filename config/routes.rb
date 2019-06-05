@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   post 'events/create'
   get 'events/create'
   get 'events/demo'
+  get 'events/read_a_file'
 
   post 'events/create_web'
   get 'events/create_web'

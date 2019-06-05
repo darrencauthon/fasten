@@ -84,6 +84,17 @@ class EventsController < ApplicationController
 
   end
 
+  def read_a_file
+    content = ''
+    File.open('/test/test.txt').do |f|
+      f.each_line do |line|
+       content = content + line
+      end
+    end
+
+    render plain: content
+  end
+
   def demo
 
     Event.delete_all
