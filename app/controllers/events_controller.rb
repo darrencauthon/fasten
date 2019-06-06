@@ -86,7 +86,7 @@ class EventsController < ApplicationController
 
   def read_a_file
     content = ''
-    File.open('/test/test.txt').do |f|
+    File.open('/test/test.txt') do |f|
       f.each_line do |line|
        content = content + line
       end
