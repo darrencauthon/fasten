@@ -28,6 +28,7 @@ services:
     volumes:
       - .:/app
       - ./poxa.conf:/test/test.txt
+      - ./workflows:/workflows
     env_file:
       - .env
 
