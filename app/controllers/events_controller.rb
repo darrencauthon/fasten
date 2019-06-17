@@ -169,17 +169,6 @@ class EventsController < ApplicationController
 
   end
 
-  def read_a_file
-    content = ''
-    File.open("/workflows/#{params[:file]}") do |f|
-      f.each_line do |line|
-       content = content + line
-      end
-    end
-
-    render plain: content
-  end
-
   def load_workflow_and_run
 
     Event.delete_all
