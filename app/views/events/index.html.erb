@@ -7,13 +7,13 @@
 <h1>Events</h1>
 
 <div id='mynetwork' style="height:800px"></div>
+
 <script type="text/javascript">
-  const diagram = createBlankNetworkDiagram('mynetwork');
-  retrieveAllEvents().then(events => showEventBubbles(diagram, events));
-  listenForPusherEvents(({ id, message, prior_event_id }) => {
-    diagram.nodes.add({ id: id, label: message });
-    diagram.edges.add({ from: id, to: prior_event_id });
-  });
+
+  const diagram = EventDiagram.createDiagram('mynetwork');
+
+  Events.findAll().then(events => diagram.addEvents(events));
+
+  listenForPusherEvents(event => diagram.addEvent(event));
+
 </script>
-
-
