@@ -158,6 +158,10 @@ class EventsController < ApplicationController
 
   end
 
+  def elephant
+    render plain: 'test'
+  end
+
   def load_workflow_and_run
 
     Event.delete_all

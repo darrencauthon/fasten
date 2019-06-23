@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   get 'events/create'
   get 'events/demo'
 
+  get 'events/elephant'
+  post 'events/elephant'
+
   post 'events/create_web'
   get 'events/create_web'
 
