@@ -27,7 +27,6 @@ services:
       - 3001:3000
     volumes:
       - .:/app
-      - ./poxa.conf:/test/test.txt
       - ./workflows:/workflows
     env_file:
       - .env
