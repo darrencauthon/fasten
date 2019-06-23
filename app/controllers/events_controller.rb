@@ -158,6 +158,35 @@ class EventsController < ApplicationController
 
   end
 
+  def load_workflow_and_run
+
+    Event.delete_all
+
+    values = HashWithIndifferentAccess.new
+    params.each { |k, v| values[k] = v }
+
+    content = ''
+    File.open("/workflows/#{params[:workflow_id]}.json") do |f|
+      f.each_line { |l| content = content + l }
+    end
+
+    values[:definition] = JSON.parse content
+
+    data = {}
+    values
+      .reject { |k, _| [:action, :controller, :message, :file].include? k.to_sym }
+      .each   { |k, v| data[k] = v }
+
+    originating_event = Event.create(message: values[:message], data: data)
+
+    workflow = Workflow.build values[:definition]
+
+    result = workflow.start originating_event
+
+    render plain: result.to_json, status: (result.context[:status] || 200)
+
+  end
+
   def import_definition
 
     Event.delete_all

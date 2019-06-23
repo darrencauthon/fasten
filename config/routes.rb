@@ -16,5 +16,7 @@ Rails.application.routes.draw do
 
   post 'events/import_definition'
 
+  post 'events/load_workflow_and_run'
+
   mount Sidekiq::Web => '/sidekiq'
 end
