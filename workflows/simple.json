@@ -1,0 +1,1 @@
+{"first_step":{"name":"Get the data","type":"WebRequest","config": { "merge_mode": "merge", "url": "{{url}}" }}}

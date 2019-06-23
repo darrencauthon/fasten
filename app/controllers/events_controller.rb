@@ -190,16 +190,12 @@ class EventsController < ApplicationController
 
     originating_event = Event.create(message: values[:message], data: data)
 
-    definition = values[:definition]
-
-    workflow = Workflow.build definition
+    workflow = Workflow.build values[:definition]
 
     result = workflow.start originating_event
 
     render plain: result.to_json, status: (result.context[:status] || 200)
 
-
-    render plain: content
   end
 
   def import_definition
