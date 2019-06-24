@@ -38,10 +38,6 @@ function buildWorkflowFromNodes(diagram) {
   return workflow;
 }
 
-function retrieveAllEvents() {
-  return Events().findAll();
-}
-
 function fireWorkflow(workflow, message) {
   const url = `/events/create?message=${message}`;
   return fetch(url, {
