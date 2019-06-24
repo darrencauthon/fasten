@@ -14,18 +14,20 @@ function listenForPusherEvents(callback) {
   channel.bind('event', callback);
 }
 
-function getAllSteps(diagram) {
-  const nodesMap = new Map();
-  diagram.nodes.forEach(n => nodesMap.set(n.id, n));
-  return Array.from(nodesMap.entries()).map(mapEntry => mapEntry[1].step);
-}
-
-function getFirstStep(steps) {
-  const allNextSteps = steps.map(step => step.next_steps).flat();
-  return steps.filter(step => !allNextSteps.includes(step))[0];
-}
 
 function buildWorkflowFromNodes(diagram) {
+
+  var getAllSteps = function(diagram) {
+    const nodesMap = new Map();
+    diagram.nodes.forEach(n => nodesMap.set(n.id, n));
+    return Array.from(nodesMap.entries()).map(mapEntry => mapEntry[1].step);
+  }
+
+  var getFirstStep = function(steps) {
+    const allNextSteps = steps.map(step => step.next_steps).flat();
+    return steps.filter(step => !allNextSteps.includes(step))[0];
+  }
+
   const steps = getAllSteps(diagram);
   const firstStep = getFirstStep(steps);
 
