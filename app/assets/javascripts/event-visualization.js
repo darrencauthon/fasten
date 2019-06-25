@@ -18,6 +18,7 @@ var EventDiagram = function()
       diagram.edges.add({ from: event.id, to: event.prior_event_id });
 
       diagram.nodes.add({
+        data: event,
         id: event.id,
         label: event.message,
         priorEventId: event.prior_event_id
@@ -26,7 +27,9 @@ var EventDiagram = function()
 
     diagram.addStepAsNode = function(step, parentNode) {
       const { name, type, guid, next_steps } = step;
-      const newNode = buildStepNodeObject(step, { id: diagram.nodes.length });
+      var newNode = buildStepNodeObject(step, { id: diagram.nodes.length });
+
+      newNode.data = step;
 
       if (parentNode) {
         const newEdge = { from: parentNode.id, to: newNode.id, arrows: { to: true } };
