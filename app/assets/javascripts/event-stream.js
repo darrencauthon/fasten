@@ -32,6 +32,7 @@ function buildWorkflowFromNodes(diagram) {
   const firstStep = getFirstStep(steps);
 
   const workflow = {
+    steps: steps,
     first_step: firstStep
   }
 
