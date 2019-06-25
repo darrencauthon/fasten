@@ -18,9 +18,9 @@ function listenForPusherEvents(callback) {
 function buildWorkflowFromNodes(diagram) {
 
   var getAllSteps = function(diagram) {
-    const nodesMap = new Map();
-    diagram.nodes.forEach(n => nodesMap.set(n.id, n));
-    return Array.from(nodesMap.entries()).map(mapEntry => mapEntry[1].step);
+    const map = new Map();
+    diagram.nodes.forEach(n => map.set(n.id, n));
+    return Array.from(map.entries()).map(mapEntry => mapEntry[1].step);
   }
 
   var getFirstStep = function(steps) {
