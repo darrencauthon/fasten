@@ -100,10 +100,10 @@
   const orangeStep = { name: 'Orange', type: 'EventHandler', guid: 'orange', next_steps: [bananaStep] };
   const firstStep  = { name: 'Apple',  type: 'EventHandler', guid: 'apple',  next_steps: [orangeStep] };
 
-  const diagram = EventDiagram.createDiagram('mynetwork');
+  var diagram = EventDiagram.createDiagram('mynetwork');
 
   diagram.addStepAsNode(firstStep);
 
-  const app = buildEventCreationApp('#new-sequence', diagram);
+  var app = buildEventCreationApp('#new-sequence', diagram);
 
 </script>
