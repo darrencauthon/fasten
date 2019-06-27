@@ -14,8 +14,17 @@ var EventDiagram = function()
       }, properties);
     };
 
+    diagram.data_items = [];
+
+    diagram.extract = function() {
+      // darren start here
+      diagram.filter(function(x) { x.prior_event_id } 
+    };
+
     diagram.addEvent = function (event) {
       diagram.edges.add({ from: event.id, to: event.prior_event_id });
+
+      diagram.data_items.push(event);
 
       diagram.nodes.add({
         data: event,
@@ -30,6 +39,7 @@ var EventDiagram = function()
       var newNode = buildStepNodeObject(step, { id: diagram.nodes.length });
 
       newNode.data = step;
+      diagram.data_items.push(step);
 
       if (parentNode) {
         const newEdge = { from: parentNode.id, to: newNode.id, arrows: { to: true } };
