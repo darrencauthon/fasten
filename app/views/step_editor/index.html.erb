@@ -2,6 +2,7 @@
   <div class="row">
     <div class="col-6" id="stepeditor">
       {{message}}
+      <div id="jsoneditor" style="width: 400px; height: 400px;"></div>
     </div>
     <div class="col-3">
       B
@@ -14,11 +15,32 @@
 
 <script type="text/javascript">
 
-var app = new Vue({
-  el: '#stepeditor',
-  data: {
-    message: 'Hello Vue!'
-  }
-});
+var func = function() {
+  var app = new Vue({
+    el: '#stepeditor',
+    data: {
+      message: 'Hello Vue!'
+    }
+  });
+
+
+  var container = document.getElementById("jsoneditor");
+  var options = {};
+  var editor = new JSONEditor(container, options);
+  
+  var json = {
+    "Array": [1, 2, 3],
+    "Boolean": true,
+    "Null": null,
+    "Number": 123,
+    "Object": {"a": "b", "c": "d"},
+    "String": "Hello World"
+  };
+  editor.set(json);
+
+};
+
+document.addEventListener("DOMContentLoaded", func);
+
 
 </script>
