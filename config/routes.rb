@@ -18,5 +18,7 @@ Rails.application.routes.draw do
 
   post 'events/load_workflow_and_run'
 
+  get 'step_editor/index'
+
   mount Sidekiq::Web => '/sidekiq'
 end
