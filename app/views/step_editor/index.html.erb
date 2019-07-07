@@ -25,9 +25,9 @@ var func = function() {
     }
   });
 
-  var setUpTheJsonEditor = function (id) {
+  var setUpTheJsonEditor = function (params) {
 
-    var container = document.getElementById(id);
+    var container = document.getElementById(params.id);
     var options = {};
     var editor = new JSONEditor(container, options);
 
@@ -43,9 +43,9 @@ var func = function() {
     editor.set(json);
   };
 
-  setUpTheJsonEditor('jsoneditor');
-  setUpTheJsonEditor('eventData');
-  setUpTheJsonEditor('stepOutput');
+  setUpTheJsonEditor( { id: 'jsoneditor' } );
+  setUpTheJsonEditor( { id: 'eventData' } );
+  setUpTheJsonEditor( { id: 'stepOutput' } );
 
 };
 
