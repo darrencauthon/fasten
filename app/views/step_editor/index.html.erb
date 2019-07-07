@@ -5,7 +5,8 @@
       <div id="jsoneditor" style="height: 400px;"></div>
     </div>
     <div class="col-3">
-      B
+      <div id="eventData" style="height: 200px;"></div>
+      <div id="stepOutput" style="height: 200px;"></div>
     </div>
     <div class="col-3">
       C
@@ -16,6 +17,7 @@
 <script type="text/javascript">
 
 var func = function() {
+
   var app = new Vue({
     el: '#stepeditor',
     data: {
@@ -23,20 +25,27 @@ var func = function() {
     }
   });
 
+  var setUpTheJsonEditor = function (id) {
 
-  var container = document.getElementById("jsoneditor");
-  var options = {};
-  var editor = new JSONEditor(container, options);
-  
-  var json = {
-    "Array": [1, 2, 3],
-    "Boolean": true,
-    "Null": null,
-    "Number": 123,
-    "Object": {"a": "b", "c": "d"},
-    "String": "Hello World"
+    var container = document.getElementById(id);
+    var options = {};
+    var editor = new JSONEditor(container, options);
+
+    var json = {
+      "Array": [1, 2, 3],
+      "Boolean": true,
+      "Null": null,
+      "Number": 123,
+      "Object": {"a": "b", "c": "d"},
+      "String": "Hello World"
+    };
+
+    editor.set(json);
   };
-  editor.set(json);
+
+  setUpTheJsonEditor('jsoneditor');
+  setUpTheJsonEditor('eventData');
+  setUpTheJsonEditor('stepOutput');
 
 };
 
