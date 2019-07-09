@@ -1,6 +1,6 @@
-<div class="container-fluid">
+<div class="container-fluid" id="stepeditor">
   <div class="row">
-    <div class="col-6" id="stepeditor">
+    <div class="col-6">
       {{message}}
       <div id="jsoneditor" style="height: 400px;"></div>
     </div>
@@ -9,7 +9,7 @@
       <div id="stepOutput" style="height: 200px;"></div>
     </div>
     <div class="col-3">
-      C
+      <button v-on:click="fire">Fire</button>
     </div>
   </div>
 </div>
@@ -18,13 +18,6 @@
 
 var func = function() {
 
-  var app = new Vue({
-    el: '#stepeditor',
-    data: {
-      message: 'Hello Vue!'
-    }
-  });
-
   var setUpTheJsonEditor = function (params) {
 
     var container = document.getElementById(params.id);
@@ -32,21 +25,43 @@ var func = function() {
     var editor = new JSONEditor(container, options);
 
     editor.set(params.data);
+
+    return editor;
   };
 
   var step = {
-      "Type": ['a', 'b', 'c'],
-      //"Boolean": true,
-      //"Null": null,
-      //"Number": 123,
-      //"Object": {"a": "b", "c": "d"},
-      //"String": "Hello World"
-    };
+    "type": 'EventFormatter',
+    "config": {
+      "data_merge": "merge",
+      "instructions": {
+        "full_name" : "{{first_name}} {{last_name}}"
+      }
+    }
+  };
 
+  var eventData = {
+    first_name: 'Darren',
+    last_name: 'Cauthon'
+  }
 
   setUpTheJsonEditor( { id: 'jsoneditor', data: step } );
-  setUpTheJsonEditor( { id: 'eventData', data: {} } );
+  setUpTheJsonEditor( { id: 'eventData', data: eventData } );
   setUpTheJsonEditor( { id: 'stepOutput', data: {} } );
+
+  var app = new Vue({
+    el: '#stepeditor',
+    data: {
+      message: 'Hello Vue!',
+      jsonEditor: setUpTheJsonEditor( { id: 'jsoneditor', data: step } ),
+      eventData: setUpTheJsonEditor( { id: 'eventData', data: eventData } ),
+      stepOutput: setUpTheJsonEditor( { id: 'stepOutput', data: {} } )
+    },
+    methods: {
+      fire: function() {
+	console.log(this.jsonEditor.get());
+      }
+    }
+  });
 
 };
 
