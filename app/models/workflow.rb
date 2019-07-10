@@ -143,6 +143,7 @@ class Workflow
   def persist(event, last_event)
     event.prior_event_id = last_event.id if last_event.is_a?(Event)
     event.data = event.data || {}
+    event.run_id = last_event.run_id if last_event.is_a?(Event)
     event.save
 
     publish event
