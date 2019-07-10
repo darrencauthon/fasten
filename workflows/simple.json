@@ -1,1 +1,1 @@
-{"first_step":{"name":"Get the data","type":"ManualInput", "next_steps": [{"name":"Get the data","type":"WebRequest","config": { "message": "URL: {{url}}", "merge_mode": "merge", "url": "{{url}}" }}]}}
+{"first_step":{"message":"HAHA {{url}}","type":"ManualInput", "next_steps": [{"name":"Get the data","type":"WebRequest","config": { "message": "URL: {{url}}", "merge_mode": "merge", "url": "{{url}}" }}]}}
