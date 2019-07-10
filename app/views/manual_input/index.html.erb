@@ -1,3 +1,11 @@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+<link type="text/css" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pusher/4.3.1/pusher.min.js"></script>
+<script type="text/javascript" src="/assets/event-stream.js"></script>
+<script type="text/javascript" src="/assets/event-visualization.js"></script>
+
+
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-6">
@@ -5,6 +13,8 @@
       <button id="fire">Fire</button>
     </div>
     <div class="col-6">
+      <div id='mynetwork' style="height:400px"></div>
+      <button id="reload">Reload</button>
     </div>
   </div>
 </div>
@@ -34,6 +44,13 @@ var func = function() {
   {
     var success = function(x) { console.log(x); };
     jQuery.post('/manual_input/fire', { event_data: eventEditor.get() }, success);
+  });
+  
+  $('#reload').click(function()
+  {
+    const diagram = EventDiagram.createDiagram('mynetwork');
+    Events.findAll().then(events => diagram.addEvents(events));
+    listenForPusherEvents(event => diagram.addEvent(event));
   });
 
 };
