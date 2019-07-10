@@ -40,16 +40,23 @@ var func = function() {
 
   var eventEditor = setUpTheJsonEditor( { id: 'eventData', data: eventData } )
 
+  var runId = undefined;
+
   $('#fire').click(function()
   {
-    var success = function(x) { console.log(x); };
+    var success = function(x) { runId = x.run_id; };
     jQuery.post('/manual_input/fire', { event_data: eventEditor.get() }, success);
   });
   
   $('#reload').click(function()
   {
     const diagram = EventDiagram.createDiagram('mynetwork');
-    Events.findAll().then(events => diagram.addEvents(events));
+
+    if (runId == undefined)
+      Events.findAll().then(events => diagram.addEvents(events));
+    else
+      Events.findByRunId(runId).then(events => diagram.addEvents(events));
+
     listenForPusherEvents(event => diagram.addEvent(event));
   });
 

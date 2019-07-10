@@ -53,5 +53,9 @@ var Events = function() {
     return fetch('/events/all').then(response => response.json())
   };
 
+  this.findByRunId = function(runId){
+    return fetch('/events/all?run_id=' + runId).then(response => response.json())
+  };
+
   return this;
 }();

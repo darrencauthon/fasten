@@ -5,7 +5,8 @@ class EventsController < ApplicationController
   end
 
   def all
-    render :json => Event.all
+    events = params[:run_id] ? Event.where(run_id: params[:run_id]) : Event.all
+    render :json => events
   end
 
   def create
