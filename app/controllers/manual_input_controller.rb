@@ -7,7 +7,7 @@ class ManualInputController < ApplicationController
   end
 
   def fire
-  
+
     params[:workflow_id] = 'simple'
 
     content = ''
@@ -18,9 +18,11 @@ class ManualInputController < ApplicationController
     values = HashWithIndifferentAccess.new
     values[:definition] = JSON.parse content
 
-    originating_event = Event.create(message: 'Darren', data: params[:event_data])
-
     workflow = Workflow.build values[:definition]
+
+    originating_event = Event.new(data: params[:event_data])
+    first_step = workflow.first_step
+    originating_event.message = Workflow.mash_single_value first_step[:message], originating_event
 
     result = workflow.start originating_event
 
