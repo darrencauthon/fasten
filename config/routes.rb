@@ -20,5 +20,7 @@ Rails.application.routes.draw do
 
   get 'step_editor/index'
 
+  get 'manual_input/index'
+
   mount Sidekiq::Web => '/sidekiq'
 end
