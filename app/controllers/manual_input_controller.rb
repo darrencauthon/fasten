@@ -18,7 +18,7 @@ class ManualInputController < ApplicationController
     values = HashWithIndifferentAccess.new
     values[:definition] = JSON.parse content
 
-    originating_event = Event.create(message: 'testing', data: params[:event_data])
+    originating_event = Event.create(message: 'Darren', data: params[:event_data])
 
     workflow = Workflow.build values[:definition]
 
