@@ -7,7 +7,25 @@ class ManualInputController < ApplicationController
   end
 
   def fire
-    render json: { event_data: params[:event_data] }
+  
+    params[:workflow_id] = 'simple'
+
+    content = ''
+    File.open("/workflows/#{params[:workflow_id]}.json") do |f|
+      f.each_line { |l| content = content + l }
+    end
+
+    values = HashWithIndifferentAccess.new
+    values[:definition] = JSON.parse content
+
+    originating_event = Event.create(message: 'testing', data: params[:event_data])
+
+    workflow = Workflow.build values[:definition]
+
+    result = workflow.start originating_event
+
+    render json: { result: result }
+
   end
 
 end
