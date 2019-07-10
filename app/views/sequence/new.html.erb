@@ -58,8 +58,8 @@
     </select>
   </div>
   <div>
-    <label>Step Guid</label>
-    <input v-model="network.selected.step.guid" />
+    <label>Step Id</label>
+    <input v-model="network.selected.step.step_id" />
   </div>
   <div>
     <label>Step Config</label>
@@ -95,10 +95,10 @@
 <div id='mynetwork' style="height:300px; width: 800px; border: 1px solid black;"></div>
 <script type="text/javascript">
 
-  const pearStep   = { name: 'Pear',   type: 'EventHandler', guid: 'pear' }
-  const bananaStep = { name: 'Banana', type: 'EventHandler', guid: 'banana', next_steps: [pearStep] };
-  const orangeStep = { name: 'Orange', type: 'EventHandler', guid: 'orange', next_steps: [bananaStep] };
-  const firstStep  = { name: 'Apple',  type: 'EventHandler', guid: 'apple',  next_steps: [orangeStep] };
+  const pearStep   = { name: 'Pear',   type: 'EventHandler', step_id: 'pear' }
+  const bananaStep = { name: 'Banana', type: 'EventHandler', step_id: 'banana', next_steps: [pearStep] };
+  const orangeStep = { name: 'Orange', type: 'EventHandler', step_id: 'orange', next_steps: [bananaStep] };
+  const firstStep  = { name: 'Apple',  type: 'EventHandler', step_id: 'apple',  next_steps: [orangeStep] };
 
   const diagram = EventDiagram.createDiagram('mynetwork');
 

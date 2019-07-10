@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2019_07_09_000001) do
     t.datetime "updated_at", null: false
     t.integer "prior_event_id"
     t.text "data", limit: 4294967295
-    t.string "step_guid"
+    t.string "step_id"
     t.string "run_id"
   end
 
