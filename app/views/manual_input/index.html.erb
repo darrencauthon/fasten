@@ -1,14 +1,10 @@
-<div class="container-fluid" id="stepeditor">
+<div class="container-fluid">
   <div class="row">
     <div class="col-6">
-      <div id="jsoneditor" style="height: 400px;"></div>
+      <div id="eventData" style="height: 400px;"></div>
+      <button id="fire">Fire</button>
     </div>
-    <div class="col-3">
-      <div id="eventData" style="height: 200px;"></div>
-      <div id="stepOutput" style="height: 200px;"></div>
-    </div>
-    <div class="col-3">
-      <button v-on:click="fire">Fire</button>
+    <div class="col-6">
     </div>
   </div>
 </div>
@@ -28,33 +24,17 @@ var func = function() {
     return editor;
   };
 
-  var step = {
-    "type": 'EventFormatter',
-    "config": {
-      "data_merge": "merge",
-      "instructions": {
-        "full_name" : "{{first_name}} {{last_name}}"
-      }
-    }
-  };
-
   var eventData = {
     first_name: 'Darren',
     last_name: 'Cauthon'
   }
 
-  var app = new Vue({
-    el: '#stepeditor',
-    data: {
-      jsonEditor: setUpTheJsonEditor( { id: 'jsoneditor', data: step } ),
-      eventData: setUpTheJsonEditor( { id: 'eventData', data: eventData } ),
-      stepOutput: setUpTheJsonEditor( { id: 'stepOutput', data: {} } )
-    },
-    methods: {
-      fire: function() {
-	console.log(this.jsonEditor.get());
-      }
-    }
+  var eventEditor = setUpTheJsonEditor( { id: 'eventData', data: eventData } )
+
+  $('#fire').click(function()
+  {
+    var success = function(x) { console.log(x); };
+    jQuery.post('/manual_input/fire', { event_data: eventEditor.get() }, success);
   });
 
 };

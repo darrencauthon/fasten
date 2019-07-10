@@ -6,4 +6,8 @@ class ManualInputController < ApplicationController
     render layout: 'boko'
   end
 
+  def fire
+    render json: { event_data: params[:event_data] }
+  end
+
 end
