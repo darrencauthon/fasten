@@ -6,4 +6,8 @@ class WorkflowEditorController < ApplicationController
     render layout: 'boko'
   end
 
+  def data
+    render json: {}
+  end
+
 end

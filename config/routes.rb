@@ -20,7 +20,9 @@ Rails.application.routes.draw do
 
   get 'step_editor/index'
 
-  get 'workflow_editor/index'
+  get 'workflow_editor_data/:id', to: "workflow_editor#data"
+  get 'workflow_editor/:id', to: "workflow_editor#index"
+  post 'workflow_editor/:id', to: "workflow_editor#save"
 
   get 'manual_input/index'
   get 'manual_input/fire'
