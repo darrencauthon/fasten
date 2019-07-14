@@ -4,10 +4,10 @@ var EventDiagram = function()
   var addBehaviorToTheDiagram = function(diagram)
   {
     var buildStepNodeObject = function(step, properties) {
-      const { name, type, guid, next_steps } = step;
+      const { name, type, step_id, next_steps } = step;
       return Object.assign({
         id: diagram.nodes.length,
-        label: `${name}:${type}:${guid}`,
+        label: `${name}:${type}:${step_id}`,
         widthConstraint: 60,
         shape: 'box',
         step: step
@@ -25,7 +25,7 @@ var EventDiagram = function()
     };
 
     diagram.addStepAsNode = function(step, parentNode) {
-      const { name, type, guid, next_steps } = step;
+      const { name, type, step_id, next_steps } = step;
       const newNode = buildStepNodeObject(step, { id: diagram.nodes.length });
 
       if (parentNode) {
@@ -91,20 +91,20 @@ var AggregateEventDiagram = function()
       const map = new Map();
 
       return function(event) {
-        if (map.get(event.step_guid)) {
-          const node = map.get(event.step_guid);
+        if (map.get(event.step_id)) {
+          const node = map.get(event.step_id);
           node.count++;
-          node.label = `Step: #${event.step_guid} ${node.count}`
+          node.label = `Step: #${event.step_id} ${node.count}`
           diagram.nodes.update(node);
           return;
         }
 
         const node = {
-          id: event.step_guid,
-          label: `Step: #${event.step_guid} 0`,
+          id: event.step_id,
+          label: `Step: #${event.step_id} 0`,
           count: 0
         };
-        map.set(event.step_guid, node);
+        map.set(event.step_id, node);
         diagram.nodes.add(node);
       };
 

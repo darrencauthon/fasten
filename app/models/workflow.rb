@@ -128,7 +128,7 @@ class Workflow
   def execute_step(step, event_data)
     events = step[:method].call event_data
 
-    events.each { |e| e.step_guid = step[:guid] }
+    events.each { |e| e.step_id = step[:step_id] }
 
     events.each { |e| persist e, event_data }
 
@@ -151,7 +151,7 @@ class Workflow
 
   def publish(event)
     channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
-    data = { message: event.message, prior_event_id: event.prior_event_id, id: event.id, step_guid: event.step_guid }
+    data = { message: event.message, prior_event_id: event.prior_event_id, id: event.id, step_id: event.step_id }
     channels_client.trigger('channel', 'event', data);
   end
 
