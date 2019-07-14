@@ -43,6 +43,8 @@ var func = function() {
     $('#save').click(function() {
       var json = workflowEditor.get();
 
+      json = JSON.stringify(json);
+
       var request = { workflow: json };
 
       $.post('/workflow_editor/<%= @id %>', request).then(function(data){

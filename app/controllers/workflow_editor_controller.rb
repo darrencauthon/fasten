@@ -17,7 +17,7 @@ class WorkflowEditorController < ApplicationController
 
   def save
     File.open("/workflows/#{params[:id]}.json", 'w') do |file|
-      file.write params[:workflow].to_json
+      file.write JSON.parse(params[:workflow]).to_json
     end
     render json: { workflow: params[:workflow], id: params[:id] }
   end
