@@ -15,12 +15,12 @@ var EventDiagram = function()
     };
 
     diagram.addEvent = function (event) {
-      diagram.edges.add({ from: event.id, to: event.prior_event_id });
+      diagram.edges.add({ from: event.id, to: event.parent_event_id });
 
       diagram.nodes.add({
         id: event.id,
         label: event.message,
-        priorEventId: event.prior_event_id
+        parentEventId: event.parent_event_id
       });
     };
 
