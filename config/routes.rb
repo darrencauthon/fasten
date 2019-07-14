@@ -20,6 +20,8 @@ Rails.application.routes.draw do
 
   get 'step_editor/index'
 
+  get 'workflow_editor/index'
+
   get 'manual_input/index'
   get 'manual_input/fire'
   post 'manual_input/fire'
