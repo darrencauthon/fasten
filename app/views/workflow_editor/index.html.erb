@@ -6,9 +6,11 @@
     </div>
     <div class="col-3">
       <button v-on:click="fire">Fire</button>
+      
     </div>
   </div>
 </div>
+
 
 <script type="text/javascript">
 
@@ -35,23 +37,21 @@ var func = function() {
     }
   };
 
-  var eventData = {
-    first_name: 'Darren',
-    last_name: 'Cauthon'
-  }
-
-  var app = new Vue({
-    el: '#workfloweditor',
-    data: {
-      message: 'Hello Vue!',
-      jsonEditor: setUpTheJsonEditor( { id: 'jsoneditor', data: step } )
-    },
-    methods: {
-      fire: function() {
-	console.log(this.jsonEditor.get());
+  $.get('/workflow_editor_data/<%= @id %>').then(function(data){
+    var app = new Vue({
+      el: '#workfloweditor',
+      data: {
+        message: 'Hello Vue!',
+        jsonEditor: setUpTheJsonEditor( { id: 'jsoneditor', data: data.workflow } )
+      },
+      methods: {
+        fire: function() {
+	  console.log(this.jsonEditor.get());
+        }
       }
-    }
+    });
   });
+
 
 };
 
