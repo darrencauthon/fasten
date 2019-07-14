@@ -5,8 +5,7 @@
       <div id="jsoneditor" style="height: 400px;"></div>
     </div>
     <div class="col-3">
-      <button v-on:click="fire">Fire</button>
-      
+      <button id="save">Save</button>
     </div>
   </div>
 </div>
@@ -38,18 +37,19 @@ var func = function() {
   };
 
   $.get('/workflow_editor_data/<%= @id %>').then(function(data){
-    var app = new Vue({
-      el: '#workfloweditor',
-      data: {
-        message: 'Hello Vue!',
-        jsonEditor: setUpTheJsonEditor( { id: 'jsoneditor', data: data.workflow } )
-      },
-      methods: {
-        fire: function() {
-	  console.log(this.jsonEditor.get());
-        }
-      }
+    var workflowEditor = setUpTheJsonEditor( { id: 'jsoneditor', data: data.workflow } )
+
+    console.log('k');
+    $('#save').click(function() {
+      var json = workflowEditor.get();
+
+      var request = { workflow: json };
+
+      $.post('/workflow_editor/<%= @id %>', request).then(function(data){
+        console.log(data);
+      });
     });
+
   });
 
 

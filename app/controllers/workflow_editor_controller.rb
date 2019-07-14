@@ -15,4 +15,11 @@ class WorkflowEditorController < ApplicationController
     render json: { workflow: JSON.parse(content) }
   end
 
+  def save
+    File.open("/workflows/#{params[:id]}.json", 'w') do |file|
+      file.write params[:workflow].to_json
+    end
+    render json: { workflow: params[:workflow], id: params[:id] }
+  end
+
 end
