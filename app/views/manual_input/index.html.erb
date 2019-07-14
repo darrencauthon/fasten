@@ -45,7 +45,7 @@ var func = function() {
   $('#fire').click(function()
   {
     var success = function(x) { runId = x.run_id; };
-    jQuery.post('/manual_input/fire', { event_data: eventEditor.get() }, success);
+    jQuery.post('/manual_input/fire/<%= @workflow_id %>/<%= @step_id %>', { event_data: eventEditor.get() }, success);
   });
   
   $('#reload').click(function()

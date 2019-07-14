@@ -3,12 +3,12 @@ class ManualInputController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
+    @workflow_id = params[:workflow_id]
+    @step_id = params[:step_id]
     render layout: 'boko'
   end
 
   def fire
-
-    params[:workflow_id] = 'simple'
 
     content = ''
     File.open("/workflows/#{params[:workflow_id]}.json") do |f|
@@ -21,7 +21,7 @@ class ManualInputController < ApplicationController
     workflow = Workflow.build values[:definition]
 
     originating_event = Event.new(data: params[:event_data])
-    step = workflow.steps[0]
+    step = workflow.steps.select { |x| x[:step_id] == params[:step_id] }.first
     originating_event.message = Workflow.mash_single_value step[:message], originating_event
     originating_event.run_id = SecureRandom.uuid
 
