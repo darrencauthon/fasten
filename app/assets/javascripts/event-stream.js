@@ -20,17 +20,11 @@ function getAllSteps(diagram) {
   return Array.from(nodesMap.entries()).map(mapEntry => mapEntry[1].step);
 }
 
-function getFirstStep(steps) {
-  const allNextSteps = steps.map(step => step.next_steps).flat();
-  return steps.filter(step => !allNextSteps.includes(step))[0];
-}
-
 function buildWorkflowFromNodes(diagram) {
   const steps = getAllSteps(diagram);
-  const firstStep = getFirstStep(steps);
 
   const workflow = {
-    first_step: firstStep
+    steps: steps
   }
 
   return workflow;

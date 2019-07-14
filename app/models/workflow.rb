@@ -1,18 +1,21 @@
 class Workflow
 
-  attr_accessor :first_step
+  attr_accessor :steps
   attr_accessor :context
 
   def initialize
     self.context = SymbolizedHash.new
+    self.steps = []
   end
 
   def self.build(definition)
     workflow = Workflow.new
 
-    workflow.first_step = definition[:first_step]
+    workflow.steps = definition[:steps]
 
-    set_up_the_method workflow.first_step, workflow
+    workflow.steps.each do |step|
+      set_up_the_method step, workflow
+    end
 
     workflow
   end
@@ -62,6 +65,8 @@ class Workflow
 
   def self.set_up_the_method(step, workflow)
 
+  puts 'darren' + step.inspect
+
     step[:method] = lambda do |event|
       event_handler = Workflow.build_event_handler_for step, workflow
 
@@ -104,9 +109,9 @@ class Workflow
 
   def start(event)
 
-    return if first_step.nil?
+    return if steps[0].nil?
 
-    execute_step first_step, event
+    execute_step steps[0], event
 
     result = WorkflowResult.new
     result.context = self.context

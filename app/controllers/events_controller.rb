@@ -30,12 +30,12 @@ class EventsController < ApplicationController
     })
 
     workflow = Workflow.build({
-      first_step: {
+      steps: [{
         name: 'Apple',
         type: 'WebRequest',
         config: { url: '{{url}}' }
       }
-    })
+    ]})
 
     result = workflow.start(originating_event)
 
@@ -50,7 +50,7 @@ class EventsController < ApplicationController
     })
 
     workflow = Workflow.build(
-      first_step: {
+      steps: [{
         name: 'Apple',
         type: 'WebRequest',
         config: { url: '{{url}}' },
@@ -76,7 +76,7 @@ class EventsController < ApplicationController
             ]
           }
         ]
-      }
+      }]
     )
 
     result = workflow.start(originating_event)
@@ -96,7 +96,7 @@ class EventsController < ApplicationController
     })
 
     workflow = Workflow.build(
-      first_step: {
+      steps: [{
         name:   'Get the data',
         type:   'WebRequest',
         config: { merge_mode: 'merge', url: '{{url}}' },
@@ -150,7 +150,7 @@ class EventsController < ApplicationController
                                     ]
                       }
                     ]
-      }
+      }]
     )
 
     result = workflow.start(originating_event)
