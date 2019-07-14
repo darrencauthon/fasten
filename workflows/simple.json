@@ -1,1 +1,1 @@
-{"steps":[{"step_id":"1234","message":"HAHA {{url}}","type":"ManualInput","next_steps":[{"step_id":"5678","name":"Get the data","type":"WebRequest","config":{"message":"URL: {{url}}","merge_mode":"merge","url":"{{url}}"}}]}]}
+{"steps":[{"step_id":"12345","message":"HAHA {{url}}","type":"ManualInput","next_steps":[{"step_id":"5678","name":"Get the data","type":"WebRequest","config":{"message":"URL: {{url}}","merge_mode":"merge","url":"{{url}}"}}]}]}
