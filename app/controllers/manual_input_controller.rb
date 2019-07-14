@@ -3,6 +3,8 @@ class ManualInputController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
+    @workflow_id = params[:workflow_id]
+    @step_id = params[:step_id]
     render layout: 'boko'
   end
 
