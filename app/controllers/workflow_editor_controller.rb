@@ -9,8 +9,12 @@ class WorkflowEditorController < ApplicationController
 
   def data
     content = ''
-    File.open("/workflows/#{params[:id]}.json") do |f|
-      f.each_line { |l| content = content + l }
+    if (File.exists?("/workflows/#{params[:id]}.json"))
+      File.open("/workflows/#{params[:id]}.json") do |f|
+        f.each_line { |l| content = content + l }
+      end
+    else
+      content = '{}'
     end
     render json: { workflow: JSON.parse(content) }
   end
