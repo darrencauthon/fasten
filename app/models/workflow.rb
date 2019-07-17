@@ -20,55 +20,12 @@ class Workflow
     workflow
   end
 
-  def self.mash(config, data)
-
-    fields_not_to_mash = ['message']
-
-    config
-      .select { |_, y| y.is_a? String }
-      .reject { |x, _| fields_not_to_mash.include? x.to_s }
-      .each do |key, value|
-        config[key] = mash_single_value(value, data)
-      end
-
-    config
-      .select { |_, y| y.is_a? Hash }
-      .reject { |x, _| fields_not_to_mash.include? x.to_s }
-      .each do |key, value|
-        config[key] = mash_all(value, data)
-      end
-
-    config
-  end
-
-  def self.mash_all(config, data)
-    config
-      .select { |_, y| y.is_a? String }
-      .each do |key, value|
-        config[key] = mash_single_value(value, data)
-      end
-
-    config
-      .select { |_, y| y.is_a? Hash }
-      .each do |key, value|
-        config[key] = mash_all(value, data)
-      end
-
-    config
-  end
-
-  def self.mash_single_value(value, data)
-    Liquid::Template
-      .parse(value)
-      .render SymbolizedHash.new(data)
-  end
-
   def self.set_up_the_method(step, workflow)
 
     step[:method] = lambda do |event|
       event_handler = Workflow.build_event_handler_for step, workflow
 
-      event_handler.config = mash(event_handler.config, event.data)
+      event_handler.config = Mashing.mash(event_handler.config, event.data)
 
       events = [event_handler.receive(event)]
                  .flatten
@@ -80,7 +37,7 @@ class Workflow
 
       events
         .reject { |x| x.message }
-        .each   { |e| e.message = mash_single_value(event_handler.config[:message], e.data) }
+        .each   { |e| e.message = Mashing.mash_single_value(event_handler.config[:message], e.data) }
 
       events
         .select { |x| x.message.to_s == '' }
