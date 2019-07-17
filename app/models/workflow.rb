@@ -20,7 +20,7 @@ class Workflow
     workflow
   end
 
-  def self.mash(config, event)
+  def self.mash(config, data)
 
     fields_not_to_mash = ['message']
 
@@ -28,30 +28,30 @@ class Workflow
       .select { |_, y| y.is_a? String }
       .reject { |x, _| fields_not_to_mash.include? x.to_s }
       .each do |key, value|
-        config[key] = mash_single_value(value, event.data)
+        config[key] = mash_single_value(value, data)
       end
 
     config
       .select { |_, y| y.is_a? Hash }
       .reject { |x, _| fields_not_to_mash.include? x.to_s }
       .each do |key, value|
-        config[key] = mash_all(value, event)
+        config[key] = mash_all(value, data)
       end
 
     config
   end
 
-  def self.mash_all(config, event)
+  def self.mash_all(config, data)
     config
       .select { |_, y| y.is_a? String }
       .each do |key, value|
-        config[key] = mash_single_value(value, event.data)
+        config[key] = mash_single_value(value, data)
       end
 
     config
       .select { |_, y| y.is_a? Hash }
       .each do |key, value|
-        config[key] = mash_all(value, event)
+        config[key] = mash_all(value, data)
       end
 
     config
@@ -68,7 +68,7 @@ class Workflow
     step[:method] = lambda do |event|
       event_handler = Workflow.build_event_handler_for step, workflow
 
-      event_handler.config = mash(event_handler.config, event)
+      event_handler.config = mash(event_handler.config, event.data)
 
       events = [event_handler.receive(event)]
                  .flatten
