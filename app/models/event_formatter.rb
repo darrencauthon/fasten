@@ -5,7 +5,7 @@ class EventFormatter
   def receive(event)
     data = SymbolizedHash.new
     config[:instructions].each do |key, value|
-      data[key] = Workflow.mash_single_value(value, event)
+      data[key] = Workflow.mash_single_value(value, event.data)
     end
     Event.new data: data
   end
