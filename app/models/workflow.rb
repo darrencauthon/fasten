@@ -62,11 +62,11 @@ class Workflow
     event_handler
   end
 
-  def start(event)
+  def start(event, step)
 
-    return if steps[0].nil?
+    return if step.nil?
 
-    execute_step steps[0], event
+    execute_step step, event
 
     result = WorkflowResult.new
     result.context = self.context
