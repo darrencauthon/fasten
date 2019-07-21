@@ -22,12 +22,10 @@ class ManualInputController < ApplicationController
 
     originating_event = Event.new(data: params[:event_data])
     step = workflow.steps.select { |x| x[:step_id] == params[:step_id] }.first
-    originating_event.message = Mashing.mash_single_value step[:message], originating_event.data
-    originating_event.run_id = SecureRandom.uuid
 
-    result = workflow.start originating_event, step
+    run = Run.start originating_event, step
 
-    render json: { result: result, run_id: originating_event.run_id }
+    render json: { uun_id: run.id }
 
   end
 
