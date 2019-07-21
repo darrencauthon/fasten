@@ -62,18 +62,6 @@ class Workflow
     event_handler
   end
 
-  def start(event, step)
-
-    return if step.nil?
-
-    execute_step step, event
-
-    result = WorkflowResult.new
-    result.context = self.context
-    result
-
-  end
-
   private
 
   def self.copy_event_data_from source_event, target_events
@@ -83,36 +71,6 @@ class Workflow
         .reject { |k| target_event.data.keys.include? k }
         .each   { |k| target_event.data[k] = source_event.data[k] }
     end
-  end
-
-  def execute_step(step, event_data)
-    events = step[:method].call event_data
-
-    events.each { |e| e.step_id = step[:step_id] }
-
-    events.each { |e| persist e, event_data }
-
-    return if step[:next_steps].nil?
-
-    step[:next_steps].each do |next_step|
-      events.each { |e| execute_step next_step, e }
-    end
-
-  end
-
-  def persist(event, last_event)
-    event.parent_event_id = last_event.id if last_event.is_a?(Event)
-    event.data = event.data || {}
-    event.run_id = last_event.run_id if last_event.is_a?(Event)
-    event.save
-
-    publish event
-  end
-
-  def publish(event)
-    channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
-    data = { message: event.message, parent_event_id: event.parent_event_id, id: event.id, step_id: event.step_id }
-    channels_client.trigger('channel', 'event', data);
   end
 
 end
