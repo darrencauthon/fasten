@@ -27,9 +27,7 @@ class Workflow
 
       event_handler.config = Mashing.mash(event_handler.config, event.data)
 
-      events = [event_handler.receive(event)]
-                 .flatten
-                 .select { |x| x.is_a? Event }
+      events = [event_handler.receive(event)].flatten
 
       if (event_handler.config[:merge_mode] == 'merge')
         copy_event_data_from event, events
