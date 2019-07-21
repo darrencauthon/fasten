@@ -38,9 +38,9 @@ class Run
     end
 
     def persist event, last_event
-      event.parent_event_id = last_event.id if last_event.is_a?(Event)
+      event.parent_event_id = last_event.id
       event.data = event.data || {}
-      event.run_id = last_event.run_id if last_event.is_a?(Event)
+      event.run_id = last_event.run_id
       event.save
 
       publish event
