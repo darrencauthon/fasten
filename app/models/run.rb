@@ -18,34 +18,40 @@ class Run
 
   end
 
-  def self.execute_step step, event_data
-    events = step[:method].call event_data
+  class << self
 
-    events.each { |e| e.step_id = step[:step_id] }
+    private
 
-    events.each { |e| persist e, event_data }
+    def execute_step step, event_data
+      events = step[:method].call event_data
 
-    return if step[:next_steps].nil?
+      events.each { |e| e.step_id = step[:step_id] }
 
-    step[:next_steps].each do |next_step|
-      events.each { |e| execute_step next_step, e }
+      events.each { |e| persist e, event_data }
+
+      return if step[:next_steps].nil?
+
+      step[:next_steps].each do |next_step|
+        events.each { |e| execute_step next_step, e }
+      end
+
     end
 
-  end
+    def persist event, last_event
+      event.parent_event_id = last_event.id if last_event.is_a?(Event)
+      event.data = event.data || {}
+      event.run_id = last_event.run_id if last_event.is_a?(Event)
+      event.save
 
-  def self.persist event, last_event
-    event.parent_event_id = last_event.id if last_event.is_a?(Event)
-    event.data = event.data || {}
-    event.run_id = last_event.run_id if last_event.is_a?(Event)
-    event.save
+      publish event
+    end
 
-    publish event
-  end
+    def publish event
+      channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
+      data = { message: event.message, parent_event_id: event.parent_event_id, id: event.id, step_id: event.step_id }
+      channels_client.trigger('channel', 'event', data);
+    end
 
-  def self.publish event
-    channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
-    data = { message: event.message, parent_event_id: event.parent_event_id, id: event.id, step_id: event.step_id }
-    channels_client.trigger('channel', 'event', data);
   end
 
 end
