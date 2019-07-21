@@ -25,7 +25,7 @@ class ManualInputController < ApplicationController
 
     run = Run.start originating_event, step
 
-    render json: { uun_id: run.id }
+    render json: { run_id: run.id }
 
   end
 
