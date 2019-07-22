@@ -2,7 +2,10 @@ class Event < ApplicationRecord
 
   serialize :data, JSON
 
-  after_initialize { |x| x.id ||= SecureRandom.uuid }
+  after_initialize do |x|
+    x.id ||= SecureRandom.uuid
+    x.data ||= HashWithIndifferentAccess.new
+  end
 
   def self.persist event, last_event
     event.parent_event_id = last_event.id
