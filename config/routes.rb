@@ -1,5 +1,8 @@
 require 'sidekiq/web'
 Rails.application.routes.draw do
+
+  get 'starter', to: 'starter#index'
+
   get 'sequence/new'
   get 'events/index'
   get 'events/all'
