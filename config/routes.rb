@@ -2,6 +2,7 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
 
   get 'starter', to: 'starter#index'
+  get 'starter/step', to: 'starter#step'
 
   get 'sequence/new'
   get 'events/index'

@@ -6,4 +6,8 @@ class StarterController < ApplicationController
     render layout: 'adminlte'
   end
 
+  def step
+    render layout: 'adminlte'
+  end
+
 end
