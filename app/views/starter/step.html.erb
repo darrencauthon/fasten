@@ -74,6 +74,10 @@ var func = function() {
   var incomingEventDataEditor = JsonEditor.create( { id: 'incoming_data_editor', data: incoming } );
   var outgoingEventDataEditor = JsonEditor.create( { id: 'outgoing_data_editor', data: {a:'b'}, mode: 'view' } );
 
+  stepEditor.expandAll();
+  incomingEventDataEditor.expandAll();
+  outgoingEventDataEditor.collapseAll();
+
   var blah = $('#runStep').click(function() {
 
     var request = {

@@ -19,6 +19,8 @@ var JsonEditor = function() {
     return {
       id: params.id,
       get: function() { return editor.get(); },
+      expandAll: function() { return editor.expandAll(); },
+      collapseAll: function() { return editor.collapseAll(); },
       editor: editor
     };
   };
