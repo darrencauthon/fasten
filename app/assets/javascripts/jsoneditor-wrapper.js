@@ -6,7 +6,10 @@ var JsonEditor = function() {
 
     var container = document.getElementById(params.id);
 
-    var options = { mode: params.mode };
+    var options = {
+      mode: params.mode,
+      search: false
+    };
 
     var editor = new JSONEditor(container, options);
 
