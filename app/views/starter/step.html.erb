@@ -38,7 +38,7 @@
         <h3 class="box-title">Event Data</h3>
       </div>
       <div class="box-body pad">
-        PUT THE JSON EDITOR HERE
+        <div id="step_editor" style="height:400px"></div>
       </div>
     </div>
 
@@ -60,7 +60,6 @@
         <h3 class="box-title">Event Data</h3>
       </div>
       <div class="box-body pad">
-        PUT THE JSON EDITOR HERE
       </div>
     </div>
 
@@ -92,6 +91,7 @@ var func = function() {
     }
   };
 
+  var incomingEventDataEditor = setUpTheJsonEditor( { id: 'step_editor', data: step } );
   var incomingEventDataEditor = setUpTheJsonEditor( { id: 'incoming_data_editor', data: step } );
 
 };
