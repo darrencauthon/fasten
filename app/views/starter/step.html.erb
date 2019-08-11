@@ -69,7 +69,19 @@ var func = function() {
   var outgoingEventDataEditor = JsonEditor.create( { id: 'outgoing_data_editor', data: {a:'b'}, mode: 'view' } );
 
   var blah = $('#runStep').click(function() {
-    console.log(stepEditor.get());
+
+    var request = {
+      step: JSON.stringify(stepEditor.get()),
+      incoming_event: JSON.stringify(incomingEventDataEditor.get())
+    };
+
+    console.log(request);
+
+    $.post('/starter/run_step', request).then(function(data){
+      console.log(data);
+    });
+
+
   });
 
 };

@@ -23,4 +23,14 @@ class StarterController < ApplicationController
     render layout: 'adminlte'
   end
 
+  def run_step
+
+    step = JSON.parse(params[:step])
+
+    incoming_event = JSON.parse(params[:incoming_event])
+
+    render json: { step: step, incoming_event: incoming_event }
+
+  end
+
 end

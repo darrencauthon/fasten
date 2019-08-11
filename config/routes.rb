@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   get 'starter', to: 'starter#index'
   get 'starter/step', to: 'starter#step'
+  post 'starter/run_step', to: 'starter#run_step'
 
   get 'sequence/new'
   get 'events/index'
