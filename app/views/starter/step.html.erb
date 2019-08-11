@@ -41,6 +41,7 @@
         <h3 class="box-title">Outgoing Events</h3>
       </div>
       <div class="box-body pad">
+        <div id="outgoing_data_editor" style="height:400px"></div>
       </div>
     </div>
 
@@ -64,6 +65,7 @@ var func = function() {
 
   var stepEditor = JsonEditor.create( { id: 'step_editor', data: step } );
   var incomingEventDataEditor = JsonEditor.create( { id: 'incoming_data_editor', data: step } );
+  var outgoingEventDataEditor = JsonEditor.create( { id: 'outgoing_data_editor', data: {a:'b'}, mode: 'view' } );
 
 };
 
