@@ -71,16 +71,6 @@
 
 var func = function() {
 
-  var setUpTheJsonEditor = function(params) {
-    var container = document.getElementById(params.id);
-    var options = {};
-    var editor = new JSONEditor(container, options);
-
-    editor.set(params.data);
-
-    return editor;
-  };
-
   var step = {
     'type': 'EventFormatter',
     'config': {
@@ -91,8 +81,10 @@ var func = function() {
     }
   };
 
-  var stepEditor = setUpTheJsonEditor( { id: 'step_editor', data: step } );
-  var incomingEventDataEditor = setUpTheJsonEditor( { id: 'incoming_data_editor', data: step } );
+  var stepEditor = JsonEditor.create( { id: 'step_editor', data: step } );
+  var incomingEventDataEditor = JsonEditor.create( { id: 'incoming_data_editor', data: step } );
+
+  console.log(stepEditor);
 
 };
 
