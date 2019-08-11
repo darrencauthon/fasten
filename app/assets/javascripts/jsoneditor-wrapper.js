@@ -2,9 +2,11 @@ var JsonEditor = function() {
 
   var create = function(params) {
 
+    params.mode = params.mode || 'tree';
+
     var container = document.getElementById(params.id);
 
-    var options = {};
+    var options = { mode: params.mode };
 
     var editor = new JSONEditor(container, options);
 
