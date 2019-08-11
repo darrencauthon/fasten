@@ -18,6 +18,7 @@ var JsonEditor = function() {
 
     return {
       id: params.id,
+      get: function() { return editor.get(); },
       editor: editor
     };
   };
