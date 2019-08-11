@@ -20,6 +20,7 @@
         <h3 class="box-title">Action</h3>
       </div>
       <div class="box-body pad">
+        <button id="runStep" type="button" class="btn btn-block btn-primary">Run</button>
       </div>
     </div>
 
@@ -66,6 +67,10 @@ var func = function() {
   var stepEditor = JsonEditor.create( { id: 'step_editor', data: step } );
   var incomingEventDataEditor = JsonEditor.create( { id: 'incoming_data_editor', data: step } );
   var outgoingEventDataEditor = JsonEditor.create( { id: 'outgoing_data_editor', data: {a:'b'}, mode: 'view' } );
+
+  var blah = $('#runStep').click(function() {
+    console.log(stepEditor.get());
+  });
 
 };
 
