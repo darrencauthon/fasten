@@ -8,6 +8,7 @@ var JsonEditor = function() {
 
     var options = {
       mode: params.mode,
+      mainMenuBar: false,
       search: false
     };
 
