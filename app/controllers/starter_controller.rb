@@ -29,7 +29,22 @@ class StarterController < ApplicationController
 
     incoming_event = JSON.parse(params[:incoming_event])
 
-    render json: { step: step, incoming_event: incoming_event }
+    values = HashWithIndifferentAccess.new
+    values[:definition] = {
+      steps: [step]
+    }
+
+    originating_event = Event.new(data: incoming_event)
+
+    workflow = Workflow.build values[:definition]
+
+    step_off_of_the_built_workflow = workflow.steps.first
+
+    run = Run.start originating_event, step_off_of_the_built_workflow
+
+    events = Event.where(run_id: run.id)
+
+    render json: { run: run, events: events }
 
   end
 

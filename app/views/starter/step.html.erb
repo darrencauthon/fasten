@@ -57,15 +57,21 @@ var func = function() {
   var step = {
     'type': 'EventFormatter',
     'config': {
-      'data_merge': 'merge',
+      'merge_mode': 'merge',
+      'message': 'Hello {{first_name}}',
       'instructions': {
         'full_name': '{{first_name}} {{last_name}}'
       }
     }
   };
 
+  var incoming = {
+    first_name: 'Darren',
+    last_name: 'Cauthon'
+  };
+
   var stepEditor = JsonEditor.create( { id: 'step_editor', data: step } );
-  var incomingEventDataEditor = JsonEditor.create( { id: 'incoming_data_editor', data: step } );
+  var incomingEventDataEditor = JsonEditor.create( { id: 'incoming_data_editor', data: incoming } );
   var outgoingEventDataEditor = JsonEditor.create( { id: 'outgoing_data_editor', data: {a:'b'}, mode: 'view' } );
 
   var blah = $('#runStep').click(function() {
