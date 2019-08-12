@@ -91,9 +91,13 @@ var func = function() {
     $('#outgoingEvents').children('div[data-remove=me]').remove();
 
     $.post('/starter/run_step', request).then(function(data){
+
       for(var i = 0; i < data.events.length; i++){
-        $('#outgoingEventTemplate').clone().attr('data-remove', 'me').appendTo('#outgoingEvents');
+        var event = $('#outgoingEventTemplate').clone()
+          .attr('data-remove', 'me')
+	event.appendTo('#outgoingEvents');
       }
+
     });
 
 
