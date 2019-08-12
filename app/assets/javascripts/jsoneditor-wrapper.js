@@ -21,6 +21,7 @@ var JsonEditor = function() {
       get: function() { return editor.get(); },
       expandAll: function() { return editor.expandAll(); },
       collapseAll: function() { return editor.collapseAll(); },
+      destroy: function() { return editor.destroy(); },
       editor: editor
     };
   };
