@@ -35,14 +35,17 @@
 
   </div>
 
-  <div class="col-md-4">
+  <div id="outgoingEvents" class="col-md-4">
 
-    <div class="box box-info">
+    <div id="outgoingEventTemplate" class="box box-info" style="display-none">
       <div class="box-header">
-        <h3 class="box-title">Outgoing Events</h3>
+        <h3 class="box-title">Outgoing Event</h3>
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+        </div>
       </div>
       <div class="box-body pad">
-        <div id="outgoing_data_editor" style="height:400px"></div>
       </div>
     </div>
 
@@ -72,11 +75,11 @@ var func = function() {
 
   var stepEditor = JsonEditor.create( { id: 'step_editor', data: step } );
   var incomingEventDataEditor = JsonEditor.create( { id: 'incoming_data_editor', data: incoming } );
-  var outgoingEventDataEditor = JsonEditor.create( { id: 'outgoing_data_editor', data: {a:'b'}, mode: 'view' } );
+  //var outgoingEventDataEditor = JsonEditor.create( { id: 'outgoing_data_editor', data: {a:'b'}, mode: 'view' } );
 
   stepEditor.expandAll();
   incomingEventDataEditor.expandAll();
-  outgoingEventDataEditor.collapseAll();
+  //outgoingEventDataEditor.collapseAll();
 
   var blah = $('#runStep').click(function() {
 
@@ -85,10 +88,12 @@ var func = function() {
       incoming_event: JSON.stringify(incomingEventDataEditor.get())
     };
 
-    console.log(request);
+    $('#outgoingEvents').children('div[data-remove=me]').remove();
 
     $.post('/starter/run_step', request).then(function(data){
-      console.log(data);
+      for(var i = 0; i < data.events.length; i++){
+        $('#outgoingEventTemplate').clone().attr('data-remove', 'me').appendTo('#outgoingEvents');
+      }
     });
 
 
