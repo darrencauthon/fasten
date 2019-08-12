@@ -7,6 +7,7 @@ var JsonEditor = function() {
     var container = document.getElementById(params.id);
 
     var options = {
+      navigationBar: false,
       mode: params.mode,
       mainMenuBar: false,
       search: false
