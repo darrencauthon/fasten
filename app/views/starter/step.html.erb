@@ -115,7 +115,7 @@ var func = function() {
 
         var editorId = eventId + '-editor';
 	$('#' + eventId).find('div[data-future=editor]').attr('id',editorId);
-	outgoingEventEditors.push(JsonEditor.create( { id: editorId, data: event.data } ));
+	outgoingEventEditors.push(JsonEditor.create( { id: editorId, data: event.data, mode: 'view' } ));
       }
 
     });
