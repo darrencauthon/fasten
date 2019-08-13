@@ -33,6 +33,7 @@
           <select id="step_type">
             <option value="EventFormatter">EventFormatter</option>
             <option value="JsonParser">JsonParser</option>
+            <option value="WebRequest">WebRequest</option>
           </select>
 	</div>
         <div id="step_editor"></div>
@@ -72,6 +73,12 @@ var func = function() {
         'full_name': '{{first_name}} {{last_name}}'
       }
     },
+    'WebRequest': {
+      'merge_mode': 'merge',
+      'message': 'Hello {{first_name}}',
+      'url': '{{url}}',
+      'no_body': 'true'
+    },
     'JsonParser': {
       'merge_mode': 'merge',
       'message': 'Hello {{first_name}}',
@@ -84,9 +91,12 @@ var func = function() {
       first_name: 'Darren',
       last_name: 'Cauthon'
     },
+    'WebRequest': {
+      url: 'https://google.com',
+    },
     'JsonParser': {
       json: '{ "first_name": "Darren", "last_name": "Cauthon" }',
-    },
+    }
   };
 
   var stepEditor = undefined;
