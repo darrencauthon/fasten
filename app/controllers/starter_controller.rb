@@ -34,8 +34,6 @@ class StarterController < ApplicationController
       steps: [step]
     }
 
-    #incoming_event = HashWithIndifferentAccess.new(incoming_event)
-
     originating_event = Event.new(data: incoming_event)
 
     workflow = Workflow.build values[:definition]
