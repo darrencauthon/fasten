@@ -75,30 +75,37 @@ var func = function() {
     'JsonParser': {
       'merge_mode': 'merge',
       'message': 'Hello {{first_name}}',
-      'path': ''
+      'path': 'json'
     }
   };
 
+  var incomingEvents = {
+    'EventFormatter': {
+      first_name: 'Darren',
+      last_name: 'Cauthon'
+    },
+    'JsonParser': {
+      json: '{ "first_name": "Darren", "last_name": "Cauthon" }',
+    },
+  };
+
   var stepEditor = undefined;
+  var incomingEventDataEditor = undefined;
   var setStepType = function() {
-    var step = defaultSteps[$('#step_type').val()];
+    var step_type = $('#step_type').val();
+    var step = defaultSteps[step_type];
 
     if (stepEditor != undefined) stepEditor.destroy();
+    if (incomingEventDataEditor != undefined) incomingEventDataEditor.destroy();
+
+    incomingEventDataEditor = JsonEditor.create( { id: 'incoming_data_editor', data: incomingEvents[step_type] } );
+    incomingEventDataEditor.expandAll();
 
     stepEditor = JsonEditor.create( { id: 'step_editor', data: step } );
     stepEditor.expandAll();
   };
   $('#step_type').val('EventFormatter').change(setStepType);
   setStepType();
-
-  var incoming = {
-    first_name: 'Darren',
-    last_name: 'Cauthon'
-  };
-
-  var incomingEventDataEditor = JsonEditor.create( { id: 'incoming_data_editor', data: incoming } );
-
-  incomingEventDataEditor.expandAll();
 
   var outgoingEventEditors = [];
 
