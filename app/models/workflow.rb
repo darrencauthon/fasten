@@ -29,6 +29,8 @@ class Workflow
 
       events = [event_handler.receive(event)].flatten
 
+      events = events.select { |x| x.is_a? Event }
+
       if (event_handler.config[:merge_mode] == 'merge')
         copy_event_data_from event, events
       end
