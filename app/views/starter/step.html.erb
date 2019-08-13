@@ -34,6 +34,7 @@
             <option value="EventFormatter">EventFormatter</option>
             <option value="JsonParser">JsonParser</option>
             <option value="WebRequest">WebRequest</option>
+            <option value="Trigger">Trigger</option>
           </select>
 	</div>
         <div id="step_editor"></div>
@@ -79,6 +80,11 @@ var func = function() {
       'url': '{{url}}',
       'no_body': 'true'
     },
+    'Trigger': {
+      'merge_mode': 'merge',
+      'message': 'Hello {{first_name}}',
+      'rules': [ { path: 'first_name', value: 'Darren', type: '==' } ],
+    },
     'JsonParser': {
       'merge_mode': 'merge',
       'message': 'Hello {{first_name}}',
@@ -93,6 +99,10 @@ var func = function() {
     },
     'WebRequest': {
       url: 'https://google.com',
+    },
+    'Trigger': {
+      first_name: 'Darren',
+      last_name: 'Cauthon'
     },
     'JsonParser': {
       json: '{ "first_name": "Darren", "last_name": "Cauthon" }',
