@@ -29,6 +29,11 @@
         <h3 class="box-title">Step</h3>
       </div>
       <div class="box-body pad">
+        <div>
+          <select id="step_type">
+            <option value="EventFormatter">EventFormatter</option>
+          </select>
+	</div>
         <div id="step_editor"></div>
       </div>
     </div>
@@ -59,13 +64,10 @@
 var func = function() {
 
   var step = {
-    'type': 'EventFormatter',
-    'config': {
-      'merge_mode': 'merge',
-      'message': 'Hello {{first_name}}',
-      'instructions': {
-        'full_name': '{{first_name}} {{last_name}}'
-      }
+    'merge_mode': 'merge',
+    'message': 'Hello {{first_name}}',
+    'instructions': {
+      'full_name': '{{first_name}} {{last_name}}'
     }
   };
 
@@ -76,11 +78,9 @@ var func = function() {
 
   var stepEditor = JsonEditor.create( { id: 'step_editor', data: step } );
   var incomingEventDataEditor = JsonEditor.create( { id: 'incoming_data_editor', data: incoming } );
-  //var outgoingEventDataEditor = JsonEditor.create( { id: 'outgoing_data_editor', data: {a:'b'}, mode: 'view' } );
 
   stepEditor.expandAll();
   incomingEventDataEditor.expandAll();
-  //outgoingEventDataEditor.collapseAll();
 
   var outgoingEventEditors = [];
 
@@ -94,8 +94,9 @@ var func = function() {
     }
     outgoingEventEditors = [];
 
+    var stepDefinition = { type: $('#step_type').val(), config: stepEditor.get() };
     var request = {
-      step: JSON.stringify(stepEditor.get()),
+      step: JSON.stringify(stepDefinition),
       incoming_event: JSON.stringify(incomingEventDataEditor.get())
     };
 
