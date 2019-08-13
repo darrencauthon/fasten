@@ -32,6 +32,7 @@
         <div>
           <select id="step_type">
             <option value="EventFormatter">EventFormatter</option>
+            <option value="JsonParser">JsonParser</option>
           </select>
 	</div>
         <div id="step_editor"></div>
@@ -70,12 +71,17 @@ var func = function() {
       'instructions': {
         'full_name': '{{first_name}} {{last_name}}'
       }
+    },
+    'JsonParser': {
+      'merge_mode': 'merge',
+      'message': 'Hello {{first_name}}',
+      'path': ''
     }
   };
 
   var stepEditor = undefined;
   var setStepType = function() {
-    var step = defaultSteps.EventFormatter;
+    var step = defaultSteps[$('#step_type').val()];
 
     if (stepEditor != undefined) stepEditor.destroy();
 
