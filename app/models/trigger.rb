@@ -5,7 +5,7 @@ class Trigger
   def receive(event)
 
     if (this_matches(event))
-      return Event.new data: event.data
+      Event.new data: event.data
     end
 
   end
