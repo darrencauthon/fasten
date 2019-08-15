@@ -88,9 +88,9 @@ var func = function() {
     },
     'HtmlParser': {
       'merge_mode': 'merge',
-      'message': 'Hello {{first_name}}',
+      'message': 'Link for {{name}}',
       'path': 'html',
-      'extract': [ { css: 'a', value: '@href' } ]
+      'extract': { url: { css: 'a', value: '@href' }, name: { css: 'a', value: './node()' } }
     },
     'JsonParser': {
       'merge_mode': 'merge',
