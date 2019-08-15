@@ -21,8 +21,10 @@ class HtmlParser
       records << record
     end
 
-    records.map do |record|
-      Event.new data: record
+    if config['output_as_a_single_event'].to_s != 'true'
+      records.map { |r| Event.new data: r }
+    else
+      Event.new data: { records: records }
     end
 
   end
