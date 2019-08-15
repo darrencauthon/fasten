@@ -7,7 +7,7 @@ class HtmlParser
     doc = Nokogiri::HTML(event.data[config[:path]])
 
     matches = {}
-    config['extract'].keys.each_with_index do |key, index|
+    config['extract'].keys.each do |key|
       extract = config['extract'][key]
       matches[key] = doc.css(extract['css']).map { |x| x.xpath(extract['value']).to_s }
     end
