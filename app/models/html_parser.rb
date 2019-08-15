@@ -12,26 +12,18 @@ class HtmlParser
       matches[key] = doc.css(extract['css']).map { |x| x.xpath(extract['value']).to_s }
     end
 
-    data = []
+    records = []
     matches[matches.keys.first].each_with_index do |x, i|
       record = {}
       matches.keys.each do |key|
         record[key] = matches[key][i]
       end
-      data << record
+      records << record
     end
 
-    Event.new data: data
-
-    #matches = {}
-
-    #config['extract'].each_with_index do |extract, index|
-      #matches[index] = doc.css(extract['css']).map { |x| x.xpath(extract['value']).to_s }
-    #end
-
-    #matches.keys.map do |key|
-      #Event.new data: matches[key]
-    #end
+    records.map do |record|
+      Event.new data: record
+    end
 
   end
 
