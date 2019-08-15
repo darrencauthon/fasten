@@ -90,6 +90,8 @@ var func = function() {
       'merge_mode': 'merge',
       'message': 'Link for {{name}}',
       'path': 'html',
+      'output_as_a_single_event': 'false',
+      'single_event_path': 'records',
       'extract': { url: { css: 'a', value: '@href' }, name: { css: 'a', value: './node()' } }
     },
     'JsonParser': {
