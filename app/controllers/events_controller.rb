@@ -7,6 +7,11 @@ class EventsController < ApplicationController
   def new_index
     @page_header = 'Events'
     @optional_description = 'things that happened'
+
+    @events = Event.all
+
+    #raise @events.inspect
+
     render layout: 'adminlte'
   end
 

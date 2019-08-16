@@ -11,15 +11,17 @@
 	  <tr>
 	    <th>Name</th>
 	    <th>Step</th>
-	    <th>Workflow</th>
+	    <th>Run</th>
 	    <th>Date</th>
 	  </tr>
-	  <tr>
-	    <td>Darren</td>
-	    <td>Darren</td>
-	    <td>Darren</td>
-	    <td>Darren</td>
-	  </tr>
+          <% @events.each do |event| %>
+	    <tr>
+	      <td><%= event.message %></td>
+	      <td><%= event.step_id %></td>
+	      <td><%= event.run_id %></td>
+	      <td><%= event.created_at %></td>
+	    </tr>
+	  <% end %>
 	</tbody>
 	</table>
       </div>
