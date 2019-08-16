@@ -1,5 +1,6 @@
 class Workflow
 
+  attr_accessor :id
   attr_accessor :steps
   attr_accessor :context
 
@@ -10,6 +11,8 @@ class Workflow
 
   def self.build(definition)
     workflow = Workflow.new
+
+    workflow.id = 'nope'
 
     workflow.steps = definition[:steps]
 
