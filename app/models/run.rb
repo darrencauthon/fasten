@@ -2,7 +2,7 @@ class Run
 
   attr_accessor :id
 
-  def self.start event, step
+  def self.start event, step, workflow
 
     return if step.nil?
 
@@ -11,6 +11,7 @@ class Run
 
     event.message = Mashing.mash_single_value step[:message], event.data
     event.run_id = run.id
+    event.workflow_id = workflow.id
 
     execute_step step, event
 
