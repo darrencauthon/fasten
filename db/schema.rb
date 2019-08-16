@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_21_000001) do
+ActiveRecord::Schema.define(version: 2019_08_16_000001) do
 
   create_table "crud_records", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "collection_name"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2019_07_21_000001) do
     t.text "data", limit: 4294967295
     t.string "step_id"
     t.string "run_id"
+    t.string "workflow_id"
   end
 
 end
