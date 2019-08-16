@@ -40,7 +40,7 @@ class StarterController < ApplicationController
 
     step_off_of_the_built_workflow = workflow.steps.first
 
-    run = Run.start originating_event, step_off_of_the_built_workflow
+    run = Run.start originating_event, step_off_of_the_built_workflow, workflow
 
     events = Event.where(run_id: run.id)
 

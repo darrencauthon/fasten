@@ -11,6 +11,7 @@ class Event < ApplicationRecord
     event.parent_event_id = last_event.id
     event.data = event.data || {}
     event.run_id = last_event.run_id
+    event.workflow_id = last_event.workflow_id
     event.save
 
     publish event

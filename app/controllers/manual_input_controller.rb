@@ -23,7 +23,7 @@ class ManualInputController < ApplicationController
     originating_event = Event.new(data: params[:event_data])
     step = workflow.steps.select { |x| x[:step_id] == params[:step_id] }.first
 
-    run = Run.start originating_event, step
+    run = Run.start originating_event, step, workflow
 
     render json: { run_id: run.id }
 
