@@ -9,10 +9,20 @@ class Workflow
     self.steps = []
   end
 
+  def self.all
+    files = Dir["/workflows/*.json"]
+      .map do |x|
+	content = ''
+        File.open(x) { |f| f.each_line { |l| content = content + l } }
+        JSON.parse content, symbolize_names: true
+      end
+      .map { |x| Workflow.build x }
+  end
+
   def self.build(definition)
     workflow = Workflow.new
 
-    workflow.id = 'nope'
+    workflow.id = definition[:id]
 
     workflow.steps = definition[:steps]
 

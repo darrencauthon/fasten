@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   post 'starter/run_step', to: 'starter#run_step'
 
   get 'events', to: 'events#new_index'
+  get 'workflows', to: 'workflows#index'
 
   get 'sequence/new'
   get 'events/index'
