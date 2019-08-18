@@ -167,7 +167,7 @@ var func = function() {
         incoming_event: JSON.stringify(incomingEventDataEditor.get())
       };
   
-      $.post('/starter/run_step', request).then(function(data){
+      $.post(config.runStepUrl, request).then(function(data){
   
         for(var i = 0; i < data.events.length; i++){
 	  var event = data.events[i];
@@ -198,6 +198,7 @@ var func = function() {
 
   }({
     step_type: function() { return $('#step_type') },
+    runStepUrl: '/starter/run_step',
     outgoingEvents: function() { return $('#outgoingEvents') },
     outgoingEventTemplate: function() { return $('#outgoingEventTemplate') }
   });
