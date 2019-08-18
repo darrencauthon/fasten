@@ -153,7 +153,7 @@ var func = function() {
   
     $('#runStep').click(function() {
   
-      $('#outgoingEvents').children('div[data-remove=me]').remove();
+      config.outgoingEvents().children('div[data-remove=me]').remove();
   
       for(var i = 0; i < outgoingEventEditors.length; i++) {
         var outgoingEventEditor = outgoingEventEditors[i];
@@ -179,7 +179,7 @@ var func = function() {
 	    .attr('id', eventId)
 	    .show();
   
-	  eventBox.appendTo('#outgoingEvents');
+	  eventBox.appendTo(config.outgoingEvents());
   
           $('#' + eventId).find('.box-title').html(event.message);
   
@@ -197,7 +197,8 @@ var func = function() {
     };
 
   }({
-    outgoingEventTemplate: function() { return $('#outgoingEventTemplate') },
+    outgoingEvents: function() { return $('#outgoingEvents') },
+    outgoingEventTemplate: function() { return $('#outgoingEventTemplate') }
   });
   
 };
