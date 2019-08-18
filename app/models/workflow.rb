@@ -9,6 +9,10 @@ class Workflow
     self.steps = []
   end
 
+  def self.all
+    []
+  end
+
   def self.build(definition)
     workflow = Workflow.new
 
