@@ -71,26 +71,6 @@ var func = function() {
 
   StepEditor = function(config) {
 
-    var incomingEvents = {
-      'EventFormatter': {
-        first_name: 'Darren',
-        last_name: 'Cauthon'
-      },
-      'WebRequest': {
-        url: 'https://google.com',
-      },
-      'Trigger': {
-        first_name: 'Darren',
-        last_name: 'Cauthon'
-      },
-      'HtmlParser': {
-        html: '<html><body><a href="https://google.com">google</a><a href="https://yahoo.com">yahoo</a></body></html>',
-      },
-      'JsonParser': {
-        json: '{ "first_name": "Darren", "last_name": "Cauthon" }',
-      }
-    };
-  
     var stepEditor = undefined;
     var incomingEventDataEditor = undefined;
   
@@ -142,8 +122,10 @@ var func = function() {
 
     config.runStepButton().click(runStep);
 
-    var loadStep = function(step)
+    var loadStep = function(step, incomingEvent)
     {
+
+      incomingEvent = incomingEvent || {};
 
       var setStepType = function(stepType) {
         var step = defaultSteps[stepType];
@@ -151,7 +133,7 @@ var func = function() {
         if (stepEditor != undefined) stepEditor.destroy();
         if (incomingEventDataEditor != undefined) incomingEventDataEditor.destroy();
   
-        incomingEventDataEditor = JsonEditor.create( { id: config.incomingEventEditorId, data: incomingEvents[stepType] } );
+        incomingEventDataEditor = JsonEditor.create( { id: config.incomingEventEditorId, data: incomingEvent } );
         incomingEventDataEditor.expandAll();
   
         stepEditor = JsonEditor.create( { id: config.stepEditorId, data: step } );
@@ -216,12 +198,32 @@ var func = function() {
     }}
   };
 
-  stepRunner.loadStep(defaultSteps.JsonParser);
+  var incomingEvents = {
+    'EventFormatter': {
+      first_name: 'Darren',
+      last_name: 'Cauthon'
+    },
+    'WebRequest': {
+      url: 'https://google.com',
+    },
+    'Trigger': {
+      first_name: 'Darren',
+      last_name: 'Cauthon'
+    },
+    'HtmlParser': {
+      html: '<html><body><a href="https://google.com">google</a><a href="https://yahoo.com">yahoo</a></body></html>',
+    },
+    'JsonParser': {
+      json: '{ "first_name": "Darren", "last_name": "Cauthon" }',
+    }
+  };
+  
+  stepRunner.loadStep(defaultSteps.JsonParser, incomingEvents.JsonParser);
 
 
   var loadStepType = function(){
     var step_type = $('#step_type').val();
-    stepRunner.loadStep(defaultSteps[step_type]);
+    stepRunner.loadStep(defaultSteps[step_type], incomingEvents[step_type]);
   };
 
   $('#step_type').val('JsonParser').change(loadStepType);
