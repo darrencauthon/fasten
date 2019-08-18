@@ -13,14 +13,10 @@ class Workflow
     files = Dir["/workflows/*.json"]
       .map do |x|
 	content = ''
-        File.open(x) do |f|
-	  f.each_line { |l| content = content + l }
-	end
+        File.open(x) { |f| f.each_line { |l| content = content + l } }
         JSON.parse content, symbolize_names: true
       end
-      .map do |x|
-        Workflow.build x
-      end
+      .map { |x| Workflow.build x }
   end
 
   def self.build(definition)
