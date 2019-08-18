@@ -10,7 +10,7 @@ class Workflow
   end
 
   def self.find id
-    all.select { |x| x.id == id }
+    all.select { |x| x.id == id }.first
   end
 
   def self.all

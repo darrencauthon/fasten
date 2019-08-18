@@ -13,7 +13,7 @@ class WorkflowsController < ApplicationController
   def json
     workflow = Workflow.find params[:id]
 
-    render json: workflow
+    render json: { workflow: workflow }
   end
 
   def edit
