@@ -41,23 +41,26 @@ var func = function() {
 
     var workflow = data.workflow;
 
-    console.log(workflow.steps);
-
     for(var i = 0; i < workflow.steps.length; i++){
       workflow.steps[i].label = workflow.steps[i].step_id;
-      console.log(workflow.steps[i]);
+      workflow.steps[i].id = workflow.steps[i].step_id;
     }
+
+    console.log(workflow.steps);
 
     var nodes = new vis.DataSet(workflow.steps);
 
+    var edges = [];
+    for(var i = 0; i < workflow.steps.length; i++){
+      //workflow.steps[i].label = workflow.steps[i].step_id;
+      if (workflow.steps[i].parent_step_ids)
+        for(var j = 0; j < workflow.steps[i].parent_step_ids.length; j++)
+	  edges.push( { from: workflow.steps[i].step_id, to: workflow.steps[i].parent_step_ids[j] } );
+    }
+
+    console.log(edges);
     // create an array with edges
-    var edges = new vis.DataSet([
-      {from: 1, to: 3},
-      {from: 1, to: 2},
-      {from: 2, to: 4},
-      {from: 2, to: 5},
-      {from: 3, to: 3}
-    ]);
+    edges = new vis.DataSet(edges);
 
     // create a network
     var container = document.getElementById('mynetwork');
