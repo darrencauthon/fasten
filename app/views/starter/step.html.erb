@@ -99,7 +99,7 @@ var func = function() {
     var outgoingEventEditors = [];
 
     var getStep = function(){
-      return { type: config.step_type().val(), config: stepEditor.get() };
+      return stepEditor.get();
     };
   
     var runStep = function() {
