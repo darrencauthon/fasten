@@ -168,7 +168,9 @@ var func = function() {
       loadStep: loadStep
     };
 
-  }({
+  };
+  
+  var stepRunner = StepEditor({
     runStepUrl: '/starter/run_step',
     incomingEventEditorId: 'incoming_data_editor',
     stepEditorId: 'step_editor',
@@ -216,12 +218,12 @@ var func = function() {
     }}
   };
 
-  StepEditor.loadStep(defaultSteps.JsonParser);
+  stepRunner.loadStep(defaultSteps.JsonParser);
 
 
   var loadStepType = function(){
     var step_type = $('#step_type').val();
-    StepEditor.loadStep(defaultSteps[step_type]);
+    stepRunner.loadStep(defaultSteps[step_type]);
   };
 
   $('#step_type').val('JsonParser').change(loadStepType);
