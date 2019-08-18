@@ -65,9 +65,11 @@
 
 <script type="text/javascript">
 
+var StepEditor = undefined;
+
 var func = function() {
 
-  var StepEditor = function(config) {
+  StepEditor = function(config) {
 
     var incomingEvents = {
       'EventFormatter': {
@@ -95,9 +97,13 @@ var func = function() {
     var incomingEventDataEditor = undefined;
   
     var outgoingEventEditors = [];
+
+    var getStep = function(){
+      return { type: config.step_type().val(), config: stepEditor.get() };
+    };
   
-    config.runStepButton().click(function() {
-  
+    var runStep = function() {
+
       config.outgoingEvents().children('div[data-remove=me]').remove();
   
       for(var i = 0; i < outgoingEventEditors.length; i++) {
@@ -105,13 +111,12 @@ var func = function() {
         outgoingEventEditor.destroy();
       }
       outgoingEventEditors = [];
-  
-      var stepDefinition = { type: config.step_type().val(), config: stepEditor.get() };
+
       var request = {
-        step: JSON.stringify(stepDefinition),
+        step: JSON.stringify(getStep()),
         incoming_event: JSON.stringify(incomingEventDataEditor.get())
       };
-  
+
       $.post(config.runStepUrl, request).then(function(data){
   
         for(var i = 0; i < data.events.length; i++){
@@ -135,8 +140,9 @@ var func = function() {
   
       });
   
-  
-    });
+    };
+
+    config.runStepButton().click(runStep);
 
     var loadStep = function(step)
     {
@@ -165,6 +171,7 @@ var func = function() {
     };
 
     return {
+      getStep: getStep,
       loadStep: loadStep
     };
 
