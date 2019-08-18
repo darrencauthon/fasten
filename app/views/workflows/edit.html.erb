@@ -9,7 +9,7 @@
         <form role="form">
 	  <div class="form-group">
 	    <label>Id</label>
-	    <input type="text" class="form-control" placeholder="Id">
+	    <input id="id" type="text" class="form-control" placeholder="Id">
 	  </div>
 	</form>
       </div>
@@ -41,9 +41,10 @@ var func = function() {
 
     var workflow = data.workflow;
 
+    $('#id').val(workflow.id);
+
     for(var i = 0; i < workflow.steps.length; i++){
-      workflow.steps[i].label = workflow.steps[i].step_id;
-      workflow.steps[i].id = workflow.steps[i].step_id;
+      workflow.steps[i].label = workflow.steps[i].id;
     }
 
     var nodes = new vis.DataSet(workflow.steps);
@@ -52,7 +53,7 @@ var func = function() {
     for(var i = 0; i < workflow.steps.length; i++)
       if (workflow.steps[i].parent_step_ids)
         for(var j = 0; j < workflow.steps[i].parent_step_ids.length; j++)
-	  edges.push( { from: workflow.steps[i].step_id, to: workflow.steps[i].parent_step_ids[j] } );
+	  edges.push( { from: workflow.steps[i].id, to: workflow.steps[i].parent_step_ids[j] } );
 
     edges = new vis.DataSet(edges);
 
