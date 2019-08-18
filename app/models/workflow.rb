@@ -26,7 +26,7 @@ class Workflow
   def self.build(definition)
     workflow = Workflow.new
 
-    workflow.id = 'nope'
+    workflow.id = definition[:id]
 
     workflow.steps = definition[:steps]
 
