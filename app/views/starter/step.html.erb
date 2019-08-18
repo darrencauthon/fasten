@@ -145,7 +145,7 @@ var func = function() {
       stepEditor.expandAll();
     };
 
-    $('#step_type').val('EventFormatter').change(setStepType);
+    config.step_type().val('EventFormatter').change(setStepType);
 
     setStepType();
   
@@ -161,7 +161,7 @@ var func = function() {
       }
       outgoingEventEditors = [];
   
-      var stepDefinition = { type: $('#step_type').val(), config: stepEditor.get() };
+      var stepDefinition = { type: config.step_type().val(), config: stepEditor.get() };
       var request = {
         step: JSON.stringify(stepDefinition),
         incoming_event: JSON.stringify(incomingEventDataEditor.get())
