@@ -10,4 +10,13 @@ class WorkflowsController < ApplicationController
     render layout: 'adminlte'
   end
 
+  def edit
+    @page_header = 'Edit Workflow'
+    @optional_description = ''
+
+    @workflow = Workflow.find params[:id]
+
+    render layout: 'adminlte'
+  end
+
 end

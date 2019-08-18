@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   get 'events', to: 'events#new_index'
   get 'workflows', to: 'workflows#index'
+  get 'workflows/edit/:id', to: 'workflows#edit'
 
   get 'sequence/new'
   get 'events/index'

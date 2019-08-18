@@ -9,6 +9,10 @@ class Workflow
     self.steps = []
   end
 
+  def self.find id
+    all.select { |x| x.id == id }
+  end
+
   def self.all
     files = Dir["/workflows/*.json"]
       .map do |x|
