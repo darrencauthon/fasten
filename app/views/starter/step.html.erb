@@ -132,7 +132,7 @@ var func = function() {
     var incomingEventDataEditor = undefined;
 
     var setStepType = function() {
-      var step_type = $('#step_type').val();
+      var step_type = config.step_type().val();
       var step = defaultSteps[step_type];
   
       if (stepEditor != undefined) stepEditor.destroy();
@@ -197,6 +197,7 @@ var func = function() {
     };
 
   }({
+    step_type: function() { return $('#step_type') },
     outgoingEvents: function() { return $('#outgoingEvents') },
     outgoingEventTemplate: function() { return $('#outgoingEventTemplate') }
   });
