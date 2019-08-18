@@ -10,6 +10,12 @@ class WorkflowsController < ApplicationController
     render layout: 'adminlte'
   end
 
+  def json
+    workflow = Workflow.find params[:id]
+
+    render json: workflow
+  end
+
   def edit
     @page_header = 'Edit Workflow'
     @optional_description = ''
