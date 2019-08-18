@@ -38,17 +38,17 @@
 var func = function() {
 
   $.getJSON('/workflows/json/simple', function(data) {
-    console.log(data.workflow.id);
 
     var workflow = data.workflow;
 
-    var nodes = new vis.DataSet([
-      {id: 1, label: 'Node 1'},
-      {id: 2, label: 'Node 2'},
-      {id: 3, label: 'Node 3'},
-      {id: 4, label: 'Node 4'},
-      {id: 5, label: 'Node 5'}
-    ]);
+    console.log(workflow.steps);
+
+    for(var i = 0; i < workflow.steps.length; i++){
+      workflow.steps[i].label = workflow.steps[i].step_id;
+      console.log(workflow.steps[i]);
+    }
+
+    var nodes = new vis.DataSet(workflow.steps);
 
     // create an array with edges
     var edges = new vis.DataSet([
