@@ -10,8 +10,6 @@ class EventsController < ApplicationController
 
     @events = Event.all
 
-    #raise @events.inspect
-
     render layout: 'adminlte'
   end
 
