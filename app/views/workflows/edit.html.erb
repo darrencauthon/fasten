@@ -40,6 +40,8 @@ var func = function() {
   $.getJSON('/workflows/json/simple', function(data) {
     console.log(data.workflow.id);
 
+    var workflow = data.workflow;
+
     var nodes = new vis.DataSet([
       {id: 1, label: 'Node 1'},
       {id: 2, label: 'Node 2'},

@@ -30,9 +30,11 @@ class Run
 
       events.each { |e| Event.persist e, event_data }
 
-      return if step[:next_steps].nil?
+      next_steps = step[:workflow].steps
+                     .select { |x| x[:parent_step_ids] }
+                     .select { |x| x[:parent_step_ids].contains(step[:id]) }
 
-      step[:next_steps].each do |next_step|
+      next_steps.each do |next_step|
         events.each { |e| execute_step next_step, e }
       end
 

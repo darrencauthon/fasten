@@ -66,10 +66,6 @@ class Workflow
 
     step[:config] = SymbolizedHash.new if step[:config].nil?
 
-    return if step[:next_steps].nil?
-
-    step[:next_steps].each { |x| set_up_the_method(x, workflow) }
-
   end
 
   def self.build_event_handler_for(step, workflow)
