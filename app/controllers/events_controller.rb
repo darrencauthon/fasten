@@ -4,6 +4,15 @@ class EventsController < ApplicationController
   def index
   end
 
+  def new_index
+    @page_header = 'Events'
+    @optional_description = 'things that happened'
+
+    @events = Event.all
+
+    render layout: 'adminlte'
+  end
+
   def all
     events = params[:run_id] ? Event.where(run_id: params[:run_id]) : Event.all
     render :json => events

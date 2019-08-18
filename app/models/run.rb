@@ -26,7 +26,7 @@ class Run
     def execute_step step, event_data
       events = step[:method].call event_data
 
-      events.each { |e| e.step_id = step[:step_id] }
+      events.each { |e| e.step_id = step[:id] || step[:config][:id] }
 
       events.each { |e| Event.persist e, event_data }
 
