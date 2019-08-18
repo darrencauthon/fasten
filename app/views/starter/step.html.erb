@@ -128,6 +128,8 @@ var func = function() {
       }
     };
   
+    var step = { type: 'EventFormatter', config: {} };
+
     var stepEditor = undefined;
     var incomingEventDataEditor = undefined;
 
@@ -145,7 +147,7 @@ var func = function() {
       stepEditor.expandAll();
     };
 
-    config.step_type().val('EventFormatter').change(setStepType);
+    config.step_type().val(step.type).change(setStepType);
 
     setStepType();
   
