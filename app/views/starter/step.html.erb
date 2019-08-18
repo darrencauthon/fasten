@@ -67,7 +67,7 @@
 
 var func = function() {
 
-  var StepEditor = function() {
+  var StepEditor = function(config) {
 
     var defaultSteps = {
       'EventFormatter': {
@@ -130,6 +130,7 @@ var func = function() {
   
     var stepEditor = undefined;
     var incomingEventDataEditor = undefined;
+
     var setStepType = function() {
       var step_type = $('#step_type').val();
       var step = defaultSteps[step_type];
@@ -143,7 +144,9 @@ var func = function() {
       stepEditor = JsonEditor.create( { id: 'step_editor', data: step } );
       stepEditor.expandAll();
     };
+
     $('#step_type').val('EventFormatter').change(setStepType);
+
     setStepType();
   
     var outgoingEventEditors = [];
@@ -171,7 +174,7 @@ var func = function() {
   
 	  var eventId = 'event-' + event.id;
   
-          var eventBox = $('#outgoingEventTemplate').clone()
+          var eventBox = config.outgoingEventTemplate().clone()
             .attr('data-remove', 'me')
 	    .attr('id', eventId)
 	    .show();
@@ -193,7 +196,9 @@ var func = function() {
     return {
     };
 
-  }();
+  }({
+    outgoingEventTemplate: function() { return $('#outgoingEventTemplate') },
+  });
   
 };
 
