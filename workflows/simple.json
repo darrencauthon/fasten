@@ -1,8 +1,8 @@
 {
   "id": "simple",
   "steps": [
-    {"id":"44432","message":"This is something {{url}}","type":"ManualInput"},
-    {"id":"12345","message":"HAHAA {{url}}","type":"ManualInput" },
-    {"id":"5678","name":"Get the data","type":"WebRequest","config":{"message":"URL: {{url}}","merge_mode":"merge","url":"{{url}}"},"parent_step_ids":["12345"]}
+    {"id":"44432","name":"Step A", "message":"This is something {{url}}","type":"ManualInput"},
+    {"id":"12345","name":"Step B", "message":"HAHAA {{url}}","type":"ManualInput" },
+    {"id":"56789","name":"Step C","type":"WebRequest","config":{"message":"URL: {{url}}","merge_mode":"merge","url":"{{url}}"},"parent_step_ids":["12345"]}
   ]
 }

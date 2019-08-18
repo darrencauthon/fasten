@@ -44,7 +44,7 @@ var func = function() {
     $('#id').val(workflow.id);
 
     for(var i = 0; i < workflow.steps.length; i++){
-      workflow.steps[i].label = workflow.steps[i].id;
+      workflow.steps[i].label = workflow.steps[i].name;
     }
 
     var nodes = new vis.DataSet(workflow.steps);
