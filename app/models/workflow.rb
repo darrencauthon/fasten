@@ -39,6 +39,8 @@ class Workflow
 
   def self.set_up_the_method(step, workflow)
 
+    step[:workflow] = workflow
+
     step[:method] = lambda do |event|
       event_handler = Workflow.build_event_handler_for step, workflow
 
