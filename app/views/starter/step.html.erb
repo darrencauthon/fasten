@@ -69,45 +69,6 @@ var func = function() {
 
   var StepEditor = function(config) {
 
-    var defaultSteps = {
-      'EventFormatter': {
-        'merge_mode': 'merge',
-        'name': 'Event Formatter',
-        'message': 'Hello {{first_name}}',
-        'instructions': {
-          'full_name': '{{first_name}} {{last_name}}'
-        }
-      },
-      'WebRequest': {
-        'merge_mode': 'merge',
-        'name': 'Web Request',
-        'message': 'Hello {{first_name}}',
-        'url': '{{url}}',
-        'no_body': 'true'
-      },
-      'Trigger': {
-        'merge_mode': 'merge',
-        'name': 'Trigger',
-        'message': 'Hello {{first_name}}',
-        'rules': [ { path: 'first_name', value: 'Darren', type: '==' } ],
-      },
-      'HtmlParser': {
-        'merge_mode': 'merge',
-        'name': 'HTML Parser',
-        'message': 'Link for {{name}}',
-        'path': 'html',
-        'output_as_a_single_event': 'false',
-        'single_event_path': 'records',
-        'extract': { url: { css: 'a', value: '@href' }, name: { css: 'a', value: './node()' } }
-      },
-      'JsonParser': {
-        'merge_mode': 'merge',
-        'name': 'JSON Parser',
-        'message': 'Hello {{first_name}}',
-        'path': 'json'
-      }
-    };
-  
     var incomingEvents = {
       'EventFormatter': {
         first_name: 'Darren',
@@ -132,24 +93,6 @@ var func = function() {
 
     var stepEditor = undefined;
     var incomingEventDataEditor = undefined;
-
-    var setStepType = function() {
-      var step_type = config.step_type().val();
-      var step = defaultSteps[step_type];
-  
-      if (stepEditor != undefined) stepEditor.destroy();
-      if (incomingEventDataEditor != undefined) incomingEventDataEditor.destroy();
-  
-      incomingEventDataEditor = JsonEditor.create( { id: config.incomingEventEditorId, data: incomingEvents[step_type] } );
-      incomingEventDataEditor.expandAll();
-  
-      stepEditor = JsonEditor.create( { id: config.stepEditorId, data: step } );
-      stepEditor.expandAll();
-    };
-
-    config.step_type().val(step.type).change(setStepType);
-
-    setStepType();
   
     var outgoingEventEditors = [];
   
@@ -195,7 +138,34 @@ var func = function() {
   
     });
 
+    var loadStep = function(step)
+    {
+
+      var setStepType = function(stepType) {
+        var step = defaultSteps[stepType];
+  
+        if (stepEditor != undefined) stepEditor.destroy();
+        if (incomingEventDataEditor != undefined) incomingEventDataEditor.destroy();
+  
+        incomingEventDataEditor = JsonEditor.create( { id: config.incomingEventEditorId, data: incomingEvents[stepType] } );
+        incomingEventDataEditor.expandAll();
+  
+        stepEditor = JsonEditor.create( { id: config.stepEditorId, data: step } );
+        stepEditor.expandAll();
+      };
+
+      var loadStepType = function(){
+        var step_type = config.step_type().val();
+        setStepType(step_type);
+      };
+
+      config.step_type().val(step.type).change(loadStepType);
+
+      setStepType(step.type);
+    };
+
     return {
+      loadStep: loadStep
     };
 
   }({
@@ -207,6 +177,47 @@ var func = function() {
     outgoingEvents: function() { return $('#outgoingEvents') },
     outgoingEventTemplate: function() { return $('#outgoingEventTemplate') }
   });
+
+  var defaultSteps = {
+    'EventFormatter': { type: 'EventFormatter', config: {
+      'merge_mode': 'merge',
+      'name': 'Event Formatter',
+      'message': 'Hello {{first_name}}',
+      'instructions': {
+      'full_name': '{{first_name}} {{last_name}}'
+      }
+    }},
+    'WebRequest': { type: 'WebRequest', config: {
+      'merge_mode': 'merge',
+      'name': 'Web Request',
+      'message': 'Hello {{first_name}}',
+      'url': '{{url}}',
+      'no_body': 'true'
+    }},
+    'Trigger': { type: 'Trigger', config: {
+      'merge_mode': 'merge',
+      'name': 'Trigger',
+      'message': 'Hello {{first_name}}',
+      'rules': [ { path: 'first_name', value: 'Darren', type: '==' } ],
+    }},
+    'HtmlParser': { type: 'HtmlParser', config: {
+      'merge_mode': 'merge',
+      'name': 'HTML Parser',
+      'message': 'Link for {{name}}',
+      'path': 'html',
+      'output_as_a_single_event': 'false',
+      'single_event_path': 'records',
+      'extract': { url: { css: 'a', value: '@href' }, name: { css: 'a', value: './node()' } }
+    }},
+    'JsonParser': { type: 'JsonParser', config: {
+      'merge_mode': 'merge',
+      'name': 'JSON Parser',
+      'message': 'Hello {{first_name}}',
+      'path': 'json'
+    }}
+  };
+
+  StepEditor.loadStep(defaultSteps.JsonParser);
   
 };
 
