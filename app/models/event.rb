@@ -14,8 +14,6 @@ class Event < ApplicationRecord
     event.workflow_id = last_event.workflow_id
     event.save
 
-    raise [event, Event.find(event.id)].inspect
-
     publish event
   end
 
