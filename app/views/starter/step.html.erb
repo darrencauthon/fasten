@@ -138,10 +138,10 @@ var func = function() {
       if (stepEditor != undefined) stepEditor.destroy();
       if (incomingEventDataEditor != undefined) incomingEventDataEditor.destroy();
   
-      incomingEventDataEditor = JsonEditor.create( { id: 'incoming_data_editor', data: incomingEvents[step_type] } );
+      incomingEventDataEditor = JsonEditor.create( { id: config.incomingEventEditorId, data: incomingEvents[step_type] } );
       incomingEventDataEditor.expandAll();
   
-      stepEditor = JsonEditor.create( { id: 'step_editor', data: step } );
+      stepEditor = JsonEditor.create( { id: config.stepEditorId, data: step } );
       stepEditor.expandAll();
     };
 
@@ -199,6 +199,8 @@ var func = function() {
   }({
     step_type: function() { return $('#step_type') },
     runStepUrl: '/starter/run_step',
+    incomingEventEditorId: 'incoming_data_editor',
+    stepEditorId: 'step_editor',
     outgoingEvents: function() { return $('#outgoingEvents') },
     outgoingEventTemplate: function() { return $('#outgoingEventTemplate') }
   });
