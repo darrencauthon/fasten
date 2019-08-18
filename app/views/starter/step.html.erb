@@ -70,6 +70,7 @@ var func = function() {
   var defaultSteps = {
     'EventFormatter': {
       'merge_mode': 'merge',
+      'name': 'Event Formatter,
       'message': 'Hello {{first_name}}',
       'instructions': {
         'full_name': '{{first_name}} {{last_name}}'
@@ -77,17 +78,20 @@ var func = function() {
     },
     'WebRequest': {
       'merge_mode': 'merge',
+      'name': 'Web Request',
       'message': 'Hello {{first_name}}',
       'url': '{{url}}',
       'no_body': 'true'
     },
     'Trigger': {
       'merge_mode': 'merge',
+      'name': 'Trigger',
       'message': 'Hello {{first_name}}',
       'rules': [ { path: 'first_name', value: 'Darren', type: '==' } ],
     },
     'HtmlParser': {
       'merge_mode': 'merge',
+      'name': 'HTML Parser',
       'message': 'Link for {{name}}',
       'path': 'html',
       'output_as_a_single_event': 'false',
@@ -96,6 +100,7 @@ var func = function() {
     },
     'JsonParser': {
       'merge_mode': 'merge',
+      'name': 'JSON Parser',
       'message': 'Hello {{first_name}}',
       'path': 'json'
     }
