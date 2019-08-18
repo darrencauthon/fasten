@@ -151,7 +151,7 @@ var func = function() {
   
     var outgoingEventEditors = [];
   
-    $('#runStep').click(function() {
+    config.runStepButton().click(function() {
   
       config.outgoingEvents().children('div[data-remove=me]').remove();
   
@@ -201,6 +201,7 @@ var func = function() {
     runStepUrl: '/starter/run_step',
     incomingEventEditorId: 'incoming_data_editor',
     stepEditorId: 'step_editor',
+    runStepButton: function() { return $('#runStep') },
     outgoingEvents: function() { return $('#outgoingEvents') },
     outgoingEventTemplate: function() { return $('#outgoingEventTemplate') }
   });
