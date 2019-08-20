@@ -33,9 +33,75 @@
 
 </div>
 
+<div class="row">
+
+  <div class="col-md-4">
+
+    <div class="box box-info">
+      <div class="box-header">
+        <h3 class="box-title">Incoming Event</h3>
+      </div>
+      <div class="box-body pad">
+        <div id="incoming_data_editor"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-md-4">
+
+    <div class="box box-info">
+      <div class="box-header">
+        <h3 class="box-title">Action</h3>
+      </div>
+      <div class="box-body pad">
+        <button id="runStep" type="button" class="btn btn-block btn-primary">Run</button>
+      </div>
+    </div>
+
+    <div class="box box-info">
+      <div class="box-header">
+        <h3 class="box-title">Step</h3>
+      </div>
+      <div class="box-body pad">
+        <div id="step_editor"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="outgoingEvents" class="col-md-4">
+
+    <div id="outgoingEventTemplate" class="box box-info" style="display:none">
+      <div class="box-header">
+        <h3 class="box-title">Outgoing Event</h3>
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+        </div>
+      </div>
+      <div class="box-body pad">
+        <div data-future="editor"></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
 <script type="text/javascript">
 
 var func = function() {
+
+  var stepRunner = StepEditor({
+    runStepUrl: '/starter/run_step',
+    incomingEventEditorId: 'incoming_data_editor',
+    stepEditorId: 'step_editor',
+    runStepButton: function() { return $('#runStep') },
+    outgoingEvents: function() { return $('#outgoingEvents') },
+    outgoingEventTemplate: function() { return $('#outgoingEventTemplate') }
+  });
+
 
   $.getJSON('/workflows/json/simple', function(data) {
 
@@ -70,7 +136,8 @@ var func = function() {
       var step = undefined;
       for(var i = 0; i < workflow.steps.length; i++)
         if (workflow.steps[i].id == step_id)
-	  step = workflow.steps[i];
+	    step = workflow.steps[i];
+      stepRunner.loadStep(step, {});
       console.log(step);
     });
 
