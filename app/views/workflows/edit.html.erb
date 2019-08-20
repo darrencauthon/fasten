@@ -67,7 +67,11 @@ var func = function() {
 
     network.on('doubleClick', function(params) {
       var step_id = params.nodes[0];
-      console.log(step_id);
+      var step = undefined;
+      for(var i = 0; i < workflow.steps.length; i++)
+        if (workflow.steps[i].id == step_id)
+	  step = workflow.steps[i];
+      console.log(step);
     });
 
   });
