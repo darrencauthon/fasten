@@ -65,6 +65,11 @@ var func = function() {
     var options = {};
     var network = new vis.Network(container, data, options);
 
+    network.on('doubleClick', function(params) {
+      var step_id = params.nodes[0];
+      console.log(step_id);
+    });
+
   });
 };
 
