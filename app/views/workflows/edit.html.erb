@@ -136,7 +136,7 @@ var func = function() {
       var step = undefined;
       for(var i = 0; i < workflow.steps.length; i++)
         if (workflow.steps[i].id == step_id)
-	    step = workflow.steps[i];
+          step = workflow.steps[i];
       stepRunner.loadStep(step, {});
       $('#stepEditorRow').show();
       $('#networkViewRow').hide();
