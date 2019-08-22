@@ -38,7 +38,8 @@
   <div class="col-md-4">
     <div class="box box-info">
       <div class="box-body pad">
-        <button id="openWorkflowView" type="button" class="btn btn-block btn-secondary">Back</button>
+        <button id="openWorkflowView" type="button" class="btn btn-block btn-secondary">Cancel</button>
+        <button id="saveStep" type="button" class="btn btn-block btn-primary">Save</button>
       </div>
     </div>
   </div>
@@ -155,6 +156,10 @@ var func = function() {
       stepRunner.loadStep(step, {});
       $('.stepEditorRow').show();
       $('.networkViewRow').hide();
+    });
+
+    $('#saveStep').click(function() {
+      console.log(stepRunner.getStep());
     });
 
   });
