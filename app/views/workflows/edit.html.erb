@@ -168,6 +168,8 @@ var func = function() {
       for(var property in newStep)
         oldStep[property] = newStep[property];
       oldStep.label = newStep.name || newStep.id;
+
+      nodes.update(oldStep);
     });
 
   });
