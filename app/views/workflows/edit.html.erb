@@ -144,12 +144,16 @@ var func = function() {
     var options = {};
     var network = new vis.Network(container, data, options);
 
+    var findStep = function(stepId) {
+      for(var i = 0; i < workflow.steps.length; i++)
+        if (workflow.steps[i].id == stepId)
+          return workflow.steps[i];
+      return undefined;
+    };
+
     network.on('doubleClick', function(params) {
       var step_id = params.nodes[0];
-      var step = undefined;
-      for(var i = 0; i < workflow.steps.length; i++)
-        if (workflow.steps[i].id == step_id)
-          step = workflow.steps[i];
+      var step = findStep(step_id)
       step = JSON.parse(JSON.stringify(step));
       delete step.method;
       delete step.label;
@@ -159,7 +163,10 @@ var func = function() {
     });
 
     $('#saveStep').click(function() {
-      console.log(stepRunner.getStep());
+      var newStep = stepRunner.getStep();
+      console.log(newStep);
+      var oldStep = findStep(newStep.id);
+      console.log(oldStep);
     });
 
   });
