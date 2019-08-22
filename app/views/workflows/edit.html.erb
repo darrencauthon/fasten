@@ -103,7 +103,7 @@ var func = function() {
   });
 
 
-  $.getJSON('/workflows/json/simple', function(data) {
+  $.getJSON('/workflows/json/<%= @workflow.id %>', function(data) {
 
     var workflow = data.workflow;
 
