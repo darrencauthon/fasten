@@ -1,4 +1,4 @@
-<div id="networkViewRow" class="row">
+<div class="row networkViewRow">
 
   <div class="col-md-3">
     <div class="box box-primary">
@@ -33,7 +33,7 @@
 
 </div>
 
-<div id="stepEditorRow" class="row" style="display:none">
+<div class="row stepEditorRow" style="display:none">
 
   <div class="col-md-4">
 
@@ -141,8 +141,8 @@ var func = function() {
       delete step.method;
       delete step.label;
       stepRunner.loadStep(step, {});
-      $('#stepEditorRow').show();
-      $('#networkViewRow').hide();
+      $('.stepEditorRow').show();
+      $('.networkViewRow').hide();
     });
 
   });
