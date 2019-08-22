@@ -167,6 +167,8 @@ var func = function() {
       console.log(newStep);
       var oldStep = findStep(newStep.id);
       console.log(oldStep);
+      for(var property in newStep)
+        oldStep[property] = newStep[property];
     });
 
   });
