@@ -47,7 +47,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link type="text/css" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" />
     <link type="text/css" src="/assets/jsoneditor.min.css" />
 
-    <link type="text/css" src="/bower_components/select2/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="/bower_components/select2/dist/css/select2.min.css">
 
 </head>
 <!--
@@ -434,6 +434,6 @@ desired effect
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
-     <script type="text/javascript">$('.select2').select2();</script>
+     <script type="text/javascript">$(document).ready(function(){$('.select2').select2();});</script>
 </body>
 </html>
