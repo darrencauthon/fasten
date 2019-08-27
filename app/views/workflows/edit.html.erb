@@ -180,6 +180,9 @@ var func = function() {
     };
 
     var saveStep = function(newStep, oldStep) {
+
+      newStep.parent_step_ids = $('#ParentSteps').val();
+
       for(var property in newStep)
         oldStep[property] = newStep[property];
       oldStep.label = newStep.name || newStep.id;
