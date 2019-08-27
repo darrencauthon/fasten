@@ -177,6 +177,8 @@ var func = function() {
       stepRunner.loadStep(step, {});
       $('.stepEditorRow').show();
       $('.networkViewRow').hide();
+
+      $('#ParentSteps').val(step.parent_step_ids).trigger('change');
     });
 
     $('#saveStep').click(function() {
@@ -196,7 +198,7 @@ var func = function() {
                                 .map(function(x){ return { id: x.id, name: x.name } })
                                 .map(function(x){ return $('<option>').val(x.id).html(x.name) });
       for(var i = 0; i < parentSteps.length; i++)
-        selector.append(parentSteps[i]);
+        selector.append(parentSteps[i]).trigger('change');
 
       return undefined;
     }(workflow, $('#ParentSteps'));
