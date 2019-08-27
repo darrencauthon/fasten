@@ -179,6 +179,16 @@ var func = function() {
       $('#ParentSteps').val(step.parent_step_ids).trigger('change');
     };
 
+    var saveStep = function(newStep, oldStep) {
+      for(var property in newStep)
+        oldStep[property] = newStep[property];
+      oldStep.label = newStep.name || newStep.id;
+
+      nodes.update(oldStep);
+
+      openWorkflowView();
+    };
+
     network.on('doubleClick', function(params) {
       var step_id = params.nodes[0];
       var step = findStep(step_id)
@@ -188,13 +198,7 @@ var func = function() {
     $('#saveStep').click(function() {
       var newStep = stepRunner.getStep();
       var oldStep = findStep(newStep.id);
-      for(var property in newStep)
-        oldStep[property] = newStep[property];
-      oldStep.label = newStep.name || newStep.id;
-
-      nodes.update(oldStep);
-
-      openWorkflowView();
+      saveStep(newStep, oldStep);
     });
 
     var loadAllParentSteps = function(workflow, selector) {
