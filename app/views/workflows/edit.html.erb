@@ -148,8 +148,11 @@ var func = function() {
     var edges = [];
     for(var i = 0; i < workflow.steps.length; i++)
       if (workflow.steps[i].parent_step_ids)
+      {
+        var step = workflow.steps[i];
         for(var j = 0; j < workflow.steps[i].parent_step_ids.length; j++)
-	  edges.push( { from: workflow.steps[i].id, to: workflow.steps[i].parent_step_ids[j] } );
+	  edges.push( { id: step.id + '_' + step.parent_step_ids[j], from: step.id, to: step.parent_step_ids[j] } );
+      }
 
     edges = new vis.DataSet(edges);
 
@@ -182,6 +185,14 @@ var func = function() {
     var saveStep = function(newStep, oldStep) {
 
       newStep.parent_step_ids = $('#ParentSteps').val();
+
+      for(var i = 0; i < oldStep.parent_step_ids; i++){
+        var thing = newStep.id + '_' + oldStep.parent_step_ids[i];
+        edges.remove(thing);
+      }
+      console.log(edges);
+      for(var j = 0; j < newStep.parent_step_ids.length; j++)
+        edges.add( { id: newStep.id + '_' + newStep.parent_step_ids[j], from: newStep.id, to: newStep.parent_step_ids[j] } );
 
       for(var property in newStep)
         oldStep[property] = newStep[property];
