@@ -40,9 +40,7 @@
       <div class="box-body pad">
         <div class="form-group">
           <label for="ParentSteps">Parents</label>
-          <select name="ParentSteps" class="form-control select2" multiple="multiple">
-	    <option>A</option>
-	    <option>B</option>
+          <select id="ParentSteps" name="ParentSteps" class="form-control select2" multiple="multiple">
 	  </select>
 	</div>
       </div>
@@ -192,6 +190,12 @@ var func = function() {
 
       openWorkflowView();
     });
+
+    var parentSteps = workflow.steps
+                              .map(function(x){ return { id: x.id, name: x.name } })
+			      .map(function(x){ return $('<option>').val(x.id).html(x.name) });
+    for(var i = 0; i < parentSteps.length; i++)
+      $('#ParentSteps').append(parentSteps[i]);
 
   });
 
