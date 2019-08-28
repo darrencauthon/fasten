@@ -156,6 +156,13 @@ var func = function() {
 		   } );
     };
 
+    var removeEdgesFor = function(step) {
+      for(var i = 0; i < step.parent_step_ids; i++){
+        var thing = step.id + '_' + step.parent_step_ids[i];
+        edges.remove(thing);
+      }
+    };
+
     for(var i = 0; i < workflow.steps.length; i++)
       if (workflow.steps[i].parent_step_ids)
         loadEdgesFor(workflow.steps[i]);
@@ -187,11 +194,7 @@ var func = function() {
 
       newStep.parent_step_ids = $('#ParentSteps').val();
 
-      for(var i = 0; i < oldStep.parent_step_ids; i++){
-        var thing = oldStep.id + '_' + oldStep.parent_step_ids[i];
-        edges.remove(thing);
-      }
-
+      removeEdgesFor(oldStep);
       loadEdgesFor(newStep);
 
       for(var property in newStep)
