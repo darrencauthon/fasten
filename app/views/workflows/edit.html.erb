@@ -144,13 +144,11 @@ var func = function() {
 
     var nodes = new vis.DataSet(workflow.steps);
 
-    var edges = [];
-    edges = new vis.DataSet(edges);
+    var edges = new vis.DataSet([]);
 
     var getEdgeIdFor = function(step, parent_step_id) {
       return step.id + '_' + parent_step_id;
     };
-
 
     var loadEdgesFor = function(step) {
       for (var j = 0; j < step.parent_step_ids.length; j++)
