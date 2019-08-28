@@ -147,13 +147,18 @@ var func = function() {
     var edges = [];
     edges = new vis.DataSet(edges);
 
+    var loadEdgesFor = function(step) {
+      for (var j = 0; j < step.parent_step_ids.length; j++)
+        edges.add( {
+                     id: step.id + '_' + step.parent_step_ids[j],
+                     from: step.id,
+                     to: step.parent_step_ids[j]
+		   } );
+    };
+
     for(var i = 0; i < workflow.steps.length; i++)
       if (workflow.steps[i].parent_step_ids)
-      {
-        var step = workflow.steps[i];
-        for(var j = 0; j < step.parent_step_ids.length; j++)
-	  edges.add( { id: step.id + '_' + step.parent_step_ids[j], from: step.id, to: step.parent_step_ids[j] } );
-      }
+        loadEdgesFor(workflow.steps[i]);
 
     var data = {
       nodes: nodes,
@@ -187,8 +192,7 @@ var func = function() {
         edges.remove(thing);
       }
 
-      for(var j = 0; j < newStep.parent_step_ids.length; j++)
-        edges.add( { id: newStep.id + '_' + newStep.parent_step_ids[j], from: newStep.id, to: newStep.parent_step_ids[j] } );
+      loadEdgesFor(newStep);
 
       for(var property in newStep)
         oldStep[property] = newStep[property];
