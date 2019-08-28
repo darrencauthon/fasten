@@ -146,15 +146,14 @@ var func = function() {
     var nodes = new vis.DataSet(workflow.steps);
 
     var edges = [];
+    edges = new vis.DataSet(edges);
     for(var i = 0; i < workflow.steps.length; i++)
       if (workflow.steps[i].parent_step_ids)
       {
         var step = workflow.steps[i];
         for(var j = 0; j < workflow.steps[i].parent_step_ids.length; j++)
-	  edges.push( { id: step.id + '_' + step.parent_step_ids[j], from: step.id, to: step.parent_step_ids[j] } );
+	  edges.add( { id: step.id + '_' + step.parent_step_ids[j], from: step.id, to: step.parent_step_ids[j] } );
       }
-
-    edges = new vis.DataSet(edges);
 
     var container = document.getElementById('mynetwork');
     var data = {
