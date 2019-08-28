@@ -155,11 +155,12 @@ var func = function() {
 	  edges.add( { id: step.id + '_' + step.parent_step_ids[j], from: step.id, to: step.parent_step_ids[j] } );
       }
 
-    var container = document.getElementById('mynetwork');
     var data = {
       nodes: nodes,
       edges: edges
     };
+
+    var container = document.getElementById('mynetwork');
     var options = {};
     var network = new vis.Network(container, data, options);
 
