@@ -151,7 +151,7 @@ var func = function() {
       if (workflow.steps[i].parent_step_ids)
       {
         var step = workflow.steps[i];
-        for(var j = 0; j < workflow.steps[i].parent_step_ids.length; j++)
+        for(var j = 0; j < step.parent_step_ids.length; j++)
 	  edges.add( { id: step.id + '_' + step.parent_step_ids[j], from: step.id, to: step.parent_step_ids[j] } );
       }
 
