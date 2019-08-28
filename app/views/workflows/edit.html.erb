@@ -142,8 +142,6 @@ var func = function() {
     for(var i = 0; i < workflow.steps.length; i++)
       workflow.steps[i].label = workflow.steps[i].name || workflow.steps[i].id;
 
-    var nodes = new vis.DataSet(workflow.steps);
-
     var edges = new vis.DataSet([]);
 
     var getEdgeIdFor = function(step, parent_step_id) {
@@ -170,11 +168,6 @@ var func = function() {
       if (workflow.steps[i].parent_step_ids)
         loadEdgesFor(workflow.steps[i]);
 
-    var data = {
-      nodes: nodes,
-      edges: edges
-    };
-
     var findStep = function(stepId) {
       for(var i = 0; i < workflow.steps.length; i++)
         if (workflow.steps[i].id == stepId)
@@ -192,6 +185,8 @@ var func = function() {
 
       $('#ParentSteps').val(step.parent_step_ids).trigger('change');
     };
+
+    var nodes = new vis.DataSet(workflow.steps);
 
     var saveStep = function(newStep, oldStep) {
 
@@ -212,6 +207,10 @@ var func = function() {
 
     var container = document.getElementById('mynetwork');
     var options = {};
+    var data = {
+      nodes: nodes,
+      edges: edges
+    };
     var network = new vis.Network(container, data, options);
 
     network.on('doubleClick', function(params) {
