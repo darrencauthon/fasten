@@ -167,10 +167,6 @@ var func = function() {
       return undefined;
     };
 
-    var container = document.getElementById('mynetwork');
-    var options = {};
-    var network = new vis.Network(container, data, options);
-
     var editStep = function(step) {
       step = JSON.parse(JSON.stringify(step));
       delete step.method;
@@ -202,6 +198,10 @@ var func = function() {
 
       openWorkflowView();
     };
+
+    var container = document.getElementById('mynetwork');
+    var options = {};
+    var network = new vis.Network(container, data, options);
 
     network.on('doubleClick', function(params) {
       var step_id = params.nodes[0];
