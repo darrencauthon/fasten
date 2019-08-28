@@ -147,10 +147,15 @@ var func = function() {
     var edges = [];
     edges = new vis.DataSet(edges);
 
+    var getEdgeIdFor = function(step, parent_step_id) {
+      return step.id + '_' + parent_step_id;
+    };
+
+
     var loadEdgesFor = function(step) {
       for (var j = 0; j < step.parent_step_ids.length; j++)
         edges.add( {
-                     id: step.id + '_' + step.parent_step_ids[j],
+                     id: getEdgeIdFor(step, step.parent_step_ids[j]),
                      from: step.id,
                      to: step.parent_step_ids[j]
 		   } );
@@ -158,8 +163,8 @@ var func = function() {
 
     var removeEdgesFor = function(step) {
       for(var i = 0; i < step.parent_step_ids; i++){
-        var thing = step.id + '_' + step.parent_step_ids[i];
-        edges.remove(thing);
+        var id = getEdgeIdFor(step, step.parent_step_ids[i]);
+        edges.remove(id);
       }
     };
 
@@ -195,6 +200,7 @@ var func = function() {
       newStep.parent_step_ids = $('#ParentSteps').val();
 
       removeEdgesFor(oldStep);
+      removeEdgesFor(newStep);
       loadEdgesFor(newStep);
 
       for(var property in newStep)
