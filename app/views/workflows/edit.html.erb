@@ -190,7 +190,7 @@ var func = function() {
         var thing = newStep.id + '_' + oldStep.parent_step_ids[i];
         edges.remove(thing);
       }
-      console.log(edges);
+
       for(var j = 0; j < newStep.parent_step_ids.length; j++)
         edges.add( { id: newStep.id + '_' + newStep.parent_step_ids[j], from: newStep.id, to: newStep.parent_step_ids[j] } );
 
