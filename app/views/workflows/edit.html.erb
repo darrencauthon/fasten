@@ -131,7 +131,7 @@
         <input id="newStepName" name="newStepName" type="text" class="form-control">
         <label for="newStepType">New Step Type</label>
         <input id="newStepType" name="newStepType" type="text" class="form-control">
-        <button type="button" id="AddNewStep" class="btn btn-block btn-primary">Add</button>
+        <button type="button" id="AddNewStep" class="btn btn-block btn-primary">Next</button>
       </div>
     </div>
 
@@ -281,7 +281,7 @@ var func = function() {
       workflow.steps.push(step);
       nodes.add(step);
       loadAllParentSteps(workflow, $('#ParentSteps'));
-      openWorkflowView();
+      editStep(step);
     });
 
 
