@@ -125,6 +125,13 @@
       </div>
       <div class="box-body pad">
         <button type="button" class="openWorkflowView btn btn-block btn-secondary">Cancel</button>
+        <label for="newStepId">New Step Id</label>
+        <input id="newStepId" name="newStepId" type="text" class="form-control">
+        <label for="newStepName">New Step Name</label>
+        <input id="newStepName" name="newStepName" type="text" class="form-control">
+        <label for="newStepType">New Step Type</label>
+        <input id="newStepType" name="newStepType" type="text" class="form-control">
+        <button type="button" id="AddNewStep" class="btn btn-block btn-primary">Add</button>
       </div>
     </div>
 
@@ -249,6 +256,18 @@ var func = function() {
       var newStep = stepRunner.getStep();
       var oldStep = findStep(newStep.id);
       saveStep(newStep, oldStep);
+    });
+
+    $('#AddNewStep').click(function(){
+      var step = {
+                   id: $('#newStepId').val(),
+                   name: $('#newStepName').val(),
+                   label: $('#newStepName').val(),
+                   type: $('#newStepType').val()
+                 };
+      workflow.steps.push(step);
+      nodes.add(step);
+      openWorkflowView();
     });
 
     var loadAllParentSteps = function(workflow, selector) {
