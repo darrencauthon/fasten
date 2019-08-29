@@ -263,6 +263,10 @@ var func = function() {
 
     var saveWorkflow = function() {
       console.log(workflow);
+
+      jQuery.post('/workflows/json/<%= @workflow.id %>', { workflow: workflow }, function(data) {
+        console.log(data);
+      });
     };
 
     var loadAllParentSteps = function(workflow, selector) {

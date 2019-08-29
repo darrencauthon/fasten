@@ -16,6 +16,10 @@ class WorkflowsController < ApplicationController
     render json: { workflow: workflow }
   end
 
+  def save
+    render json: { params: params }
+  end
+
   def edit
     @page_header = 'Edit Workflow'
     @optional_description = ''
