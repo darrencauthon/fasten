@@ -172,8 +172,6 @@ var func = function() {
 
     var workflow = data.workflow;
 
-    $('#id').val(workflow.id);
-
     for(var i = 0; i < workflow.steps.length; i++)
       workflow.steps[i].label = workflow.steps[i].name || workflow.steps[i].id;
 
@@ -288,6 +286,7 @@ var func = function() {
       editStep(step);
     });
 
+    $('#id').val(workflow.id);
 
   });
 
