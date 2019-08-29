@@ -24,12 +24,10 @@ class WorkflowsController < ApplicationController
     workflow.steps = JSON.parse(params[:workflow][:steps].to_json).map { |_, v| v }
 
     File.open("/workflows/#{workflow.id}.json", 'w') do |file|
-      file.write JSON.parse(workflow.to_json)
+      file.write workflow.to_json
     end
 
-    render json: {
-                   workflow: workflow,
-                 }
+    render json: { workflow: workflow }
   end
 
   def edit
