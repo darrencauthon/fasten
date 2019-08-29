@@ -258,6 +258,18 @@ var func = function() {
       saveStep(newStep, oldStep);
     });
 
+    var loadAllParentSteps = function(workflow, selector) {
+      var parentSteps = workflow.steps
+                                .map(function(x){ return { id: x.id, name: x.name } })
+                                .map(function(x){ return $('<option>').val(x.id).html(x.name) });
+      selector.find('option').remove().end();
+      for(var i = 0; i < parentSteps.length; i++)
+        selector.append(parentSteps[i]).trigger('change');
+
+      return undefined;
+    };
+    loadAllParentSteps(workflow, $('#ParentSteps'));
+
     $('#AddNewStep').click(function(){
       var step = {
                    id: $('#newStepId').val(),
@@ -268,18 +280,10 @@ var func = function() {
                  };
       workflow.steps.push(step);
       nodes.add(step);
+      loadAllParentSteps(workflow, $('#ParentSteps'));
       openWorkflowView();
     });
 
-    var loadAllParentSteps = function(workflow, selector) {
-      var parentSteps = workflow.steps
-                                .map(function(x){ return { id: x.id, name: x.name } })
-                                .map(function(x){ return $('<option>').val(x.id).html(x.name) });
-      for(var i = 0; i < parentSteps.length; i++)
-        selector.append(parentSteps[i]).trigger('change');
-
-      return undefined;
-    }(workflow, $('#ParentSteps'));
 
   });
 
