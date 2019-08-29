@@ -22,6 +22,7 @@
     <div class="box box-primary">
       <div class="box-header with-border">
         <h3 class="box-title">Flow</h3>
+	<button id="OpenNewStepView" type="button" class="btn btn-block btn-primary">Add New Step</button>
       </div>
       <div class="box-body">
         <div id="mynetwork" style="height:400px"></div>
@@ -33,14 +34,14 @@
 
 </div>
 
-<div class="row stepEditorRow">
+<div class="row stepEditorRow" style="display:none">
 
   <div class="col-md-4">
     <div class="box box-info">
       <div class="box-body pad">
         <div class="form-group">
           <label for="ParentSteps">Parents</label>
-          <select id="ParentSteps" name="ParentSteps" class="form-control select2" multiple="multiple">
+          <select id="ParentSteps" name="ParentSteps" class="form-control select2" multiple="multiple" style="width:100%">
 	  </select>
 	</div>
       </div>
@@ -50,7 +51,7 @@
   <div class="col-md-4">
     <div class="box box-info">
       <div class="box-body pad">
-        <button id="openWorkflowView" type="button" class="btn btn-block btn-secondary">Cancel</button>
+        <button type="button" class="openWorkflowView btn btn-block btn-secondary">Cancel</button>
         <button id="saveStep" type="button" class="btn btn-block btn-primary">Save</button>
       </div>
     </div>
@@ -58,7 +59,7 @@
 
 </div>
 
-<div class="row stepEditorRow">
+<div class="row stepEditorRow" style="display:none">
 
   <div class="col-md-4">
 
@@ -114,13 +115,37 @@
 
 </div>
 
+<div class="row newStepRow" style="display:none">
+
+  <div class="col-md-4">
+
+    <div class="box box-info">
+      <div class="box-header">
+        <h3 class="box-title">New Step</h3>
+      </div>
+      <div class="box-body pad">
+        <button type="button" class="openWorkflowView btn btn-block btn-secondary">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
 <script type="text/javascript">
 
 var func = function() {
 
   var openWorkflowView = function() {
     $('.stepEditorRow').hide();
+    $('.newStepRow').hide();
     $('.networkViewRow').show();
+  }
+
+  var openNewStepView = function() {
+    $('.stepEditorRow').hide();
+    $('.newStepRow').show();
+    $('.networkViewRow').hide();
   }
 
   var stepRunner = StepEditor({
@@ -181,6 +206,7 @@ var func = function() {
       delete step.label;
       stepRunner.loadStep(step, {});
       $('.stepEditorRow').show();
+      $('.newStepRow').hide();
       $('.networkViewRow').hide();
 
       $('#ParentSteps').val(step.parent_step_ids).trigger('change');
@@ -237,7 +263,8 @@ var func = function() {
 
   });
 
-  $('#openWorkflowView').click(openWorkflowView);
+  $('.openWorkflowView').click(openWorkflowView);
+  $('#OpenNewStepView').click(openNewStepView);
 };
 
 jQuery(func);
