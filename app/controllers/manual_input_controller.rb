@@ -21,7 +21,7 @@ class ManualInputController < ApplicationController
     workflow = Workflow.build values[:definition]
 
     originating_event = Event.new(data: params[:event_data])
-    step = workflow.steps.select { |x| x[:step_id] == params[:step_id] }.first
+    step = workflow.steps.select { |x| x[:id] == params[:step_id] }.first
 
     run = Run.start originating_event, step, workflow
 

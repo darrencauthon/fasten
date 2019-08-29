@@ -13,7 +13,7 @@
 	  </tr>
           <% @workflows.each do |workflow| %>
 	    <tr>
-	      <td><%= workflow.id %></td>
+	      <td><a href="/workflows/edit/<%= workflow.id %>"><%= workflow.id %></a></td>
 	    </tr>
 	  <% end %>
 	</tbody>

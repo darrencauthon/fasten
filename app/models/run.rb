@@ -13,7 +13,7 @@ class Run
     event.run_id = run.id
     event.workflow_id = workflow.id
 
-    execute_step step, event
+    execute_step step, event, workflow
 
     run
 
@@ -23,16 +23,18 @@ class Run
 
     private
 
-    def execute_step step, event_data
+    def execute_step step, event_data, workflow
       events = step[:method].call event_data
 
       events.each { |e| e.step_id = step[:id] || step[:config][:id] }
 
       events.each { |e| Event.persist e, event_data }
 
-      return if step[:next_steps].nil?
+      next_steps = workflow.steps
+                     .select { |x| x[:parent_step_ids] }
+                     .select { |x| x[:parent_step_ids].contains(step[:id]) }
 
-      step[:next_steps].each do |next_step|
+      next_steps.each do |next_step|
         events.each { |e| execute_step next_step, e }
       end
 

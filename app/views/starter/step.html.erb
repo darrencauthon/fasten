@@ -2,6 +2,24 @@
 
   <div class="col-md-4">
 
+    <div>
+      <select id="step_type">
+        <option value="EventFormatter">EventFormatter</option>
+        <option value="JsonParser">JsonParser</option>
+        <option value="WebRequest">WebRequest</option>
+        <option value="Trigger">Trigger</option>
+        <option value="HtmlParser">HtmlParser</option>
+      </select>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="row">
+
+  <div class="col-md-4">
+
     <div class="box box-info">
       <div class="box-header">
         <h3 class="box-title">Incoming Event</h3>
@@ -29,15 +47,6 @@
         <h3 class="box-title">Step</h3>
       </div>
       <div class="box-body pad">
-        <div>
-          <select id="step_type">
-            <option value="EventFormatter">EventFormatter</option>
-            <option value="JsonParser">JsonParser</option>
-            <option value="WebRequest">WebRequest</option>
-            <option value="Trigger">Trigger</option>
-            <option value="HtmlParser">HtmlParser</option>
-          </select>
-	</div>
         <div id="step_editor"></div>
       </div>
     </div>
@@ -66,39 +75,53 @@
 <script type="text/javascript">
 
 var func = function() {
+  
+  var stepRunner = StepEditor({
+    runStepUrl: '/starter/run_step',
+    incomingEventEditorId: 'incoming_data_editor',
+    stepEditorId: 'step_editor',
+    runStepButton: function() { return $('#runStep') },
+    outgoingEvents: function() { return $('#outgoingEvents') },
+    outgoingEventTemplate: function() { return $('#outgoingEventTemplate') }
+  });
 
   var defaultSteps = {
-    'EventFormatter': {
+    'EventFormatter': { type: 'EventFormatter', config: {
       'merge_mode': 'merge',
+      'name': 'Event Formatter',
       'message': 'Hello {{first_name}}',
       'instructions': {
-        'full_name': '{{first_name}} {{last_name}}'
+      'full_name': '{{first_name}} {{last_name}}'
       }
-    },
-    'WebRequest': {
+    }},
+    'WebRequest': { type: 'WebRequest', config: {
       'merge_mode': 'merge',
+      'name': 'Web Request',
       'message': 'Hello {{first_name}}',
       'url': '{{url}}',
       'no_body': 'true'
-    },
-    'Trigger': {
+    }},
+    'Trigger': { type: 'Trigger', config: {
       'merge_mode': 'merge',
+      'name': 'Trigger',
       'message': 'Hello {{first_name}}',
       'rules': [ { path: 'first_name', value: 'Darren', type: '==' } ],
-    },
-    'HtmlParser': {
+    }},
+    'HtmlParser': { type: 'HtmlParser', config: {
       'merge_mode': 'merge',
+      'name': 'HTML Parser',
       'message': 'Link for {{name}}',
       'path': 'html',
       'output_as_a_single_event': 'false',
       'single_event_path': 'records',
       'extract': { url: { css: 'a', value: '@href' }, name: { css: 'a', value: './node()' } }
-    },
-    'JsonParser': {
+    }},
+    'JsonParser': { type: 'JsonParser', config: {
       'merge_mode': 'merge',
+      'name': 'JSON Parser',
       'message': 'Hello {{first_name}}',
       'path': 'json'
-    }
+    }}
   };
 
   var incomingEvents = {
@@ -120,69 +143,17 @@ var func = function() {
       json: '{ "first_name": "Darren", "last_name": "Cauthon" }',
     }
   };
+  
+  stepRunner.loadStep(defaultSteps.JsonParser, incomingEvents.JsonParser);
 
-  var stepEditor = undefined;
-  var incomingEventDataEditor = undefined;
-  var setStepType = function() {
+
+  var loadStepType = function(){
     var step_type = $('#step_type').val();
-    var step = defaultSteps[step_type];
-
-    if (stepEditor != undefined) stepEditor.destroy();
-    if (incomingEventDataEditor != undefined) incomingEventDataEditor.destroy();
-
-    incomingEventDataEditor = JsonEditor.create( { id: 'incoming_data_editor', data: incomingEvents[step_type] } );
-    incomingEventDataEditor.expandAll();
-
-    stepEditor = JsonEditor.create( { id: 'step_editor', data: step } );
-    stepEditor.expandAll();
+    stepRunner.loadStep(defaultSteps[step_type], incomingEvents[step_type]);
   };
-  $('#step_type').val('EventFormatter').change(setStepType);
-  setStepType();
 
-  var outgoingEventEditors = [];
-
-  $('#runStep').click(function() {
-
-    $('#outgoingEvents').children('div[data-remove=me]').remove();
-
-    for(var i = 0; i < outgoingEventEditors.length; i++) {
-      var outgoingEventEditor = outgoingEventEditors[i];
-      outgoingEventEditor.destroy();
-    }
-    outgoingEventEditors = [];
-
-    var stepDefinition = { type: $('#step_type').val(), config: stepEditor.get() };
-    var request = {
-      step: JSON.stringify(stepDefinition),
-      incoming_event: JSON.stringify(incomingEventDataEditor.get())
-    };
-
-    $.post('/starter/run_step', request).then(function(data){
-
-      for(var i = 0; i < data.events.length; i++){
-	var event = data.events[i];
-
-	var eventId = 'event-' + event.id;
-
-        var eventBox = $('#outgoingEventTemplate').clone()
-          .attr('data-remove', 'me')
-	  .attr('id', eventId)
-	  .show();
-
-	eventBox.appendTo('#outgoingEvents');
-
-        $('#' + eventId).find('.box-title').html(event.message);
-
-        var editorId = eventId + '-editor';
-	$('#' + eventId).find('div[data-future=editor]').attr('id',editorId);
-	outgoingEventEditors.push(JsonEditor.create( { id: editorId, data: event.data, mode: 'view' } ));
-      }
-
-    });
-
-
-  });
-
+  $('#step_type').val('JsonParser').change(loadStepType);
+  
 };
 
 document.addEventListener('DOMContentLoaded', func);

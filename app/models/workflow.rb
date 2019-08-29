@@ -9,6 +9,10 @@ class Workflow
     self.steps = []
   end
 
+  def self.find id
+    all.select { |x| x.id == id }.first
+  end
+
   def self.all
     files = Dir["/workflows/*.json"]
       .map do |x|
@@ -61,10 +65,6 @@ class Workflow
     end
 
     step[:config] = SymbolizedHash.new if step[:config].nil?
-
-    return if step[:next_steps].nil?
-
-    step[:next_steps].each { |x| set_up_the_method(x, workflow) }
 
   end
 
