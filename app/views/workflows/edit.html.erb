@@ -10,6 +10,7 @@
 	  <div class="form-group">
 	    <label>Id</label>
 	    <input id="id" type="text" class="form-control" placeholder="Id">
+            <button id="SaveWorkflow" type="button" class="btn btn-block btn-primary">Save</button>
 	  </div>
 	</form>
       </div>
@@ -260,6 +261,10 @@ var func = function() {
       saveStep(newStep, oldStep);
     });
 
+    var saveWorkflow = function() {
+      console.log(workflow);
+    };
+
     var loadAllParentSteps = function(workflow, selector) {
       var parentSteps = workflow.steps
                                 .map(function(x){ return { id: x.id, name: x.name } })
@@ -287,6 +292,8 @@ var func = function() {
     });
 
     $('#id').val(workflow.id);
+
+    $('#SaveWorkflow').click(saveWorkflow);
 
   });
 
