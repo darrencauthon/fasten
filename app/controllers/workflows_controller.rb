@@ -11,7 +11,12 @@ class WorkflowsController < ApplicationController
   end
 
   def json
-    workflow = Workflow.find params[:id]
+    workflow = Workflow.find(params[:id])
+
+    unless workflow
+      workflow = Workflow.new
+      workflow.id = params[:id]
+    end
 
     render json: { workflow: workflow }
   end
@@ -19,6 +24,11 @@ class WorkflowsController < ApplicationController
   def save
 
     workflow = Workflow.find params[:id]
+
+    unless workflow
+      workflow = Workflow.new
+      workflow.id = params[:id]
+    end
 
     workflow.steps = JSON.parse(params[:workflow][:steps].to_json).map { |_, v| v }
 
@@ -33,7 +43,11 @@ class WorkflowsController < ApplicationController
     @page_header = 'Edit Workflow'
     @optional_description = ''
 
-    @workflow = Workflow.find params[:id]
+    @workflow = Workflow.find(params[:id])
+    unless @workflow
+      @workflow = Workflow.new
+      @workflow.id = params[:id]
+    end
 
     render layout: 'adminlte'
   end
