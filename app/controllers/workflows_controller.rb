@@ -20,7 +20,6 @@ class WorkflowsController < ApplicationController
 
     workflow = Workflow.find params[:id]
 
-    previous_steps = workflow.steps.to_json
     workflow.steps = JSON.parse(params[:workflow][:steps].to_json).map { |_, v| v }
 
     File.open("/workflows/#{workflow.id}.json", 'w') do |file|
