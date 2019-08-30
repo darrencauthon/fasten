@@ -35,9 +35,9 @@ Rails.application.routes.draw do
   get 'workflow_editor/:id', to: "workflow_editor#index"
   post 'workflow_editor/:id', to: "workflow_editor#save"
 
-  get 'manual_input/view/:workflow_id/:step_id', to: 'manual_input#index'
-  get 'manual_input/fire/:workflow_id/:step_id', to: 'manual_input#fire'
-  post 'manual_input/fire/:workflow_id/:step_id', to: 'manual_input#fire'
+  get 'manual_starts/view/:workflow_id/:step_id', to: 'manual_starts#index'
+  get 'manual_starts/fire/:workflow_id/:step_id', to: 'manual_starts#fire'
+  post 'manual_starts/fire/:workflow_id/:step_id', to: 'manual_starts#fire'
 
   mount Sidekiq::Web => '/sidekiq'
 end

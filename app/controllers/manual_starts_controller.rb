@@ -1,4 +1,4 @@
-class ManualInputController < ApplicationController
+class ManualStartsController < ApplicationController
 
   skip_before_action :verify_authenticity_token
 
