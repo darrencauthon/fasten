@@ -11,7 +11,7 @@ class ManualStartsController < ApplicationController
     @steps = workflows
       .map { |x| x.steps.each { |s| s[:workflow_id] = x.id }; x.steps }
       .flatten
-      .select { |x| x[:type] == 'ManualInput' }
+      .select { |x| x[:type] == 'ManualStart' }
       .flatten
 
     render layout: 'adminlte'
