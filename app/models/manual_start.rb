@@ -1,4 +1,4 @@
-class ManualInput
+class ManualStart
 
   attr_accessor :config
 

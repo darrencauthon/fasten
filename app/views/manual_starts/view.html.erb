@@ -1,0 +1,65 @@
+
+  <div class="row networkViewRow">
+
+    <div class="col-md-4">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Details</h3>
+        </div>
+        <div class="box-body">
+          <div id="theEvent"></div>
+        </div>
+        <div class="box-footer">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="box box-primary">
+        <div class="box-body">
+          <button id="fire" type="button" class="btn btn-block btn-primary">Fire</button>
+          <button id="reload" type="button" class="btn btn-block btn-primary">Reload</button>
+          <div id="runId"></div>
+        </div>
+        <div class="box-footer">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+<script type="text/javascript">
+
+var Events = function() {
+  this.findByRunId = function(runId){
+    return fetch('/events/all?run_id=' + runId).then(response => response.json())
+  };
+
+  return this;
+}();
+
+var runId = undefined;
+
+var func = function() {
+
+  var eventEditor = JsonEditor.create( { id: 'theEvent', data: { url: 'https://google.com'} } );
+
+  $('#fire').click(function() {
+    var success = function(x) {
+      runId = x.run_id;
+      $('#runId').html(runId);
+    };
+
+    jQuery.post('/manual_starts/fire/<%= @workflow_id %>/<%= @step_id %>', { event_data: eventEditor.get() }, success);
+  });
+
+  $('#reload').click(function() {
+    Events.findByRunId(runId).then(events => console.log(events));
+  });
+
+};
+
+jQuery(func);
+
+</script>
