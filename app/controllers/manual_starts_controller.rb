@@ -2,10 +2,25 @@ class ManualStartsController < ApplicationController
 
   skip_before_action :verify_authenticity_token
 
+  def index
+    @page_header = 'Manual Starts'
+    @optional_description = ''
+
+    workflows = Workflow.all
+
+    @steps = workflows
+      .map { |x| x.steps.each { |s| s[:workflow_id] = x.id }; x.steps }
+      .flatten
+      .select { |x| x[:type] == 'ManualInput' }
+      .flatten
+
+    render layout: 'adminlte'
+  end
+
   def view
     @workflow_id = params[:workflow_id]
     @step_id = params[:step_id]
-    render layout: 'boko'
+    render layout: 'adminlte'
   end
 
   def fire
