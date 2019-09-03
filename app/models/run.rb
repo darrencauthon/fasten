@@ -1,6 +1,4 @@
-class Run
-
-  attr_accessor :id
+class Run < ApplicationRecord
 
   def self.start event, step, workflow
 
@@ -8,6 +6,7 @@ class Run
 
     run = Run.new
     run.id = SecureRandom.uuid
+    run.save
 
     event.message = Mashing.mash_single_value step[:message], event.data
     event.run_id = run.id
