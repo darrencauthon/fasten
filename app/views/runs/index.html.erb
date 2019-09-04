@@ -14,7 +14,7 @@
           <% @runs.each do |run| %>
 	    <tr>
 	      <td><a href="/runs/view/<%= run.id %>"><%= run.id %></a></td>
-	      <td><%= workflow.id %></td>
+	      <td><%= run.workflow_id %></td>
 	    </tr>
 	  <% end %>
 	</tbody>
