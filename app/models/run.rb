@@ -6,6 +6,7 @@ class Run < ApplicationRecord
 
     run = Run.new
     run.id = SecureRandom.uuid
+    run.workflow_id = workflow.id
     run.save
 
     event.message = Mashing.mash_single_value step[:message], event.data
