@@ -192,6 +192,8 @@ var func = function() {
     };
 
     var removeEdgesFor = function(step) {
+      if (!step) return;
+      if (!step.parent_step_ids) return;
       for(var i = 0; i < step.parent_step_ids; i++){
         var id = getEdgeIdFor(step, step.parent_step_ids[i]);
         edges.remove(id);

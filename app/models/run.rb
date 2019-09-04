@@ -31,10 +31,10 @@ class Run < ApplicationRecord
 
       next_steps = workflow.steps
                      .select { |x| x[:parent_step_ids] }
-                     .select { |x| x[:parent_step_ids].contains(step[:id]) }
+                     .select { |x| x[:parent_step_ids].include? step[:id] }
 
       next_steps.each do |next_step|
-        events.each { |e| execute_step next_step, e }
+        events.each { |e| execute_step next_step, e, workflow }
       end
 
     end

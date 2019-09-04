@@ -3,10 +3,23 @@
   },
   "steps": [
     {
-      "id": "Look Up Data",
-      "name": "look_up_data",
-      "label": "look_up_data",
+      "id": "look_up_data",
+      "name": "Look Up Data",
+      "label": "Look Up Data",
       "type": "ManualStart"
+    },
+    {
+      "id": "get_url",
+      "name": "Get URL",
+      "label": "Get URL",
+      "type": "WebRequest",
+      "config": {
+        "url": "{{url}}",
+        "no_body": "true"
+      },
+      "parent_step_ids": [
+        "look_up_data"
+      ]
     }
   ],
   "id": "ping"
