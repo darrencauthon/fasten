@@ -3,10 +3,24 @@
   },
   "steps": [
     {
-      "id": "Look Up Data",
-      "name": "look_up_data",
-      "label": "look_up_data",
+      "id": "look_up_data",
+      "name": "Start Ping of URL",
+      "label": "Start Ping of URL",
       "type": "ManualStart"
+    },
+    {
+      "id": "get_url",
+      "name": "Call out to URL",
+      "label": "Call out to URL",
+      "type": "WebRequest",
+      "config": {
+        "url": "{{url}}",
+        "no_body": "true"
+      },
+      "message": "Hitting {{url}}",
+      "parent_step_ids": [
+        "look_up_data"
+      ]
     }
   ],
   "id": "ping"

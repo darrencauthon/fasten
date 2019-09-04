@@ -192,8 +192,9 @@ var func = function() {
     };
 
     var removeEdgesFor = function(step) {
-      for(var i = 0; i < step.parent_step_ids; i++){
+      for(var i = 0; i < step.parent_step_ids.length; i++){
         var id = getEdgeIdFor(step, step.parent_step_ids[i]);
+	console.log('removing ' + id);
         edges.remove(id);
       }
     };
