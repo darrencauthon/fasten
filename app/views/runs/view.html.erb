@@ -20,58 +20,6 @@
 var func = function() {
 
   var runId = '<%= @run.id %>';
-
-  var RunViewer = function(){
-
-    var build = function(config){
-
-      var loadEvents = function(events) {
-
-        for(var i = 0; i < events.length; i++) {
-          var event = events[i];
-          event.label = event.message;
-        }
-
-        console.log(events);
-
-        var nodes = new vis.DataSet(events);
-        var edges = new vis.DataSet([]);
-        for(var i = 0; i < events.length; i++) {
-          var event = events[i];
-          if (event.parent_event_id)
-            edges.add( {
-                         id: event.id + '_' + event.parent_event_id,
-                         from: event.id,
-                         to: event.parent_event_id
-                       } );
-        }
-
-
-        var container = document.getElementById(config.id);
-        var options = {};
-        var data = {
-          nodes: nodes,
-          edges: edges
-        };
-        var network = new vis.Network(container, data, options);
-      };
-
-      var reload = function() {
-        Events.findByRunId(config.runId).then(loadEvents);
-      };
-
-      return {
-        reload: reload
-      };
-
-    };
-
-    return {
-      build: build
-    };
-
-  }();
-
   var runViewer = RunViewer.build({
     runId: runId,
     id: 'mynetwork'
