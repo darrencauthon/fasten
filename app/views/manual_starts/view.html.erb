@@ -38,21 +38,24 @@ var func = function() {
 
   var eventEditor = JsonEditor.create( { id: 'theEvent', data: { url: 'https://google.com'} } );
 
+  var reload = function() {
+    var runViewer = RunViewer.build({
+      runId: runId,
+      id: 'mynetwork'
+    }).reload();
+  };
+
   $('#fire').click(function() {
     var success = function(x) {
       runId = x.run_id;
       $('#runId').html(runId);
+      reload();
     };
 
     jQuery.post('/manual_starts/fire/<%= @workflow_id %>/<%= @step_id %>', { event_data: eventEditor.get() }, success);
   });
 
-  $('#reload').click(function() {
-    var runViewer = RunViewer.build({
-      runId: runId,
-      id: 'mynetwork'
-    }).reload();
-  });
+  $('#reload').click(reload);
 
 };
 
