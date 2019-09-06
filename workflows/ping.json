@@ -7,8 +7,6 @@
       "name": "Start Ping of URL",
       "label": "Start Ping of URL",
       "type": "ManualStart",
-      "config": {
-      },
       "message": "Starting {{url}}"
     },
     {
@@ -18,11 +16,33 @@
       "type": "WebRequest",
       "config": {
         "url": "{{url}}",
-        "no_body": "true"
+        "no_body": "false"
       },
       "message": "Hitting {{url}}",
       "parent_step_ids": [
         "look_up_data"
+      ]
+    },
+    {
+      "id": "pull_out_links",
+      "name": "Pull out all links",
+      "label": "Pull out all links",
+      "type": "HtmlParser",
+      "config": {
+        "extract": {
+          "url": {
+            "css": "a",
+            "value": "@href"
+          },
+          "text": {
+            "css": "a",
+            "value": "./node()"
+          }
+        },
+        "path": "body"
+      },
+      "parent_step_ids": [
+        "get_url"
       ]
     }
   ],
