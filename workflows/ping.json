@@ -6,7 +6,10 @@
       "id": "look_up_data",
       "name": "Start Ping of URL",
       "label": "Start Ping of URL",
-      "type": "ManualStart"
+      "type": "ManualStart",
+      "config": {
+        "message": "Sarting {{url}}"
+      }
     },
     {
       "id": "get_url",
