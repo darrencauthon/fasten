@@ -20,6 +20,7 @@
           <button id="fire" type="button" class="btn btn-block btn-primary">Fire</button>
           <button id="reload" type="button" class="btn btn-block btn-primary">Reload</button>
           <div id="runId"></div>
+          <div id="mynetwork" style="height:400px"></div>
         </div>
         <div class="box-footer">
         </div>
@@ -47,7 +48,10 @@ var func = function() {
   });
 
   $('#reload').click(function() {
-    Events.findByRunId(runId).then(events => console.log(events));
+    var runViewer = RunViewer.build({
+      runId: runId,
+      id: 'mynetwork'
+    }).reload();
   });
 
 };
