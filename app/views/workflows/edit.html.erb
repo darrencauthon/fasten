@@ -214,12 +214,13 @@ var func = function() {
       step = JSON.parse(JSON.stringify(step));
       delete step.method;
       delete step.label;
-      stepRunner.loadStep(step, {});
       $('.stepEditorRow').show();
       $('.newStepRow').hide();
       $('.networkViewRow').hide();
-
       $('#ParentSteps').val(step.parent_step_ids).trigger('change');
+
+      delete step.parent_step_ids;
+      stepRunner.loadStep(step, {});
     };
 
     var nodes = new vis.DataSet(workflow.steps);
