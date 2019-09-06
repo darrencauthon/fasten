@@ -21,44 +21,63 @@ var func = function() {
 
   var runId = '<%= @run.id %>';
 
-  var loadEvents = function(events) {
+  var RunViewer = function(){
 
-    for(var i = 0; i < events.length; i++) {
-      var event = events[i];
-      event.label = event.message;
-    }
+    var build = function(config){
 
-    console.log(events);
+      var loadEvents = function(events) {
 
-    var nodes = new vis.DataSet(events);
-    var edges = new vis.DataSet([]);
-    for(var i = 0; i < events.length; i++) {
-      var event = events[i];
-      if (event.parent_event_id)
-        edges.add( {
-                     id: event.id + '_' + event.parent_event_id,
-                     from: event.id,
-                     to: event.parent_event_id
-                   } );
-    }
+        for(var i = 0; i < events.length; i++) {
+          var event = events[i];
+          event.label = event.message;
+        }
+
+        console.log(events);
+
+        var nodes = new vis.DataSet(events);
+        var edges = new vis.DataSet([]);
+        for(var i = 0; i < events.length; i++) {
+          var event = events[i];
+          if (event.parent_event_id)
+            edges.add( {
+                         id: event.id + '_' + event.parent_event_id,
+                         from: event.id,
+                         to: event.parent_event_id
+                       } );
+        }
 
 
-    var container = document.getElementById('mynetwork');
-    var options = {};
-    var data = {
-      nodes: nodes,
-      edges: edges
+        var container = document.getElementById('mynetwork');
+        var options = {};
+        var data = {
+          nodes: nodes,
+          edges: edges
+        };
+        var network = new vis.Network(container, data, options);
+      };
+
+      var reload = function() {
+        Events.findByRunId(runId).then(loadEvents);
+      };
+
+      return {
+        reload: reload
+      };
+
     };
-    var network = new vis.Network(container, data, options);
-  };
 
-  var reload = function() {
-    Events.findByRunId(runId).then(loadEvents);
-  };
+    return {
+      build: build
+    };
 
-  $('#reload').click(reload);
+  }();
 
-  reload();
+  var runViewer = RunViewer.build({});
+
+
+  $('#reload').click(runViewer.reload);
+
+  runViewer.reload();
 
 };
 
