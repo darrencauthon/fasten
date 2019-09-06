@@ -54,7 +54,7 @@ class Workflow
 
       events
         .reject { |x| x.message }
-        .each   { |e| e.message = Mashing.mash_single_value(event_handler.config[:message], e.data) }
+        .each   { |e| e.message = Mashing.mash_single_value(event_handler.message, e.data) }
 
       events
         .select { |x| x.message.to_s == '' }
@@ -72,6 +72,12 @@ class Workflow
     event_handler = step[:type].constantize.new
     event_handler.config = SymbolizedHash.new(step[:config]) if event_handler.respond_to?(:config)
     event_handler.workflow = workflow if event_handler.respond_to?(:workflow)
+
+    class << event_handler
+      attr_accessor :message
+    end
+    event_handler.message = step[:message] || step[:config][:message]
+
     event_handler
   end
 
