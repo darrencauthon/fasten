@@ -8,8 +8,8 @@
       "label": "Start Ping of URL",
       "type": "ManualStart",
       "config": {
-        "message": "Sarting {{url}}"
-      }
+      },
+      "message": "Starting {{url}}"
     },
     {
       "id": "get_url",
@@ -18,8 +18,7 @@
       "type": "WebRequest",
       "config": {
         "url": "{{url}}",
-        "no_body": "true",
-        "message": "Hitting {{url}}"
+        "no_body": "true"
       },
       "message": "Hitting {{url}}",
       "parent_step_ids": [
