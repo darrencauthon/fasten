@@ -31,14 +31,6 @@
 
 <script type="text/javascript">
 
-var Events = function() {
-  this.findByRunId = function(runId){
-    return fetch('/events/all?run_id=' + runId).then(response => response.json())
-  };
-
-  return this;
-}();
-
 var runId = undefined;
 
 var func = function() {

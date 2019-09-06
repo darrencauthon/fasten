@@ -1,3 +1,11 @@
+var Events = function() {
+  this.findByRunId = function(runId){
+    return fetch('/events/all?run_id=' + runId).then(response => response.json())
+  };
+
+  return this;
+}();
+
 var StepEditor = function(config) {
 
   var stepEditor = undefined;

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   get 'workflows/edit/:id', to: 'workflows#edit'
 
   get 'runs', to: 'runs#index'
-  get 'runs/:id', to: 'runs#view'
+  get 'runs/view/:id', to: 'runs#view'
 
   get 'sequence/new'
   get 'events/index'
