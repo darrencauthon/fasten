@@ -20,6 +20,7 @@
           <button id="fire" type="button" class="btn btn-block btn-primary">Fire</button>
           <button id="reload" type="button" class="btn btn-block btn-primary">Reload</button>
           <div id="runId"></div>
+          <div id="mynetwork" style="height:400px"></div>
         </div>
         <div class="box-footer">
         </div>
@@ -31,32 +32,30 @@
 
 <script type="text/javascript">
 
-var Events = function() {
-  this.findByRunId = function(runId){
-    return fetch('/events/all?run_id=' + runId).then(response => response.json())
-  };
-
-  return this;
-}();
-
 var runId = undefined;
 
 var func = function() {
 
   var eventEditor = JsonEditor.create( { id: 'theEvent', data: { url: 'https://google.com'} } );
 
+  var reload = function() {
+    var runViewer = RunViewer.build({
+      runId: runId,
+      id: 'mynetwork'
+    }).reload();
+  };
+
   $('#fire').click(function() {
     var success = function(x) {
       runId = x.run_id;
       $('#runId').html(runId);
+      reload();
     };
 
     jQuery.post('/manual_starts/fire/<%= @workflow_id %>/<%= @step_id %>', { event_data: eventEditor.get() }, success);
   });
 
-  $('#reload').click(function() {
-    Events.findByRunId(runId).then(events => console.log(events));
-  });
+  $('#reload').click(reload);
 
 };
 

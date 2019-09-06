@@ -10,4 +10,13 @@ class RunsController < ApplicationController
     render layout: 'adminlte'
   end
 
+  def view
+    @page_header = 'Runs'
+    @optional_description = ''
+
+    @run = Run.find params[:id]
+
+    render layout: 'adminlte'
+  end
+
 end
