@@ -47,7 +47,7 @@ var func = function() {
         }
 
 
-        var container = document.getElementById('mynetwork');
+        var container = document.getElementById(config.id);
         var options = {};
         var data = {
           nodes: nodes,
@@ -57,7 +57,7 @@ var func = function() {
       };
 
       var reload = function() {
-        Events.findByRunId(runId).then(loadEvents);
+        Events.findByRunId(config.runId).then(loadEvents);
       };
 
       return {
@@ -72,7 +72,10 @@ var func = function() {
 
   }();
 
-  var runViewer = RunViewer.build({});
+  var runViewer = RunViewer.build({
+    runId: runId,
+    id: 'mynetwork'
+  });
 
 
   $('#reload').click(runViewer.reload);
