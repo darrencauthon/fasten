@@ -3,6 +3,10 @@ var Events = function() {
     return fetch('/events/all?run_id=' + runId).then(response => response.json())
   };
 
+  this.findById = function(eventId){
+    return fetch('/events/single/' + eventId).then(response => response.json())
+  };
+
   return this;
 }();
 
@@ -113,6 +117,12 @@ var RunViewer = function(){
         edges: edges
       };
       var network = new vis.Network(container, data, options);
+
+      network.on('doubleClick', function(params) {
+        var event_id = params.nodes[0];
+	if (event_id == undefined) return;
+	console.log(Events.findById(event_id));
+      });
     };
 
     var reload = function() {
