@@ -10,6 +10,30 @@ var Events = function() {
   return this;
 }();
 
+var EventModal = function() {
+
+  var lastEventEditor = undefined;
+
+  var popThisEvent = function(event_id) {
+
+    if (lastEventEditor)
+      lastEventEditor.destroy();
+
+    var displayEvent = function(event) {
+      lastEventEditor = JsonEditor.create( { id: 'event-view', data: event.data, mode: 'view' } );
+      $('#modal-event').find('.modal-title').html(event.message);
+      $('#modal-event').modal();
+    };
+
+    Events.findById(event_id).then(displayEvent);
+  };
+
+  return {
+    popThisEvent: popThisEvent
+  };
+
+}();
+
 var StepEditor = function(config) {
 
   var stepEditor = undefined;
@@ -24,12 +48,6 @@ var StepEditor = function(config) {
   var runStep = function() {
 
     config.outgoingEvents().children('div[data-remove=me]').remove();
-
-    for(var i = 0; i < outgoingEventEditors.length; i++) {
-      var outgoingEventEditor = outgoingEventEditors[i];
-      outgoingEventEditor.destroy();
-    }
-    outgoingEventEditors = [];
 
     var request = {
       step: JSON.stringify(getStep()),
@@ -50,12 +68,13 @@ var StepEditor = function(config) {
 
         eventBox.appendTo(config.outgoingEvents());
   
-        $('#' + eventId).find('.box-title').html(event.message);
+        $('#' + eventId).find('.eventTitle').html(event.message);
 
-        var editorId = eventId + '-editor';
-        $('#' + eventId).find('div[data-future=editor]').attr('id',editorId);
-          outgoingEventEditors.push(JsonEditor.create( { id: editorId, data: event.data, mode: 'view' } ));
-        }
+        $('#' + eventId).find('.openEventButton').click(function(){
+	  EventModal.popThisEvent(event.id);
+	});
+
+      }
     });
   };
 
@@ -118,19 +137,10 @@ var RunViewer = function(){
       };
       var network = new vis.Network(container, data, options);
 
-      var lastEventEditor = undefined;
       network.on('doubleClick', function(params) {
         var event_id = params.nodes[0];
 	if (event_id == undefined) return;
-	if (lastEventEditor)
-          lastEventEditor.destroy();
-
-        var displayEvent = function(event) {
-          lastEventEditor = JsonEditor.create( { id: 'event-view', data: event.data, mode: 'view' } );
-          $('#modal-event').find('.modal-title').html(event.message);
-          $('#modal-event').modal();
-        };
-	Events.findById(event_id).then(displayEvent);
+        EventModal.popThisEvent(event_id);
       });
     };
 
