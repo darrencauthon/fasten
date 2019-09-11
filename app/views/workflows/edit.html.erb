@@ -255,8 +255,6 @@ var func = function() {
       oldStep.label = newStep.name || newStep.id;
 
       nodes.update(oldStep);
-
-      openWorkflowView();
     };
 
     var container = document.getElementById('mynetwork');
@@ -296,6 +294,8 @@ var func = function() {
 	  }
 	}
       }
+
+      openWorkflowView();
     });
 
     var saveWorkflow = function() {
