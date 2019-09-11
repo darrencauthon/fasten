@@ -121,7 +121,8 @@ var RunViewer = function(){
       network.on('doubleClick', function(params) {
         var event_id = params.nodes[0];
 	if (event_id == undefined) return;
-	console.log(Events.findById(event_id));
+        var displayEvent = function(event) { console.log(event) };
+	Events.findById(event_id).then(displayEvent);
       });
     };
 
