@@ -127,6 +127,7 @@ var RunViewer = function(){
 
         var displayEvent = function(event) {
           lastEventEditor = JsonEditor.create( { id: 'event-view', data: event.data, mode: 'view' } );
+          $('#modal-event').find('.modal-title').html(event.message);
           $('#modal-event').modal();
         };
 	Events.findById(event_id).then(displayEvent);
