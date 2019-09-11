@@ -281,6 +281,18 @@ var func = function() {
 
       stepsToUpdate.push( { newStep: newStep, oldStep: oldStep } );
 
+      var currentParentsOfThisStep = [];
+      for (var index in workflow.steps)
+        if (workflow.steps[index].parent_step_ids)
+	{
+          var aStep = workflow.steps[index];
+	  if (aStep.parent_step_ids.includes(newStep.id))
+          {
+	    aStep.parent_step_ids = aStep.parent_step_ids.filter(function(x) { return x != newStep.id } );
+            stepsToUpdate.push( { newStep: aStep, oldStep: aStep } );
+          }
+        }
+
       var childSteps = $('#ChildSteps').val()
       for (var i = 0; i < childSteps.length; i++){
         var childStepId = childSteps[i];
