@@ -58,6 +58,18 @@
     </div>
   </div>
 
+  <div class="col-md-4">
+    <div class="box box-info">
+      <div class="box-body pad">
+        <div class="form-group">
+          <label for="ChildSteps">Children</label>
+          <select id="ChildSteps" name="ChildSteps" class="form-control select2" multiple="multiple" style="width:100%">
+	  </select>
+	</div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <div class="row stepEditorRow" style="display:none">
@@ -280,6 +292,7 @@ var func = function() {
       return undefined;
     };
     loadAllParentSteps(workflow, $('#ParentSteps'));
+    loadAllParentSteps(workflow, $('#ChildSteps'));
 
     $('#AddNewStep').click(function(){
       var step = {
@@ -292,6 +305,7 @@ var func = function() {
       workflow.steps.push(step);
       nodes.add(step);
       loadAllParentSteps(workflow, $('#ParentSteps'));
+      loadAllParentSteps(workflow, $('#ChildSteps'));
       editStep(step);
     });
 
