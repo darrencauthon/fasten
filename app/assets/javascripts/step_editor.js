@@ -10,6 +10,30 @@ var Events = function() {
   return this;
 }();
 
+var EventModal = function() {
+
+  var lastEventEditor = undefined;
+
+  var popThisEvent = function(event_id) {
+
+    if (lastEventEditor)
+      lastEventEditor.destroy();
+
+    var displayEvent = function(event) {
+      lastEventEditor = JsonEditor.create( { id: 'event-view', data: event.data, mode: 'view' } );
+      $('#modal-event').find('.modal-title').html(event.message);
+      $('#modal-event').modal();
+    };
+
+    Events.findById(event_id).then(displayEvent);
+  };
+
+  return {
+    popThisEvent: popThisEvent
+  };
+
+}();
+
 var StepEditor = function(config) {
 
   var stepEditor = undefined;
@@ -118,19 +142,10 @@ var RunViewer = function(){
       };
       var network = new vis.Network(container, data, options);
 
-      var lastEventEditor = undefined;
       network.on('doubleClick', function(params) {
         var event_id = params.nodes[0];
 	if (event_id == undefined) return;
-	if (lastEventEditor)
-          lastEventEditor.destroy();
-
-        var displayEvent = function(event) {
-          lastEventEditor = JsonEditor.create( { id: 'event-view', data: event.data, mode: 'view' } );
-          $('#modal-event').find('.modal-title').html(event.message);
-          $('#modal-event').modal();
-        };
-	Events.findById(event_id).then(displayEvent);
+        EventModal.popThisEvent(event_id);
       });
     };
 
