@@ -280,6 +280,22 @@ var func = function() {
       newStep.parent_step_ids = $('#ParentSteps').val();
 
       saveStep(newStep, oldStep);
+
+      var childSteps = $('#ChildSteps').val()
+      for (var i = 0; i < childSteps.length; i++){
+        var childStepId = childSteps[i];
+        var childStep = findStep(childStepId);
+        if (childStep)
+	{
+	  if (!childStep.parent_step_ids)
+	    childStep.parent_step_ids = [];
+	  if (childStep.parent_step_ids.includes(newStep.id) == false)
+	  {
+	    childStep.parent_step_ids.push(newStep.id);
+	    saveStep(childStep, childStep);
+	  }
+	}
+      }
     });
 
     var saveWorkflow = function() {
