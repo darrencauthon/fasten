@@ -18,6 +18,11 @@ class EventsController < ApplicationController
     render :json => events
   end
 
+  def single
+    event = params[:id] ? Event.where(id: params[:id]) : []
+    render :json => event.first
+  end
+
   def create
 
     originating_event = Event.create(message: params[:message])

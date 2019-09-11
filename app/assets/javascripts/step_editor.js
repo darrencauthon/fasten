@@ -3,6 +3,10 @@ var Events = function() {
     return fetch('/events/all?run_id=' + runId).then(response => response.json())
   };
 
+  this.findById = function(eventId){
+    return fetch('/events/single/' + eventId).then(response => response.json())
+  };
+
   return this;
 }();
 
@@ -113,6 +117,21 @@ var RunViewer = function(){
         edges: edges
       };
       var network = new vis.Network(container, data, options);
+
+      var lastEventEditor = undefined;
+      network.on('doubleClick', function(params) {
+        var event_id = params.nodes[0];
+	if (event_id == undefined) return;
+	if (lastEventEditor)
+          lastEventEditor.destroy();
+
+        var displayEvent = function(event) {
+          lastEventEditor = JsonEditor.create( { id: 'event-view', data: event.data, mode: 'view' } );
+          $('#modal-event').find('.modal-title').html(event.message);
+          $('#modal-event').modal();
+        };
+	Events.findById(event_id).then(displayEvent);
+      });
     };
 
     var reload = function() {
