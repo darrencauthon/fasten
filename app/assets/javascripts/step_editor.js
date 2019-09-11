@@ -49,12 +49,6 @@ var StepEditor = function(config) {
 
     config.outgoingEvents().children('div[data-remove=me]').remove();
 
-    for(var i = 0; i < outgoingEventEditors.length; i++) {
-      var outgoingEventEditor = outgoingEventEditors[i];
-      outgoingEventEditor.destroy();
-    }
-    outgoingEventEditors = [];
-
     var request = {
       step: JSON.stringify(getStep()),
       incoming_event: JSON.stringify(incomingEventDataEditor.get())
@@ -74,12 +68,13 @@ var StepEditor = function(config) {
 
         eventBox.appendTo(config.outgoingEvents());
   
-        $('#' + eventId).find('.box-title').html(event.message);
+        $('#' + eventId).find('.eventTitle').html(event.message);
 
-        var editorId = eventId + '-editor';
-        $('#' + eventId).find('div[data-future=editor]').attr('id',editorId);
-          outgoingEventEditors.push(JsonEditor.create( { id: editorId, data: event.data, mode: 'view' } ));
-        }
+        $('#' + eventId).find('.openEventButton').click(function(){
+	  EventModal.popThisEvent(event.id);
+	});
+
+      }
     });
   };
 
