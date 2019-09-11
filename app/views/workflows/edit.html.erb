@@ -246,8 +246,6 @@ var func = function() {
 
     var saveStep = function(newStep, oldStep) {
 
-      newStep.parent_step_ids = $('#ParentSteps').val();
-
       removeEdgesFor(oldStep);
       removeEdgesFor(newStep);
       loadEdgesFor(newStep);
@@ -278,6 +276,9 @@ var func = function() {
     $('#saveStep').click(function() {
       var newStep = stepRunner.getStep();
       var oldStep = findStep(newStep.id);
+
+      newStep.parent_step_ids = $('#ParentSteps').val();
+
       saveStep(newStep, oldStep);
     });
 
