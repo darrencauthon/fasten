@@ -118,10 +118,17 @@ var RunViewer = function(){
       };
       var network = new vis.Network(container, data, options);
 
+      var lastEventEditor = undefined;
       network.on('doubleClick', function(params) {
         var event_id = params.nodes[0];
 	if (event_id == undefined) return;
-        var displayEvent = function(event) { console.log(event) };
+	if (lastEventEditor)
+          lastEventEditor.destroy();
+
+        var displayEvent = function(event) {
+          lastEventEditor = JsonEditor.create( { id: 'event-view', data: event.data, mode: 'view' } );
+          $('#modal-default').modal();
+        };
 	Events.findById(event_id).then(displayEvent);
       });
     };
