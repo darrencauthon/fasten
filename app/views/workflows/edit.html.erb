@@ -277,7 +277,9 @@ var func = function() {
 
       newStep.parent_step_ids = $('#ParentSteps').val();
 
-      saveStep(newStep, oldStep);
+      var stepsToUpdate = [];
+
+      stepsToUpdate.push( { newStep: newStep, oldStep: oldStep } );
 
       var childSteps = $('#ChildSteps').val()
       for (var i = 0; i < childSteps.length; i++){
@@ -290,10 +292,13 @@ var func = function() {
 	  if (childStep.parent_step_ids.includes(newStep.id) == false)
 	  {
 	    childStep.parent_step_ids.push(newStep.id);
-	    saveStep(childStep, childStep);
+            stepsToUpdate.push( { newStep: childStep, oldStep: childStep } );
 	  }
 	}
       }
+
+      for (var key in stepsToUpdate)
+        saveStep(stepsToUpdate[key].newStep, stepsToUpdate[key].oldStep);
 
       openWorkflowView();
     });
