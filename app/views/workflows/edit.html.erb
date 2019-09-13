@@ -58,6 +58,18 @@
     </div>
   </div>
 
+  <div class="col-md-4">
+    <div class="box box-info">
+      <div class="box-body pad">
+        <div class="form-group">
+          <label for="ChildSteps">Children</label>
+          <select id="ChildSteps" name="ChildSteps" class="form-control select2" multiple="multiple" style="width:100%">
+	  </select>
+	</div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <div class="row stepEditorRow" style="display:none">
@@ -194,10 +206,16 @@ var func = function() {
 
     var removeEdgesFor = function(step) {
       if (!step.parent_step_ids) return;
-      for(var i = 0; i < step.parent_step_ids.length; i++){
-        var id = getEdgeIdFor(step, step.parent_step_ids[i]);
-        edges.remove(id);
-      }
+
+      var edgesToRemove = edges.get({
+        filter: function(item){
+          return item.to == step.id || item.from == step.id;
+        }
+      });
+
+      for (var i in edgesToRemove)
+	edges.remove(edgesToRemove[i].id);
+
     };
 
     for(var i = 0; i < workflow.steps.length; i++)
@@ -220,6 +238,12 @@ var func = function() {
       $('.networkViewRow').hide();
       $('#ParentSteps').val(step.parent_step_ids).trigger('change');
 
+      var childSteps = [];
+      for (var i = 0; i < workflow.steps.length; i++)
+        if (workflow.steps[i].parent_step_ids && workflow.steps[i].parent_step_ids.includes(step.id))
+          childSteps.push(workflow.steps[i].id);
+      $('#ChildSteps').val(childSteps).trigger('change');
+
       delete step.parent_step_ids;
       stepRunner.loadStep(step, {});
     };
@@ -227,8 +251,6 @@ var func = function() {
     var nodes = new vis.DataSet(workflow.steps);
 
     var saveStep = function(newStep, oldStep) {
-
-      newStep.parent_step_ids = $('#ParentSteps').val();
 
       removeEdgesFor(oldStep);
       removeEdgesFor(newStep);
@@ -239,8 +261,6 @@ var func = function() {
       oldStep.label = newStep.name || newStep.id;
 
       nodes.update(oldStep);
-
-      openWorkflowView();
     };
 
     var container = document.getElementById('mynetwork');
@@ -260,7 +280,45 @@ var func = function() {
     $('#saveStep').click(function() {
       var newStep = stepRunner.getStep();
       var oldStep = findStep(newStep.id);
-      saveStep(newStep, oldStep);
+
+      newStep.parent_step_ids = $('#ParentSteps').val();
+
+      var stepsToUpdate = [];
+
+      stepsToUpdate.push( { newStep: newStep, oldStep: oldStep } );
+
+      var currentParentsOfThisStep = [];
+      for (var index in workflow.steps)
+        if (workflow.steps[index].parent_step_ids)
+	{
+          var aStep = workflow.steps[index];
+	  if (aStep.parent_step_ids.includes(newStep.id))
+          {
+	    aStep.parent_step_ids = aStep.parent_step_ids.filter(function(x) { return x != newStep.id } );
+            stepsToUpdate.push( { newStep: aStep, oldStep: aStep } );
+          }
+        }
+
+      var childSteps = $('#ChildSteps').val()
+      for (var i = 0; i < childSteps.length; i++){
+        var childStepId = childSteps[i];
+        var childStep = findStep(childStepId);
+        if (childStep)
+	{
+	  if (!childStep.parent_step_ids)
+	    childStep.parent_step_ids = [];
+	  if (childStep.parent_step_ids.includes(newStep.id) == false)
+	  {
+	    childStep.parent_step_ids.push(newStep.id);
+            stepsToUpdate.push( { newStep: childStep, oldStep: childStep } );
+	  }
+	}
+      }
+
+      for (var key in stepsToUpdate)
+        saveStep(stepsToUpdate[key].newStep, stepsToUpdate[key].oldStep);
+
+      openWorkflowView();
     });
 
     var saveWorkflow = function() {
@@ -280,6 +338,7 @@ var func = function() {
       return undefined;
     };
     loadAllParentSteps(workflow, $('#ParentSteps'));
+    loadAllParentSteps(workflow, $('#ChildSteps'));
 
     $('#AddNewStep').click(function(){
       var step = {
@@ -292,6 +351,7 @@ var func = function() {
       workflow.steps.push(step);
       nodes.add(step);
       loadAllParentSteps(workflow, $('#ParentSteps'));
+      loadAllParentSteps(workflow, $('#ChildSteps'));
       editStep(step);
     });
 

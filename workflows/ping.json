@@ -7,8 +7,6 @@
       "name": "Start Ping of URL",
       "label": "Start Ping of URL",
       "type": "ManualStart",
-      "config": {
-      },
       "message": "Starting {{url}}"
     },
     {
@@ -24,6 +22,21 @@
       "parent_step_ids": [
         "look_up_data"
       ]
+    },
+    {
+      "id": "testing1",
+      "name": "testing1",
+      "label": "testing1",
+      "type": "ManualStart",
+      "parent_step_ids": [
+        "testing2"
+      ]
+    },
+    {
+      "id": "testing2",
+      "name": "testing2",
+      "label": "testing2",
+      "type": "ManualStart"
     }
   ],
   "id": "ping"
