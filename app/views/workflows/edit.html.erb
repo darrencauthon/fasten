@@ -206,10 +206,16 @@ var func = function() {
 
     var removeEdgesFor = function(step) {
       if (!step.parent_step_ids) return;
-      for(var i = 0; i < step.parent_step_ids.length; i++){
-        var id = getEdgeIdFor(step, step.parent_step_ids[i]);
-        edges.remove(id);
-      }
+
+      var edgesToRemove = edges.get({
+        filter: function(item){
+          return item.to == step.id || item.from == step.id;
+        }
+      });
+
+      for (var i in edgesToRemove)
+	edges.remove(edgesToRemove[i].id);
+
     };
 
     for(var i = 0; i < workflow.steps.length; i++)
