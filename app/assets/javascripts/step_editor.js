@@ -124,13 +124,14 @@ var RunViewer = function(){
         if (event.parent_event_id)
           edges.add( {
                        id: event.id + '_' + event.parent_event_id,
+                       arrows: { from: { enabled: true } },
                        from: event.id,
                        to: event.parent_event_id
                      } );
       }
 
       var container = document.getElementById(config.id);
-      var options = {};
+      var options = { layout: { hierarchical: { sortMethod: 'directed', direction: 'DU' } } };
       var data = {
         nodes: nodes,
         edges: edges
