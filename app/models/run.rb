@@ -35,7 +35,7 @@ class Run < ApplicationRecord
                      .select { |x| x[:parent_step_ids].include? step[:id] }
 
       next_steps.each do |next_step|
-        events.each { |e| execute_step next_step, e, workflow }
+        events.each { |e| RunAStepWorker.perform_async next_step[:id], e.id, workflow.id }
       end
 
     end
