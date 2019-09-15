@@ -21,21 +21,19 @@ class Run < ApplicationRecord
 
   class << self
 
-    private
-
-    def execute_step step, event_data, workflow
-      events = step[:method].call event_data
+    def execute_step step, event, workflow
+      events = step[:method].call event
 
       events.each { |e| e.step_id = step[:id] || step[:config][:id] }
 
-      events.each { |e| Event.persist e, event_data }
+      events.each { |e| Event.persist e, event }
 
       next_steps = workflow.steps
                      .select { |x| x[:parent_step_ids] }
                      .select { |x| x[:parent_step_ids].include? step[:id] }
 
       next_steps.each do |next_step|
-        events.each { |e| execute_step next_step, e, workflow }
+        events.each { |e| RunAStepWorker.perform_async next_step[:id], e.id, workflow.id }
       end
 
     end
