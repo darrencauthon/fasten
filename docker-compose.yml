@@ -1,11 +1,11 @@
 version: '2'
 services:
-  poxa:
-    image: edgurgel/poxa-automated:latest
-    ports:
-      - 8080:8080
-    volumes:
-      - ./poxa.conf:/app/poxa/releases/0.8.0/poxa.conf
+# poxa:
+#   image: edgurgel/poxa-automated:latest
+#   ports:
+#     - 8080:8080
+#   volumes:
+#     - ./poxa.conf:/app/poxa/releases/0.8.0/poxa.conf
 
   mariadb:
     image: 'bitnami/mariadb:latest'
@@ -24,7 +24,7 @@ services:
       - mariadb
       - redis
     ports:
-      - 3001:3000
+      - 3002:3000
     volumes:
       - .:/app
       - ./workflows:/workflows

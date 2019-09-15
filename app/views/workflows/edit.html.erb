@@ -187,7 +187,10 @@ var func = function() {
     var workflow = data.workflow;
 
     for(var i = 0; i < workflow.steps.length; i++)
+    {
       workflow.steps[i].label = workflow.steps[i].name || workflow.steps[i].id;
+      workflow.steps[i].shape = 'box';
+    }
 
     var edges = new vis.DataSet([]);
 
@@ -199,6 +202,7 @@ var func = function() {
       for (var j = 0; j < step.parent_step_ids.length; j++)
         edges.add( {
                      id: getEdgeIdFor(step, step.parent_step_ids[j]),
+                     arrows: { from: { enabled: true } },
                      from: step.id,
                      to: step.parent_step_ids[j]
                    } );
@@ -264,7 +268,7 @@ var func = function() {
     };
 
     var container = document.getElementById('mynetwork');
-    var options = {};
+    var options = { layout: { hierarchical: { sortMethod: 'directed', direction: 'DU' } } };
     var data = {
       nodes: nodes,
       edges: edges
