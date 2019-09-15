@@ -31,13 +31,19 @@ services:
     env_file:
       - .env
 
-#  sidekiq:
-#    build: .
-#    command: bundle exec sidekiq
-#    depends_on:
-#      - mariadb
-#      - redis
-#    volumes:
-#      - .:/app
-#    env_file:
-#      - .env
+  sidekiq:
+    tty: true # Enables debugging capabilities when attached to this container.
+    image: 'bitnami/rails:latest'
+    command: bundle exec sidekiq
+    labels:
+      kompose.service.type: nodeport
+    depends_on:
+      - mariadb
+      - redis
+    volumes:
+      - .:/app
+      - ./workflows:/workflows
+    env_file:
+      - .env
+    environment:
+      - SKIP_DB_SETUP=yes
