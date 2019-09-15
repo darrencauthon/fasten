@@ -21,8 +21,6 @@ class Run < ApplicationRecord
 
   class << self
 
-    private
-
     def execute_step step, event, workflow
       events = step[:method].call event
 
