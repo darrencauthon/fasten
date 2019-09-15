@@ -22,9 +22,9 @@ class Event < ApplicationRecord
     private
 
     def publish event
-      channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
-      data = { message: event.message, parent_event_id: event.parent_event_id, id: event.id, step_id: event.step_id }
-      channels_client.trigger('channel', 'event', data);
+      #channels_client = Pusher::Client.new(app_id: 'fasten', key: 'app_key', secret: 'secret', host: 'poxa', port: 8080)
+      #data = { message: event.message, parent_event_id: event.parent_event_id, id: event.id, step_id: event.step_id }
+      #channels_client.trigger('channel', 'event', data);
     end
 
   end
