@@ -18,6 +18,7 @@ services:
   myapp:
     tty: true # Enables debugging capabilities when attached to this container.
     image: 'bitnami/rails:latest'
+    command: bundle exec sidekiq
     labels:
       kompose.service.type: nodeport
     depends_on:
@@ -33,11 +34,11 @@ services:
 
 #  sidekiq:
 #    build: .
-#    command: bundle exec sidekiq
+#    command: sidekiq
 #    depends_on:
 #      - mariadb
 #      - redis
 #    volumes:
 #      - .:/app
 #    env_file:
-#      - .env
+#      - .nv
