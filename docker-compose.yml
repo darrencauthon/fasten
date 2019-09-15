@@ -45,3 +45,5 @@ services:
       - ./workflows:/workflows
     env_file:
       - .env
+    environment:
+      - SKIP_DB_SETUP=yes
