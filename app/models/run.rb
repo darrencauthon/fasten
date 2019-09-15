@@ -23,12 +23,12 @@ class Run < ApplicationRecord
 
     private
 
-    def execute_step step, event_data, workflow
-      events = step[:method].call event_data
+    def execute_step step, event, workflow
+      events = step[:method].call event
 
       events.each { |e| e.step_id = step[:id] || step[:config][:id] }
 
-      events.each { |e| Event.persist e, event_data }
+      events.each { |e| Event.persist e, event }
 
       next_steps = workflow.steps
                      .select { |x| x[:parent_step_ids] }
