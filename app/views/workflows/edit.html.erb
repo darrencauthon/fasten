@@ -123,7 +123,7 @@
 	<span class="eventTitle"></span>
         <button type="button" class="openEventButton btn btn-block btn-primary">Open</button>
         <button type="button" class="jumpEventButton btn btn-block btn-primary">Jump To</button>
-        <select id="JumpToSteps" name="FullSteps" class="form-control" style="width:100%">
+        <select class="JumpToSteps form-control" style="width:100%">
         </select>
       </div>
     </div>
@@ -346,7 +346,7 @@ var func = function() {
     };
     loadAllParentSteps(workflow, $('#ParentSteps'));
     loadAllParentSteps(workflow, $('#ChildSteps'));
-    loadAllParentSteps(workflow, $('#JumpToSteps'));
+    loadAllParentSteps(workflow, $('.JumpToSteps'));
 
     $('#AddNewStep').click(function(){
       var step = {
@@ -360,7 +360,7 @@ var func = function() {
       nodes.add(step);
       loadAllParentSteps(workflow, $('#ParentSteps'));
       loadAllParentSteps(workflow, $('#ChildSteps'));
-      loadAllParentSteps(workflow, $('#JumpToSteps'));
+      loadAllParentSteps(workflow, $('.JumpToSteps'));
       editStep(step);
     });
 
