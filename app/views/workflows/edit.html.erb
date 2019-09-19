@@ -189,8 +189,9 @@ var func = function() {
       });
 
       $(selector).find('.jumpEventButton').click(function(){
-        console.log($(selector).find('.JumpToSteps').val());
-        console.log(event);
+	var stepId = $(selector).find('.JumpToSteps').val();
+        var step = stepRunner.findStep(stepId);
+        stepRunner.editStep(step);
       });
 
     },
@@ -268,6 +269,8 @@ var func = function() {
       delete step.parent_step_ids;
       stepRunner.loadStep(step, {});
     };
+    stepRunner.findStep = findStep;
+    stepRunner.editStep = editStep;
 
     var nodes = new vis.DataSet(workflow.steps);
 
