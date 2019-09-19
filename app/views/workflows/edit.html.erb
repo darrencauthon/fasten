@@ -191,7 +191,7 @@ var func = function() {
       $(selector).find('.jumpEventButton').click(function(){
 	var stepId = $(selector).find('.JumpToSteps').val();
         var step = stepRunner.findStep(stepId);
-        stepRunner.editStep(step);
+        stepRunner.editStep(step, event.data);
       });
 
     },
@@ -251,7 +251,10 @@ var func = function() {
       return undefined;
     };
 
-    var editStep = function(step) {
+    var editStep = function(step, incomingEvent) {
+
+      incomingEvent = incomingEvent || {};
+
       step = JSON.parse(JSON.stringify(step));
       delete step.method;
       delete step.label;
@@ -267,7 +270,7 @@ var func = function() {
       $('#ChildSteps').val(childSteps).trigger('change');
 
       delete step.parent_step_ids;
-      stepRunner.loadStep(step, {});
+      stepRunner.loadStep(step, incomingEvent);
     };
     stepRunner.findStep = findStep;
     stepRunner.editStep = editStep;
