@@ -45,9 +45,13 @@ var StepEditor = function(config) {
     return stepEditor.get();
   };
 
+  var clearOutgoingEvents = function() {
+    config.outgoingEvents().children('div[data-remove=me]').remove();
+  };
+
   var runStep = function() {
 
-    config.outgoingEvents().children('div[data-remove=me]').remove();
+    clearOutgoingEvents();
 
     var request = {
       step: JSON.stringify(getStep()),
@@ -67,12 +71,8 @@ var StepEditor = function(config) {
             .show();
 
         eventBox.appendTo(config.outgoingEvents());
-  
-        $('#' + eventId).find('.eventTitle').html(event.message);
 
-        $('#' + eventId).find('.openEventButton').click(function(){
-	  EventModal.popThisEvent(event.id);
-	});
+        config.afterEachEvent('#' + eventId, event);
 
       }
     });
@@ -83,6 +83,8 @@ var StepEditor = function(config) {
   var loadStep = function(step, incomingEvent)
   {
     incomingEvent = incomingEvent || {};
+
+    clearOutgoingEvents();
 
     var setStepType = function(stepType) {
   
