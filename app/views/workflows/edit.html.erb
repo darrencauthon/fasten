@@ -188,6 +188,11 @@ var func = function() {
         EventModal.popThisEvent(event.id);
       });
 
+      $(selector).find('.jumpEventButton').click(function(){
+        console.log($(selector).find('.JumpToSteps').val());
+        console.log(event);
+      });
+
     },
     outgoingEvents: function() { return $('#outgoingEvents') },
     outgoingEventTemplate: function() { return $('#outgoingEventTemplate') }
