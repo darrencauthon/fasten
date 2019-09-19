@@ -170,6 +170,7 @@ var func = function() {
   }
 
   var incomingEventForANewStep = {};
+  var parentStepIdForANewStep = undefined;
 
   var openNewStepView = function(options) {
     options = options || {};
@@ -177,6 +178,7 @@ var func = function() {
     var incomingEvent = options.incomingEvent || {};
 
     incomingEventForANewStep = options.incomingEvent;
+    parentStepIdForANewStep = options.parentStepId;
 
     $('.stepEditorRow').hide();
     $('.newStepRow').show();
@@ -201,7 +203,7 @@ var func = function() {
 	var stepId = $(selector).find('.JumpToSteps').val();
 	if (stepId == '')
 	{
-	  openNewStepView( { incomingEvent: event.data } );
+	  openNewStepView( { incomingEvent: event.data, parentStepId: event.step_id } );
 	  return;
 	}
         var step = stepRunner.findStep(stepId);
@@ -390,8 +392,13 @@ var func = function() {
                    name: $('#newStepName').val(),
                    label: $('#newStepName').val(),
                    type: $('#newStepType').val(),
+                   parent_step_ids: [],
                    config: {}
                  };
+
+      if (parentStepIdForANewStep)
+        step.parent_step_ids.push(parentStepIdForANewStep);
+
       workflow.steps.push(step);
       nodes.add(step);
       loadAllParentSteps(workflow, $('#ParentSteps'));
