@@ -180,6 +180,15 @@ var func = function() {
     incomingEventEditorId: 'incoming_data_editor',
     stepEditorId: 'step_editor',
     runStepButton: function() { return $('#runStep') },
+    afterEachEvent: function(selector, event) {
+
+      $(selector).find('.eventTitle').html(event.message);
+
+      $(selector).find('.openEventButton').click(function(){
+        EventModal.popThisEvent(event.id);
+      });
+
+    },
     outgoingEvents: function() { return $('#outgoingEvents') },
     outgoingEventTemplate: function() { return $('#outgoingEventTemplate') }
   });

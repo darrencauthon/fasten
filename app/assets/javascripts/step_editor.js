@@ -67,12 +67,8 @@ var StepEditor = function(config) {
             .show();
 
         eventBox.appendTo(config.outgoingEvents());
-  
-        $('#' + eventId).find('.eventTitle').html(event.message);
 
-        $('#' + eventId).find('.openEventButton').click(function(){
-	  EventModal.popThisEvent(event.id);
-	});
+        config.afterEachEvent('#' + eventId, event);
 
       }
     });
