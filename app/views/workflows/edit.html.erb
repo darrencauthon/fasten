@@ -190,6 +190,10 @@ var func = function() {
 
       $(selector).find('.jumpEventButton').click(function(){
 	var stepId = $(selector).find('.JumpToSteps').val();
+	if (stepId == '')
+	{
+	  return;
+	}
         var step = stepRunner.findStep(stepId);
         stepRunner.editStep(step, event.data);
       });
@@ -367,6 +371,8 @@ var func = function() {
     loadAllParentSteps(workflow, $('#ParentSteps'));
     loadAllParentSteps(workflow, $('#ChildSteps'));
     loadAllParentSteps(workflow, $('.JumpToSteps'));
+    $('.JumpToSteps').append($('<option value="">New Step</option>'));
+
 
     $('#AddNewStep').click(function(){
       var step = {
@@ -381,6 +387,7 @@ var func = function() {
       loadAllParentSteps(workflow, $('#ParentSteps'));
       loadAllParentSteps(workflow, $('#ChildSteps'));
       loadAllParentSteps(workflow, $('.JumpToSteps'));
+      $('.JumpToSteps').append($('<option value="">New Step</option>'));
       editStep(step);
     });
 
