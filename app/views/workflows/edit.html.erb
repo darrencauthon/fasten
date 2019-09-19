@@ -52,7 +52,7 @@
   <div class="col-md-4">
     <div class="box box-info">
       <div class="box-body pad">
-        <button type="button" class="openWorkflowView btn btn-block btn-secondary">Cancel</button>
+        <button type="button" class="openWorkflowView btn btn-block btn-secondary">Go Back</button>
         <button id="saveStep" type="button" class="btn btn-block btn-primary">Save</button>
       </div>
     </div>
@@ -360,8 +360,6 @@ var func = function() {
 
       for (var key in stepsToUpdate)
         saveStep(stepsToUpdate[key].newStep, stepsToUpdate[key].oldStep);
-
-      openWorkflowView();
     });
 
     var saveWorkflow = function() {
