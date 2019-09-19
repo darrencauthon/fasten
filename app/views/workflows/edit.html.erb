@@ -169,10 +169,19 @@ var func = function() {
     $('.networkViewRow').show();
   }
 
-  var openNewStepView = function() {
+  var incomingEventForANewStep = {};
+
+  var openNewStepView = function(options) {
+    options = options || {};
+
+    var incomingEvent = options.incomingEvent || {};
+
+    incomingEventForANewStep = options.incomingEvent;
+
     $('.stepEditorRow').hide();
     $('.newStepRow').show();
     $('.networkViewRow').hide();
+
   }
 
   var stepRunner = StepEditor({
@@ -192,6 +201,7 @@ var func = function() {
 	var stepId = $(selector).find('.JumpToSteps').val();
 	if (stepId == '')
 	{
+	  openNewStepView( { incomingEvent: event.data } );
 	  return;
 	}
         var step = stepRunner.findStep(stepId);
@@ -388,7 +398,7 @@ var func = function() {
       loadAllParentSteps(workflow, $('#ChildSteps'));
       loadAllParentSteps(workflow, $('.JumpToSteps'));
       $('.JumpToSteps').append($('<option value="">New Step</option>'));
-      editStep(step);
+      editStep(step, incomingEventForANewStep);
     });
 
     $('#id').val(workflow.id);
