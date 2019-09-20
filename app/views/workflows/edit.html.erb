@@ -161,13 +161,18 @@
 
 var func = function() {
 
-  jQuery.get('/workflows/step_types', function(data) {
-    console.log(data);
-    var stepTypes = data.step_types
-                        .map(function(x){ return $('<option>').val(x.id).html(x.name) });
+  var stepTypes = [];
 
-    for(var i = 0; i < stepTypes.length; i++)
-      $('#newStepType').append(stepTypes[i]);
+  jQuery.get('/workflows/step_types', function(data) {
+    stepTypes = data.step_types;
+
+    console.log(stepTypes);
+
+    var options = data.step_types
+                      .map(function(x){ return $('<option>').val(x.id).html(x.name) });
+
+    for(var i = 0; i < options.length; i++)
+      $('#newStepType').append(options[i]);
   });
 
   var openWorkflowView = function() {
