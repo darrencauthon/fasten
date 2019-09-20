@@ -19,8 +19,14 @@ class WorkflowsController < ApplicationController
   def step_types
     render json: {
                    step_types: [
-                                 { id: 'ManualStart', name: 'ManualStart' },
-                                 { id: 'WebRequest',  name: 'WebRequest'  },
+                                 {
+                                   id:   'ManualStart',
+                                   name: 'ManualStart' 
+                                 },
+                                 {
+                                   id:   'WebRequest',
+                                   name: 'WebRequest' 
+                                 }
                                ]
                  }
   end
