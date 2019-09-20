@@ -375,7 +375,7 @@ var func = function() {
     });
 
     var saveWorkflow = function() {
-      jQuery.post('/workflows/json/<%= @workflow.id %>', { workflow: workflow }, function(data) {
+      jQuery.post('/workflows/json/<%= @workflow.id %>', { workflow: JSON.stringify(workflow) }, function(data) {
         console.log(data);
       });
     };

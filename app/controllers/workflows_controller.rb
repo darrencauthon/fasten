@@ -53,8 +53,8 @@ class WorkflowsController < ApplicationController
 
     workflow = get_workflow params[:id]
 
-    workflow.steps = if (params[:workflow][:steps])
-                       JSON.parse(params[:workflow][:steps].to_json).map { |_, v| v }
+    workflow.steps = if (params[:workflow])
+                       JSON.parse(JSON.parse(params[:workflow])['steps'].to_json).map { |_, v| v }
                      else
                        []
                      end
