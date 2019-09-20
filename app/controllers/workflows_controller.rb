@@ -21,11 +21,16 @@ class WorkflowsController < ApplicationController
                    step_types: [
                                  {
                                    id:   'ManualStart',
-                                   name: 'ManualStart' 
+                                   name: 'ManualStart' ,
+                                   default_config: {
+                                   }
                                  },
                                  {
                                    id:   'WebRequest',
-                                   name: 'WebRequest' 
+                                   name: 'WebRequest',
+                                   default_config: {
+                                                     url: 'http://www.github.com',
+                                                   }
                                  }
                                ]
                  }

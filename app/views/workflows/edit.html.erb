@@ -395,15 +395,24 @@ var func = function() {
     loadAllParentSteps(workflow, $('.JumpToSteps'));
     $('.JumpToSteps').append($('<option value="">New Step</option>'));
 
-
     $('#AddNewStep').click(function(){
+
+      var stepId = $('#newStepId').val();
+      var stepType = $('#newStepType').val();
+
+      var fullStepType = {}
+
+      for(var i = 0; i < stepTypes.length; i++)
+        if (stepTypes[i].id == stepType)
+          fullStepType = stepTypes[i];
+
       var step = {
-                   id: $('#newStepId').val(),
+                   id: stepId,
                    name: $('#newStepName').val(),
                    label: $('#newStepName').val(),
-                   type: $('#newStepType').val(),
+                   type: stepType,
                    parent_step_ids: [],
-                   config: {}
+                   config: fullStepType.default_config || {}
                  };
 
       if (parentStepIdForANewStep)
