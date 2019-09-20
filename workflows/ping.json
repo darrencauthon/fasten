@@ -7,7 +7,9 @@
       "name": "Start Ping of URL",
       "label": "Start Ping of URL",
       "type": "ManualStart",
-      "message": "Starting {{url}}"
+      "message": "Starting {{url}}",
+      "config": {
+      }
     },
     {
       "id": "get_url",
@@ -24,19 +26,22 @@
       ]
     },
     {
-      "id": "testing1",
-      "name": "testing1",
-      "label": "testing1",
-      "type": "ManualStart",
+      "id": "only-200s",
+      "name": "Only 200s",
+      "label": "Only 200s",
+      "type": "Trigger",
       "parent_step_ids": [
-        "testing2"
-      ]
-    },
-    {
-      "id": "testing2",
-      "name": "testing2",
-      "label": "testing2",
-      "type": "ManualStart"
+        "get_url"
+      ],
+      "config": {
+        "rules": [
+          {
+            "path": "status",
+            "type": "==",
+            "value": "200"
+          }
+        ]
+      }
     }
   ],
   "id": "ping"
