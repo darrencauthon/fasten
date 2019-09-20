@@ -16,6 +16,10 @@ class WorkflowsController < ApplicationController
     render json: { workflow: workflow }
   end
 
+  def step_types
+    render json: { step_types: [] }
+  end
+
   def save
 
     workflow = get_workflow params[:id]

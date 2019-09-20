@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'workflows/json/:id', to: 'workflows#json'
   post 'workflows/json/:id', to: 'workflows#save'
   get 'workflows/edit/:id', to: 'workflows#edit'
+  get 'workflows/step_types', to: 'workflows#step_types'
 
   get 'runs', to: 'runs#index'
   get 'runs/view/:id', to: 'runs#view'
