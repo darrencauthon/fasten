@@ -148,8 +148,6 @@
         <input id="newStepName" name="newStepName" type="text" class="form-control">
         <label for="newStepType">New Step Type</label>
         <select id="newStepType" name="newStepType" class="form-control" style="width:100%">
-          <option value="ManualStart">ManualStart</option>
-          <option value="WebRequest">WebRequest</option>
         </select>
         <button type="button" id="AddNewStep" class="btn btn-block btn-primary">Next</button>
       </div>
@@ -165,6 +163,11 @@ var func = function() {
 
   jQuery.get('/workflows/step_types', function(data) {
     console.log(data);
+    var stepTypes = data.step_types
+                        .map(function(x){ return $('<option>').val(x.id).html(x.name) });
+
+    for(var i = 0; i < stepTypes.length; i++)
+      $('#newStepType').append(stepTypes[i]);
   });
 
   var openWorkflowView = function() {
