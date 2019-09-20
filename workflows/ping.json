@@ -43,6 +43,21 @@
         ]
       },
       "message": "{{url}} is good"
+    },
+    {
+      "id": "test-format",
+      "name": "Test the formatting",
+      "label": "Test the formatting",
+      "type": "EventFormatter",
+      "parent_step_ids": [
+        "only-200s"
+      ],
+      "config": {
+        "instructions": {
+          "full_name": "{{response_headers.expires}}"
+        },
+        "merge_mode": "merge"
+      }
     }
   ],
   "id": "ping"

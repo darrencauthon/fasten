@@ -20,6 +20,15 @@ class WorkflowsController < ApplicationController
     render json: {
                    step_types: [
                                  {
+                                   id:   'EventFormatter',
+                                   name: 'Event Formatter',
+                                   default_config: {
+                                                     instructions: {
+                                                                     full_name:  '{{first_name}} {{last_name}}',
+                                                                   }
+                                                   }
+                                 },
+                                 {
                                    id:   'Trigger',
                                    name: 'Trigger',
                                    default_config: {
