@@ -16,6 +16,26 @@ class WorkflowsController < ApplicationController
     render json: { workflow: workflow }
   end
 
+  def step_types
+    render json: {
+                   step_types: [
+                                 {
+                                   id:   'ManualStart',
+                                   name: 'ManualStart' ,
+                                   default_config: {
+                                   }
+                                 },
+                                 {
+                                   id:   'WebRequest',
+                                   name: 'WebRequest',
+                                   default_config: {
+                                                     url: 'http://www.github.com',
+                                                   }
+                                 }
+                               ]
+                 }
+  end
+
   def save
 
     workflow = get_workflow params[:id]

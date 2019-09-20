@@ -148,8 +148,6 @@
         <input id="newStepName" name="newStepName" type="text" class="form-control">
         <label for="newStepType">New Step Type</label>
         <select id="newStepType" name="newStepType" class="form-control" style="width:100%">
-          <option value="ManualStart">ManualStart</option>
-          <option value="WebRequest">WebRequest</option>
         </select>
         <button type="button" id="AddNewStep" class="btn btn-block btn-primary">Next</button>
       </div>
@@ -162,6 +160,20 @@
 <script type="text/javascript">
 
 var func = function() {
+
+  var stepTypes = [];
+
+  jQuery.get('/workflows/step_types', function(data) {
+    stepTypes = data.step_types;
+
+    console.log(stepTypes);
+
+    var options = data.step_types
+                      .map(function(x){ return $('<option>').val(x.id).html(x.name) });
+
+    for(var i = 0; i < options.length; i++)
+      $('#newStepType').append(options[i]);
+  });
 
   var openWorkflowView = function() {
     $('.stepEditorRow').hide();
@@ -383,15 +395,24 @@ var func = function() {
     loadAllParentSteps(workflow, $('.JumpToSteps'));
     $('.JumpToSteps').append($('<option value="">New Step</option>'));
 
-
     $('#AddNewStep').click(function(){
+
+      var stepId = $('#newStepId').val();
+      var stepType = $('#newStepType').val();
+
+      var fullStepType = {}
+
+      for(var i = 0; i < stepTypes.length; i++)
+        if (stepTypes[i].id == stepType)
+          fullStepType = stepTypes[i];
+
       var step = {
-                   id: $('#newStepId').val(),
+                   id: stepId,
                    name: $('#newStepName').val(),
                    label: $('#newStepName').val(),
-                   type: $('#newStepType').val(),
+                   type: stepType,
                    parent_step_ids: [],
-                   config: {}
+                   config: fullStepType.default_config || {}
                  };
 
       if (parentStepIdForANewStep)
