@@ -20,6 +20,19 @@ class WorkflowsController < ApplicationController
     render json: {
                    step_types: [
                                  {
+                                   id:   'Trigger',
+                                   name: 'Trigger',
+                                   default_config: {
+                                                     rules: [
+                                                              {
+                                                                path:  'status',
+                                                                type:  '==',
+                                                                value: '200'
+                                                              }
+                                                            ]
+                                                   }
+                                 },
+                                 {
                                    id:   'ManualStart',
                                    name: 'ManualStart' ,
                                    default_config: {
