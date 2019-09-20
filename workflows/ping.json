@@ -9,10 +9,7 @@
       "type": "ManualStart",
       "message": "Starting {{url}}",
       "config": {
-      },
-      "method": {
-      },
-      "shape": "box"
+      }
     },
     {
       "id": "get_url",
@@ -26,10 +23,7 @@
       "message": "Hitting {{url}}",
       "parent_step_ids": [
         "look_up_data"
-      ],
-      "method": {
-      },
-      "shape": "box"
+      ]
     },
     {
       "id": "only-200s",
@@ -48,9 +42,6 @@
           }
         ]
       },
-      "method": {
-      },
-      "shape": "box",
       "message": "{{url}} is good"
     }
   ],

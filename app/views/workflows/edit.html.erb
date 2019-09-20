@@ -166,8 +166,6 @@ var func = function() {
   jQuery.get('/workflows/step_types', function(data) {
     stepTypes = data.step_types;
 
-    console.log(stepTypes);
-
     var options = data.step_types
                       .map(function(x){ return $('<option>').val(x.id).html(x.name) });
 

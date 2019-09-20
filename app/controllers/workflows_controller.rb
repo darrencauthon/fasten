@@ -54,10 +54,14 @@ class WorkflowsController < ApplicationController
     workflow = get_workflow params[:id]
 
     workflow.steps = if (params[:workflow])
-                       JSON.parse(JSON.parse(params[:workflow], symbolize_names: true)[:steps].to_json)
+                       JSON.parse(JSON.parse(params[:workflow], symbolize_names: true)[:steps].to_json, symbolize_names: true)
                      else
                        []
                      end
+    workflow.steps.each do |step|
+      step.delete :shape
+      step.delete :method
+    end
 
     File.open("/workflows/#{workflow.id}.json", 'w') do |file|
       file.write JSON.pretty_generate(JSON.parse(workflow.to_json))
