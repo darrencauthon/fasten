@@ -1,0 +1,42 @@
+{
+  "context": {
+  },
+  "steps": [
+    {
+      "id": "get_some_json",
+      "name": "Ask For Some JSON",
+      "label": "Ask For Some JSON",
+      "type": "ManualStart",
+      "parent_step_ids": [
+
+      ],
+      "config": {
+      }
+    },
+    {
+      "id": "parse_the_Json",
+      "name": "Parse the JSON",
+      "label": "Parse the JSON",
+      "type": "JsonParser",
+      "parent_step_ids": [
+        "get_some_json"
+      ],
+      "config": {
+        "path": "json"
+      }
+    },
+    {
+      "id": "fetch_the_Json",
+      "name": "Fetch the JSON",
+      "label": "Fetch the JSON",
+      "type": "WebRequest",
+      "parent_step_ids": [
+        "get_some_json"
+      ],
+      "config": {
+        "url": "{{url}}"
+      }
+    }
+  ],
+  "id": "parse_json"
+}
