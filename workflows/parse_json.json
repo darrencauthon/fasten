@@ -19,10 +19,10 @@
       "label": "Parse the JSON",
       "type": "JsonParser",
       "parent_step_ids": [
-        "get_some_json"
+        "fetch_the_Json"
       ],
       "config": {
-        "path": "json"
+        "path": "body"
       }
     },
     {
@@ -35,6 +35,46 @@
       ],
       "config": {
         "url": "{{url}}"
+      }
+    },
+    {
+      "id": "break_out_the_events",
+      "name": "Break out the events",
+      "label": "Break out the events",
+      "type": "Splitter",
+      "parent_step_ids": [
+        "parse_the_Json"
+      ],
+      "config": {
+        "path": "items"
+      }
+    },
+    {
+      "id": "add_more_data",
+      "name": "add_more_data",
+      "label": "add_more_data",
+      "type": "Splitter",
+      "parent_step_ids": [
+        "break_out_the_events"
+      ],
+      "config": {
+        "path": "topics",
+        "merge_mode": "merge"
+      }
+    },
+    {
+      "id": "remove_t",
+      "name": "Remove T",
+      "label": "Remove T",
+      "type": "EventFormatter",
+      "parent_step_ids": [
+        "add_more_data"
+      ],
+      "config": {
+        "instructions": {
+          "topics": ""
+        },
+        "merge_mode": "merge"
       }
     }
   ],
