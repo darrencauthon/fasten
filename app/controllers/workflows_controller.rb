@@ -29,6 +29,18 @@ class WorkflowsController < ApplicationController
                                                    }
                                  },
                                  {
+                                   id:   'HtmlParser',
+                                   name: 'HTML Parser',
+                                   default_config: {
+                                                     extract: {
+                                                                title: {
+                                                                         css: 'a',
+                                                                         value: '@href'
+                                                                       }
+                                                              }
+                                                   }
+                                 },
+                                 {
                                    id:   'Trigger',
                                    name: 'Trigger',
                                    default_config: {
