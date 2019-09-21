@@ -42,6 +42,13 @@ class WorkflowsController < ApplicationController
                                                    }
                                  },
                                  {
+                                   id:   'JsonParser',
+                                   name: 'JSON Parser',
+                                   default_config: {
+                                                     path: 'body'
+                                                   }
+                                 },
+                                 {
                                    id:   'Trigger',
                                    name: 'Trigger',
                                    default_config: {
