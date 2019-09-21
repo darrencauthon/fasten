@@ -32,12 +32,27 @@ class WorkflowsController < ApplicationController
                                    id:   'HtmlParser',
                                    name: 'HTML Parser',
                                    default_config: {
+                                                     path:    'body',
                                                      extract: {
                                                                 title: {
                                                                          css: 'a',
                                                                          value: '@href'
                                                                        }
                                                               }
+                                                   }
+                                 },
+                                 {
+                                   id:   'JsonParser',
+                                   name: 'JSON Parser',
+                                   default_config: {
+                                                     path: 'body'
+                                                   }
+                                 },
+                                 {
+                                   id:   'Splitter',
+                                   name: 'Splitter',
+                                   default_config: {
+                                                     path: 'one.two.three'
                                                    }
                                  },
                                  {
