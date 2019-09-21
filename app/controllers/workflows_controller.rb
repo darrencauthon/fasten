@@ -32,6 +32,7 @@ class WorkflowsController < ApplicationController
                                    id:   'HtmlParser',
                                    name: 'HTML Parser',
                                    default_config: {
+                                                     path:    'body',
                                                      extract: {
                                                                 title: {
                                                                          css: 'a',
