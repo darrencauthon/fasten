@@ -49,6 +49,13 @@ class WorkflowsController < ApplicationController
                                                    }
                                  },
                                  {
+                                   id:   'Splitter',
+                                   name: 'Splitter',
+                                   default_config: {
+                                                     path: 'one.two.three'
+                                                   }
+                                 },
+                                 {
                                    id:   'Trigger',
                                    name: 'Trigger',
                                    default_config: {
