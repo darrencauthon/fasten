@@ -166,8 +166,6 @@ var func = function() {
   jQuery.get('/workflows/step_types', function(data) {
     stepTypes = data.step_types;
 
-    console.log(stepTypes);
-
     var options = data.step_types
                       .map(function(x){ return $('<option>').val(x.id).html(x.name) });
 
@@ -375,7 +373,7 @@ var func = function() {
     });
 
     var saveWorkflow = function() {
-      jQuery.post('/workflows/json/<%= @workflow.id %>', { workflow: workflow }, function(data) {
+      jQuery.post('/workflows/json/<%= @workflow.id %>', { workflow: JSON.stringify(workflow) }, function(data) {
         console.log(data);
       });
     };

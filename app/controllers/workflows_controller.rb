@@ -20,6 +20,40 @@ class WorkflowsController < ApplicationController
     render json: {
                    step_types: [
                                  {
+                                   id:   'EventFormatter',
+                                   name: 'Event Formatter',
+                                   default_config: {
+                                                     instructions: {
+                                                                     full_name:  '{{first_name}} {{last_name}}',
+                                                                   }
+                                                   }
+                                 },
+                                 {
+                                   id:   'HtmlParser',
+                                   name: 'HTML Parser',
+                                   default_config: {
+                                                     extract: {
+                                                                title: {
+                                                                         css: 'a',
+                                                                         value: '@href'
+                                                                       }
+                                                              }
+                                                   }
+                                 },
+                                 {
+                                   id:   'Trigger',
+                                   name: 'Trigger',
+                                   default_config: {
+                                                     rules: [
+                                                              {
+                                                                path:  'status',
+                                                                type:  '==',
+                                                                value: '200'
+                                                              }
+                                                            ]
+                                                   }
+                                 },
+                                 {
                                    id:   'ManualStart',
                                    name: 'ManualStart' ,
                                    default_config: {
@@ -40,11 +74,15 @@ class WorkflowsController < ApplicationController
 
     workflow = get_workflow params[:id]
 
-    workflow.steps = if (params[:workflow][:steps])
-                       JSON.parse(params[:workflow][:steps].to_json).map { |_, v| v }
+    workflow.steps = if (params[:workflow])
+                       JSON.parse(JSON.parse(params[:workflow], symbolize_names: true)[:steps].to_json, symbolize_names: true)
                      else
                        []
                      end
+    workflow.steps.each do |step|
+      step.delete :shape
+      step.delete :method
+    end
 
     File.open("/workflows/#{workflow.id}.json", 'w') do |file|
       file.write JSON.pretty_generate(JSON.parse(workflow.to_json))
