@@ -69,6 +69,13 @@ class WorkflowsController < ApplicationController
                                                    }
                                  },
                                  {
+                                   id:   'CrudInsert',
+                                   name: 'CrudInsert',
+                                   default_config: {
+                                                     path: 'one.two.three'
+                                                   }
+                                 },
+                                 {
                                    id:   'ManualStart',
                                    name: 'ManualStart' ,
                                    default_config: {

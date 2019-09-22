@@ -72,9 +72,23 @@
       ],
       "config": {
         "instructions": {
-          "topics": ""
+          "topics": "",
+          "unique_id": "{{categoryId}}_{{topicId}}"
         },
         "merge_mode": "merge"
+      }
+    },
+    {
+      "id": "insert_the_record",
+      "name": "Insert the record",
+      "label": "Insert the record",
+      "type": "CrudInsert",
+      "parent_step_ids": [
+        "remove_t"
+      ],
+      "config": {
+        "word": "{{unique_id}}",
+        "collection": "Test"
       }
     }
   ],
