@@ -87,8 +87,9 @@
         "remove_t"
       ],
       "config": {
-        "word": "{{unique_id}}",
-        "collection": "Test"
+        "record_id": "{{unique_id}}",
+        "collection": "Test",
+        "name": "{{title}}"
       }
     }
   ],

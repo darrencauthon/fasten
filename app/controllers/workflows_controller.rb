@@ -73,7 +73,7 @@ class WorkflowsController < ApplicationController
                                    name: 'CrudInsert',
                                    default_config: {
                                                      collection: 'TestRecords',
-                                                     word: '{{id}}',
+                                                     record_id: '{{id}}',
                                                      name: '{{name}}'
                                                    }
                                  },

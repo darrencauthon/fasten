@@ -10,10 +10,12 @@
 	<tbody>
 	  <tr>
 	    <th>Name</th>
+	    <th>Collection</th>
 	  </tr>
           <% @crud_records.each do |crud_record| %>
 	    <tr>
 	      <td><a href="/crud/view/<%= crud_record.id %>"><%= crud_record.data['name'] || crud_record.id %></a></td>
+	      <td><%= crud_record.collection_name %></td>
 	    </tr>
 	  <% end %>
 	</tbody>
