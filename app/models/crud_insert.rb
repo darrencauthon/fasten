@@ -9,17 +9,22 @@ class CrudInsert
     crud_record = CrudRecord.where(collection_name: config[:collection],
                                    record_id: config[:record_id]).first
 
-    crud_record = crud_record || CrudRecord.new(
-                    id: SecureRandom.uuid,
-                    data: event.data.to_hash,
-                    collection_name: config[:collection],
-		    record_id: config[:record_id])
+    unless crud_record
+      new_id = SecureRandom.uuid
+
+      crud_record = CrudRecord.new(
+                      id: new_id,
+                      data: event.data.to_hash,
+                      collection_name: config[:collection],
+		      record_id: config[:record_id])
+    end
+
+    crud_record.name = config[:name] || crud_record.name
 
     hash = crud_record.data || {}
     event.data.to_hash.each do |k, v|
       hash[k] = v
     end
-    hash[:name] = config[:name]
 
     crud_record.data = hash
 
