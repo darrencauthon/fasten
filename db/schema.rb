@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 2019_09_02_000001) do
   create_table "crud_records", id: :string, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "collection_name"
     t.string "record_id"
+    t.string "name"
     t.text "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

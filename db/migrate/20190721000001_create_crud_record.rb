@@ -4,6 +4,7 @@ class CreateCrudRecord < ActiveRecord::Migration[5.2]
       t.string :id, primary_key: true
       t.string :collection_name
       t.string :record_id
+      t.string :name
       t.text :data
 
       t.timestamps
