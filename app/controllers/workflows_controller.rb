@@ -69,6 +69,15 @@ class WorkflowsController < ApplicationController
                                                    }
                                  },
                                  {
+                                   id:   'CrudInsert',
+                                   name: 'Upsert Record',
+                                   default_config: {
+                                                     collection: 'TestRecords',
+                                                     record_id: '{{id}}',
+                                                     name: '{{name}}'
+                                                   }
+                                 },
+                                 {
                                    id:   'ManualStart',
                                    name: 'ManualStart' ,
                                    default_config: {

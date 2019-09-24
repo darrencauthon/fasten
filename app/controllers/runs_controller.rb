@@ -5,7 +5,7 @@ class RunsController < ApplicationController
     @page_header = 'Runs'
     @optional_description = ''
 
-    @runs = Run.all
+    @runs = Run.all.where.not(workflow_id: nil)
 
     render layout: 'adminlte'
   end

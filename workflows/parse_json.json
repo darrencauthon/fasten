@@ -11,7 +11,8 @@
 
       ],
       "config": {
-      }
+      },
+      "message": "Manual Start for {{url}}"
     },
     {
       "id": "parse_the_Json",
@@ -23,7 +24,8 @@
       ],
       "config": {
         "path": "body"
-      }
+      },
+      "message": "Parse the JSON from {{url}}"
     },
     {
       "id": "fetch_the_Json",
@@ -35,7 +37,8 @@
       ],
       "config": {
         "url": "{{url}}"
-      }
+      },
+      "message": "Fetching the code from {{url}}"
     },
     {
       "id": "break_out_the_events",
@@ -47,7 +50,8 @@
       ],
       "config": {
         "path": "items"
-      }
+      },
+      "message": "Extract {{name}}"
     },
     {
       "id": "add_more_data",
@@ -75,6 +79,20 @@
           "topics": ""
         },
         "merge_mode": "merge"
+      }
+    },
+    {
+      "id": "insert_the_record",
+      "name": "Insert the record",
+      "label": "Insert the record",
+      "type": "CrudInsert",
+      "parent_step_ids": [
+        "remove_t"
+      ],
+      "config": {
+        "record_id": "{{categoryId}}_{{topicId}}",
+        "collection": "Events",
+        "name": "{{title}}"
       }
     }
   ],
