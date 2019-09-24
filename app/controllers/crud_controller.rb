@@ -2,7 +2,7 @@ class CrudController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    @page_header = 'CRUD'
+    @page_header = 'Records'
     @optional_description = ''
 
     @crud_records = CrudRecord.all
@@ -11,7 +11,7 @@ class CrudController < ApplicationController
   end
 
   def view
-    @page_header = 'CRUD Record'
+    @page_header = 'Record'
     @optional_description = ''
 
     @crud_record = CrudRecord.find params[:id]
@@ -23,6 +23,14 @@ class CrudController < ApplicationController
     @crud_record = CrudRecord.find params[:id]
 
     render json: @crud_record
+  end
+
+  def delete
+    crud_record = CrudRecord.find params[:id]
+
+    crud_record.delete
+
+    render json: {}
   end
 
 end

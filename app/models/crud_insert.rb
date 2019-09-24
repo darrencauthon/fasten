@@ -4,16 +4,14 @@ class CrudInsert
 
   def receive event
 
-    #CrudRecord.delete_all
-
     crud_record = CrudRecord.where(collection_name: config[:collection],
                                    record_id: config[:record_id]).first
 
-    unless crud_record
-      new_id = SecureRandom.uuid
+    action = crud_record ? 'updated' : 'created'
 
+    unless crud_record
       crud_record = CrudRecord.new(
-                      id: new_id,
+                      id: SecureRandom.uuid,
                       data: event.data.to_hash,
                       collection_name: config[:collection],
 		      record_id: config[:record_id])
@@ -22,6 +20,7 @@ class CrudInsert
     crud_record.name = config[:name] || crud_record.name
 
     hash = crud_record.data || {}
+
     event.data.to_hash.each do |k, v|
       hash[k] = v
     end
@@ -32,8 +31,9 @@ class CrudInsert
 
     new_event = Event.new
     new_event.data = event.data
-    new_event.data[:id] = crud_record.id
-    new_event.data[:count] = CrudRecord.count
+    new_event.data[:collection] = crud_record.collection_name
+    new_event.data[:record_id] = crud_record.record_id
+    new_event.data[:action] = action
     new_event
   end
 

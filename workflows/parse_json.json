@@ -72,8 +72,7 @@
       ],
       "config": {
         "instructions": {
-          "topics": "",
-          "unique_id": "{{categoryId}}_{{topicId}}"
+          "topics": ""
         },
         "merge_mode": "merge"
       }
@@ -87,7 +86,7 @@
         "remove_t"
       ],
       "config": {
-        "record_id": "{{unique_id}}",
+        "record_id": "{{categoryId}}_{{topicId}}",
         "collection": "Events",
         "name": "{{title}}"
       }

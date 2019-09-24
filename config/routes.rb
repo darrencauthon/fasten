@@ -15,9 +15,10 @@ Rails.application.routes.draw do
   get 'runs', to: 'runs#index'
   get 'runs/view/:id', to: 'runs#view'
 
-  get 'crud', to: 'crud#index'
-  get 'crud/view/:id', to: 'crud#view'
-  get 'crud/json/:id', to: 'crud#json'
+  get 'records', to: 'crud#index'
+  get 'records/view/:id', to: 'crud#view'
+  get 'records/json/:id', to: 'crud#json'
+  post 'records/delete', to: 'crud#delete'
 
   get 'sequence/new'
   get 'events/index'
