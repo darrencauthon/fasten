@@ -145,6 +145,18 @@ var RunViewer = function(){
         var event_id = params.nodes[0];
 	if (event_id == undefined) return;
         EventModal.popThisEvent(event_id);
+
+        var options = {
+                        scale: 1.0,
+                        offset: {x:0,y:0},
+                        animation: {
+                          duration: 1000,
+                          easingFunction: 'linear'
+                        }
+                      };
+
+        network.focus(event_id, options);
+
       });
     };
 
