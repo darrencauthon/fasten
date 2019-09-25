@@ -8,5 +8,5 @@ class Uuid < Liquid::Tag
   end
 end
 
-Liquid::Template.register_tag('_uuid', Uuid)
-Liquid::Template.register_tag('_guid', Uuid)
+Liquid::Template.register_tag('uuid', Uuid)
+Liquid::Template.register_tag('guid', Uuid)
