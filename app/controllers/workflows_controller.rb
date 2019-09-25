@@ -8,6 +8,9 @@ class WorkflowsController < ApplicationController
     @workflows = Workflow.all
 
     render layout: 'adminlte'
+
+    raise Sidekiq::Cron::Job.create(name: 'Test worker - every 5min', cron: '*/1 * * * *', class: 'TestWorker', args: ['test']).inspect
+
   end
 
   def json
