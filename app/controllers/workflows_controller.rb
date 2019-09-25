@@ -86,8 +86,9 @@ class WorkflowsController < ApplicationController
                                  },
                                  {
                                    id:   'CronEvent',
-                                   name: 'CronEvent' ,
+                                   name: 'CronEvent',
                                    default_config: {
+                                     cron: '*/2 * * * *'
                                    }
                                  },
                                  {
