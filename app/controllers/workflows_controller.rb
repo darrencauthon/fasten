@@ -87,6 +87,12 @@ class WorkflowsController < ApplicationController
                                    }
                                  },
                                  {
+                                   id:   'CronEvent',
+                                   name: 'CronEvent' ,
+                                   default_config: {
+                                   }
+                                 },
+                                 {
                                    id:   'WebRequest',
                                    name: 'WebRequest',
                                    default_config: {
