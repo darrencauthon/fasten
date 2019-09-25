@@ -1,0 +1,40 @@
+<div class="row">
+
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">Manual Starts</h3>
+      </div>
+      <div class="box-body">
+        <table class="table table-bordered">
+	<tbody>
+	  <tr>
+	    <th>Name</th>
+	    <th>Workflow</th>
+	    <th>Cron</th>
+	  </tr>
+          <% @steps.each do |step| %>
+	    <tr>
+	      <td><%= step[:name] %></td>
+	      <td><%= step[:workflow_id] %></td>
+	      <td><%= step[:config][:cron] %></td>
+	    </tr>
+	  <% end %>
+	</tbody>
+	</table>
+      </div>
+      <div class="box-footer">
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+
+var func = function() {
+};
+
+document.addEventListener('DOMContentLoaded', func);
+
+</script>

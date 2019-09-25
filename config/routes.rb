@@ -46,6 +46,8 @@ Rails.application.routes.draw do
   get 'workflow_editor/:id', to: "workflow_editor#index"
   post 'workflow_editor/:id', to: "workflow_editor#save"
 
+  get 'cron_events', to: 'cron_events#index'
+
   get 'manual_starts', to: 'manual_starts#index'
   get 'manual_starts/view/:workflow_id/:step_id', to: 'manual_starts#view'
   get 'manual_starts/fire/:workflow_id/:step_id', to: 'manual_starts#fire'
