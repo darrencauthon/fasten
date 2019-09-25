@@ -1,0 +1,20 @@
+{
+  "context": {
+  },
+  "steps": [
+    {
+      "id": "FirstCron",
+      "name": "FirstCron",
+      "label": "FirstCron",
+      "type": "CronEvent",
+      "parent_step_ids": [
+
+      ],
+      "config": {
+        "cron": "*/2 * * * *"
+      },
+      "message": "Starting!!"
+    }
+  ],
+  "id": "cron"
+}

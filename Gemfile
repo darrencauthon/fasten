@@ -63,6 +63,7 @@ end
 gem 'faraday'
 gem 'faraday-encoding'
 gem 'sidekiq'
+gem 'sidekiq-cron'
 gem 'symbolized'
 gem 'liquid'
 

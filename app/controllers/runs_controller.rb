@@ -5,7 +5,7 @@ class RunsController < ApplicationController
     @page_header = 'Runs'
     @optional_description = ''
 
-    @runs = Run.all.where.not(workflow_id: nil)
+    @runs = Run.all.where.not(workflow_id: nil).sort_by { |x| x.created_at }
 
     render layout: 'adminlte'
   end
