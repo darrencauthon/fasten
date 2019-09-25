@@ -9,8 +9,6 @@ class WorkflowsController < ApplicationController
 
     render layout: 'adminlte'
 
-    raise Sidekiq::Cron::Job.create(name: 'Test worker - every 5min', cron: '*/1 * * * *', class: 'TestWorker', args: ['test']).inspect
-
   end
 
   def json
@@ -120,6 +118,13 @@ class WorkflowsController < ApplicationController
     File.open("/workflows/#{workflow.id}.json", 'w') do |file|
       file.write JSON.pretty_generate(JSON.parse(workflow.to_json))
     end
+
+    workflow.steps.select { |x| x[:type] == 'CronEvent' }.each do |step|
+      Sidekiq::Cron::Job.create(name:  "#{workflow.id}_#{step[:id]}",
+                                cron:  '*/1 * * * *',
+                                class: 'CronEventWorker', args: [workflow.id, step[:id]])
+    end
+
 
     render json: { workflow: workflow }
   end
