@@ -121,7 +121,7 @@ class WorkflowsController < ApplicationController
 
     workflow.steps.select { |x| x[:type] == 'CronEvent' }.each do |step|
       Sidekiq::Cron::Job.create(name:  "#{workflow.id}_#{step[:id]}",
-                                cron:  '*/1 * * * *',
+                                cron:  step[:config][:cron],
                                 class: 'CronEventWorker', args: [workflow.id, step[:id]])
     end
 
