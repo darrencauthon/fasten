@@ -120,12 +120,7 @@ class WorkflowsController < ApplicationController
       file.write JSON.pretty_generate(JSON.parse(workflow.to_json))
     end
 
-    workflow.steps.select { |x| x[:type] == 'CronEvent' }.each do |step|
-      Sidekiq::Cron::Job.create(name:  "#{workflow.id}_#{step[:id]}",
-                                cron:  step[:config][:cron],
-                                class: 'CronEventWorker', args: [workflow.id, step[:id]])
-    end
-
+    CronEvent.setup_all
 
     render json: { workflow: workflow }
   end
