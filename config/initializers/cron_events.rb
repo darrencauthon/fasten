@@ -1,0 +1,1 @@
+CronEvent.setup_all
