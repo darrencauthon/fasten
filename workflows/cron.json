@@ -11,8 +11,9 @@
 
       ],
       "config": {
-        "": ""
-      }
+        "a": "b"
+      },
+      "message": "Starting!!"
     }
   ],
   "id": "cron"
