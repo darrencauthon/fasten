@@ -8,6 +8,7 @@ class WorkflowsController < ApplicationController
     @workflows = Workflow.all
 
     render layout: 'adminlte'
+
   end
 
   def json
@@ -84,6 +85,13 @@ class WorkflowsController < ApplicationController
                                    }
                                  },
                                  {
+                                   id:   'CronEvent',
+                                   name: 'CronEvent',
+                                   default_config: {
+                                     cron: '*/2 * * * *'
+                                   }
+                                 },
+                                 {
                                    id:   'WebRequest',
                                    name: 'WebRequest',
                                    default_config: {
@@ -111,6 +119,8 @@ class WorkflowsController < ApplicationController
     File.open("/workflows/#{workflow.id}.json", 'w') do |file|
       file.write JSON.pretty_generate(JSON.parse(workflow.to_json))
     end
+
+    CronEvent.setup_all
 
     render json: { workflow: workflow }
   end
