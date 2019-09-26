@@ -5,7 +5,15 @@ class Run < ApplicationRecord
     return if step.nil?
 
     run = Run.new
-    run.id = SecureRandom.uuid
+
+    if step[:config] && step[:config][:run_id] && step[:config][:run_id] != ''
+      run.id = Mashing.mash_single_value step[:config][:run_id], event.data
+    end
+    run.id = run.id.strip
+    if run.id == nil || run.id == ''
+      run.id = SecureRandom.uuid unless run.id
+    end
+
     run.workflow_id = workflow.id
     run.save
 
