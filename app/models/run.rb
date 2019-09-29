@@ -9,7 +9,7 @@ class Run < ApplicationRecord
     if step[:config] && step[:config][:run_id] && step[:config][:run_id] != ''
       run.id = Mashing.mash_single_value step[:config][:run_id], event.data
     end
-    run.id |= ''
+    run.id = '' unless run.id
     run.id = run.id.strip
     run.id = SecureRandom.uuid if run.id == ''
 
