@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get 'workflows/edit/:id', to: 'workflows#edit'
   get 'workflows/step_types', to: 'workflows#step_types'
 
+  get '', to: 'home#index'
   get 'runs', to: 'runs#index'
   get 'runs/view/:id', to: 'runs#view'
 
