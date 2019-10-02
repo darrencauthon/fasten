@@ -18,10 +18,14 @@ class WebEndpointsController < ApplicationController
   end
 
   def fire
-    #raise request.inspect
+    headers = {}
+    request.headers.each do |x|
+      headers[x[0]] = x[1] if x[1].is_a?(String)
+    end
     data = {
       url: request.env['PATH_INFO'],
-      method: request.env['REQUEST_METHOD']
+      method: request.env['REQUEST_METHOD'],
+      headers: headers
     }
     raise data.inspect
     render json: data
