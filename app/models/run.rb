@@ -4,13 +4,7 @@ class Run < ApplicationRecord
 
     return if step.nil?
 
-    run_id = SecureRandom.uuid
-    if step[:config] && step[:config][:run_id] && step[:config][:run_id] != ''
-      computed_run_id = Mashing.mash_single_value step[:config][:run_id], event.data
-      if computed_run_id && computed_run_id.strip != ''
-        run_id = computed_run_id.strip
-      end
-    end
+    run_id = generate_a_run_id_for step, event
 
     run = Run.new
 
@@ -30,6 +24,17 @@ class Run < ApplicationRecord
   end
 
   class << self
+
+    def generate_a_run_id_for step, event
+      run_id = SecureRandom.uuid
+      if step[:config] && step[:config][:run_id] && step[:config][:run_id] != ''
+        computed_run_id = Mashing.mash_single_value step[:config][:run_id], event.data
+        if computed_run_id && computed_run_id.strip != ''
+          run_id = computed_run_id.strip
+        end
+      end
+      run_id
+    end
 
     def execute_step step, event, workflow
       events = step[:method].call event
