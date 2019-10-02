@@ -18,8 +18,13 @@ class WebEndpointsController < ApplicationController
   end
 
   def fire
-    raise request.inspect
-    render json: {}
+    #raise request.inspect
+    data = {
+      url: request.env['PATH_INFO'],
+      method: request.env['REQUEST_METHOD']
+    }
+    raise data.inspect
+    render json: data
   end
 
 end
