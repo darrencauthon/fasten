@@ -17,4 +17,8 @@ class WebEndpointsController < ApplicationController
     render layout: 'adminlte'
   end
 
+  def fire
+    render json: {}
+  end
+
 end
