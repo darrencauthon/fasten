@@ -18,6 +18,7 @@ class WebEndpointsController < ApplicationController
   end
 
   def fire
+    raise request.inspect
     render json: {}
   end
 
