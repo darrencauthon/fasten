@@ -6,7 +6,7 @@
       "id": "FirstCron",
       "name": "FirstCron",
       "label": "FirstCron",
-      "type": "CronEvent",
+      "type": "NotACronEvent",
       "parent_step_ids": [
 
       ],
