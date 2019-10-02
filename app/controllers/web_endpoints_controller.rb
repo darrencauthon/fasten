@@ -26,6 +26,7 @@ class WebEndpointsController < ApplicationController
       url: request.env['PATH_INFO'],
       method: request.env['REQUEST_METHOD'],
       form: request.env['rack.request.form_hash'],
+      query: request.env['rack.request.query_hash'],
       raw: request.raw_post,
       headers: headers
     }
