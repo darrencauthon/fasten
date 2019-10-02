@@ -4,9 +4,11 @@ class Run < ApplicationRecord
 
     return if step.nil?
 
-    run = Run.new
+    run_id = generate_a_run_id_for step, event
 
-    run.id = generate_a_run_id_for step, event
+    run = Run.where(id: run_id).first || Run.new
+
+    run.id = run_id
     run.workflow_id = workflow.id
 
     run.save
