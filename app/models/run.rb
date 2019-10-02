@@ -4,11 +4,9 @@ class Run < ApplicationRecord
 
     return if step.nil?
 
-    run_id = generate_a_run_id_for step, event
-
     run = Run.new
 
-    run.id = run_id
+    run.id = generate_a_run_id_for step, event
     run.workflow_id = workflow.id
 
     run.save
