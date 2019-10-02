@@ -58,6 +58,6 @@ Rails.application.routes.draw do
 
   mount Sidekiq::Web => '/sidekiq'
 
-  get  '*path', to: 'web_endpoints#fire'
-  post '*path', to: 'web_endpoints#fire'
+  match '*path', to: 'web_endpoints#fire', via: :all
+
 end
