@@ -50,7 +50,6 @@ Rails.application.routes.draw do
   get 'cron_events', to: 'cron_events#index'
 
   get 'web_endpoints', to: 'web_endpoints#index'
-  get '*path', to: 'web_endpoints#fire'
 
   get 'manual_starts', to: 'manual_starts#index'
   get 'manual_starts/view/:workflow_id/:step_id', to: 'manual_starts#view'
@@ -58,4 +57,6 @@ Rails.application.routes.draw do
   post 'manual_starts/fire/:workflow_id/:step_id', to: 'manual_starts#fire'
 
   mount Sidekiq::Web => '/sidekiq'
+
+  get '*path', to: 'web_endpoints#fire'
 end
