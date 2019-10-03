@@ -35,9 +35,14 @@ class WebEndpointsController < ApplicationController
 
     originating_event = Event.new(data: data)
 
+    class << workflow
+      attr_accessor :response
+    end
+    workflow.response = {}
+
     run = WebRun.start originating_event, step, workflow
 
-    render json: { run_id: run.id }
+    render json: workflow.response
   end
 
   private
