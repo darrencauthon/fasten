@@ -1,0 +1,19 @@
+{
+  "context": {
+  },
+  "steps": [
+    {
+      "id": "receive_hook",
+      "name": "receive_hook",
+      "label": "receive_hook",
+      "type": "WebEndpoint",
+      "parent_step_ids": [
+
+      ],
+      "config": {
+        "url": "/test/test/testing"
+      }
+    }
+  ],
+  "id": "hook"
+}
