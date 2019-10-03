@@ -18,7 +18,26 @@ class WebEndpointsController < ApplicationController
   end
 
   def fire
-    render json: get_the_data
+
+    workflow = nil
+    step = nil
+
+    data = get_the_data
+
+    Workflow.all.each do |w|
+      w.steps.select { |x| x[:type] == 'WebEndpoint' }.each do |s|
+        if s[:config] && s[:config][:url] == data[:url]
+	  workflow = w
+	  step = s
+	end
+      end
+    end
+
+    originating_event = Event.new(data: data)
+
+    run = Run.start originating_event, step, workflow
+
+    render json: { run_id: run.id }
   end
 
   private
