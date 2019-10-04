@@ -23,8 +23,9 @@
         "change_the_data"
       ],
       "config": {
-        "instructions": {
-          "full_name": "{{first_name}} {{last_name}}"
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
         }
       },
       "merge_mode": "merge"
