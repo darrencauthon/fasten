@@ -38,6 +38,7 @@ module Mashing
   end
 
   def self.mash_single_value(value, data)
+    return value unless value.is_a? String
     Liquid::Template
       .parse(value)
       .render SymbolizedHash.new(data)
