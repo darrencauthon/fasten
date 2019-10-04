@@ -42,7 +42,13 @@ class WebEndpointsController < ApplicationController
 
     run = WebRun.start originating_event, step, workflow
 
-    render json: workflow.response
+    status  = workflow.response[:status]  || 200
+    data    = workflow.response[:data]    || {}
+    headers = workflow.response[:headers] || {}
+
+    headers.each { |h| response.headers[h[0].to_s] = h[1] }
+
+    render json: data, status: status.to_i
   end
 
   private
