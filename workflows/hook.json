@@ -18,7 +18,7 @@
       "id": "look_at_it",
       "name": "look_at_it",
       "label": "look_at_it",
-      "type": "EventFormatter",
+      "type": "WebEndpointJsonResponse",
       "parent_step_ids": [
         "receive_hook"
       ],

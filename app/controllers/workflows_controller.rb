@@ -91,6 +91,12 @@ class WorkflowsController < ApplicationController
                                    }
                                  },
                                  {
+                                   id:   'WebEndpointJsonResponse',
+                                   name: 'WebEndpointJsonResponse' ,
+                                   default_config: {
+                                   }
+                                 },
+                                 {
                                    id:   'CronEvent',
                                    name: 'CronEvent',
                                    default_config: {
