@@ -13,6 +13,37 @@
       "config": {
         "url": "/test/test/testing"
       }
+    },
+    {
+      "id": "look_at_it",
+      "name": "look_at_it",
+      "label": "look_at_it",
+      "type": "WebEndpointJsonResponse",
+      "parent_step_ids": [
+        "change_the_data"
+      ],
+      "config": {
+        "status": 201,
+        "headers": {
+          "content-type": "application/json",
+          "test_this": "abc"
+        }
+      },
+      "merge_mode": "merge"
+    },
+    {
+      "id": "change_the_data",
+      "name": "Change the web request",
+      "label": "Change the web request",
+      "type": "EventFormatter",
+      "parent_step_ids": [
+        "receive_hook"
+      ],
+      "config": {
+        "instructions": {
+          "status": 200
+        }
+      }
     }
   ],
   "id": "hook"

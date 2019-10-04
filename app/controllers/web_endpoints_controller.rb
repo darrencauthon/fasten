@@ -35,9 +35,20 @@ class WebEndpointsController < ApplicationController
 
     originating_event = Event.new(data: data)
 
-    run = Run.start originating_event, step, workflow
+    class << workflow
+      attr_accessor :response
+    end
+    workflow.response = {}
 
-    render json: { run_id: run.id }
+    run = WebRun.start originating_event, step, workflow
+
+    status  = workflow.response[:status]  || 200
+    data    = workflow.response[:data]    || {}
+    headers = workflow.response[:headers] || {}
+
+    headers.each { |h| response.headers[h[0].to_s] = h[1] }
+
+    render json: data, status: status.to_i
   end
 
   private
