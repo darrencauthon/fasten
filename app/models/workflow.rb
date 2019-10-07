@@ -48,9 +48,7 @@ class Workflow
 
       events = events.select { |x| x.is_a? Event }
 
-      if (event_handler.config[:merge_mode] == 'merge')
-        copy_event_data_from event, events
-      end
+      copy_event_data_from event, events, event_handler.merge
 
       events
         .reject { |x| x.message }
@@ -75,18 +73,24 @@ class Workflow
 
     class << event_handler
       attr_accessor :message
+      attr_accessor :merge
     end
     event_handler.message = step[:message] || step[:config][:message]
+    event_handler.merge   = step[:merge]   || step[:config][:merge]
 
     event_handler
   end
 
   private
 
-  def self.copy_event_data_from source_event, target_events
+  def self.copy_event_data_from source_event, target_events, merge
+
+    merge = [merge].flatten.join(',').split(',').select { |x| x }.map { |x| x.strip }
+
     target_events.each do |target_event|
       target_event.data = Hash.new unless target_event.data
       source_event.data.keys
+        .select { |k| merge[0] == '*' || merge.include?(k) }
         .reject { |k| target_event.data.keys.include? k }
         .each   { |k| target_event.data[k] = source_event.data[k] }
     end
