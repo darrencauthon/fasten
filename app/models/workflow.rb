@@ -75,8 +75,10 @@ class Workflow
 
     class << event_handler
       attr_accessor :message
+      attr_accessor :merge
     end
     event_handler.message = step[:message] || step[:config][:message]
+    event_handler.merge   = step[:merge]   || step[:config][:merge]
 
     event_handler
   end
