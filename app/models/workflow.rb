@@ -9,6 +9,24 @@ class Workflow
     self.steps = []
   end
 
+  def descendants_of step, previously_found = []
+    descendants = steps
+                    .select { |x| (x[:parent_step_ids] || []).include? step[:id] }
+                    .reject { |x| previously_found.include? step }
+
+    previously_found << descendants.map { |x| x[:id] }
+
+    more_descendants = []
+    descendants.each do |descendants|
+      more_descendants << descendants
+                            .map { |x| descendants_of x, previously_found }
+			    .flatten
+      previously_found << more_descendants.map { |x| x[:id] }
+    end
+
+    descendants.flatten
+  end
+
   def self.find id
     all.select { |x| x.id == id }.first
   end
