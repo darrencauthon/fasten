@@ -48,7 +48,7 @@ class Workflow
 
       events = events.select { |x| x.is_a? Event }
 
-      if (event_handler.config[:merge_mode] == 'merge')
+      if (event_handler.merge == '*')
         copy_event_data_from event, events
       end
 
