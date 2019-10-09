@@ -48,7 +48,10 @@ class Run < ApplicationRecord
                      .select { |x| x[:parent_step_ids].include? step[:id] }
 
       next_steps.each do |next_step|
-        events.each { |e| run_this_step next_step, e, workflow }
+        events.each do |e|
+          StepExecution.create(event_id: e, workflow_id: workflow.id, run_id: event.run_id)
+          run_this_step next_step, e, workflow }
+        end
       end
 
     end
