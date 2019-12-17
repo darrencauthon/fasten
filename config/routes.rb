@@ -2,10 +2,6 @@ require 'sidekiq/web'
 require 'sidekiq/cron/web'
 Rails.application.routes.draw do
 
-  get 'starter', to: 'starter#index'
-  get 'starter/step', to: 'starter#step'
-  post 'starter/run_step', to: 'starter#run_step'
-
   get 'events', to: 'events#new_index'
   get 'workflows', to: 'workflows#index'
   get 'workflows/json/:id', to: 'workflows#json'
