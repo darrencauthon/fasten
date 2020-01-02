@@ -50,6 +50,13 @@ class WorkflowsController < ApplicationController
                                                    }
                                  },
                                  {
+                                   id:   'ConvertXmlToJson',
+                                   name: 'Convert XML to JSON',
+                                   default_config: {
+                                                     path: 'one.two.three'
+                                                   }
+                                 },
+                                 {
                                    id:   'Splitter',
                                    name: 'Splitter',
                                    default_config: {
