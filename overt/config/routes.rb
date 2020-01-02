@@ -9,6 +9,10 @@ Rails.application.routes.draw do
   get 'workflows/edit/:id', to: 'workflows#edit'
   get 'workflows/step_types', to: 'workflows#step_types'
 
+  get 'starter', to: 'starter#index'
+  get 'starter/step', to: 'starter#step'
+  post 'starter/run_step', to: 'starter#run_step'
+
   get '', to: 'home#index'
   get 'runs', to: 'runs#index'
   get 'runs/view/:id', to: 'runs#view'
