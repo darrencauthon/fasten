@@ -1,4 +1,4 @@
-class ConvertXmlToJson
+class ConvertXmlToData
 
   attr_accessor :config
 

@@ -50,8 +50,8 @@ class WorkflowsController < ApplicationController
                                                    }
                                  },
                                  {
-                                   id:   'ConvertXmlToJson',
-                                   name: 'Convert XML to JSON',
+                                   id:   'ConvertXmlToData',
+                                   name: 'Convert XML to Data',
                                    default_config: {
                                                      path: 'one.two.three'
                                                    }
