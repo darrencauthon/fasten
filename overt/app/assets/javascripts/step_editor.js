@@ -101,11 +101,15 @@ var StepEditor = function(config) {
 
       $('#' + config.incomingEventEditorId + '_load').off().click(function(e){
         incomingEventDataEditor.destroy();
-        incomingEventDataEditor = JsonEditor.create( { id: config.incomingEventEditorId, data: {test: 'test'} } );
+        var test_event = step.test_event || {};
+        incomingEventDataEditor = JsonEditor.create( { id: config.incomingEventEditorId, data: test_event } );
         incomingEventDataEditor.expandAll();
         e.preventDefault();
       });
-      $('#' + config.incomingEventEditorId + '_save').off().click(function(e){e.preventDefault();});
+      $('#' + config.incomingEventEditorId + '_save').off().click(function(e){
+        step.test_event = incomingEventDataEditor.get();
+        e.preventDefault();
+      });
   
       stepEditor = JsonEditor.create( { id: config.stepEditorId, data: step } );
       stepEditor.expandAll();
