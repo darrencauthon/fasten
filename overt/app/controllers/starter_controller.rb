@@ -42,9 +42,9 @@ class StarterController < ApplicationController
 
     run = Run.start originating_event, step_off_of_the_built_workflow, workflow
 
-    events = Event.where(run_id: run.id)
+    events = Event.where(run_id: run.id).paginate(page: 1, per_page: params[:limit] || 10)
 
-    render json: { run: run, events: events }
+    render json: { run: run, events: events, count: events.total_entries }
 
   end
 

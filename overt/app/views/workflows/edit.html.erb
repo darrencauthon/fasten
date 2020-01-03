@@ -107,7 +107,21 @@
         <h3 class="box-title">Action</h3>
       </div>
       <div class="box-body pad">
-        <button id="runStep" type="button" class="btn btn-block btn-primary">Run</button>
+        <div class="row">
+          <div class="col-md-6">
+            Event Limit
+            <select id="eventLimit" name="EventLimit" class="form-control">
+              <option>5</option>
+              <option>10</option>
+              <option>50</option>
+              <option>100</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <button id="runStep" type="button" class="btn btn-block btn-primary">Run</button>
+            <div id="runStepMessage"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -202,6 +216,9 @@ var func = function() {
     stepEditorId: 'step_editor',
     runStepButton: function() { return $('#runStep') },
     afterEachEvent: function(selector, event) {
+
+      var firstChild = $('#ChildSteps').val()[0] || '';
+      $(selector + ' .JumpToSteps').val(firstChild);
 
       $(selector).find('.eventTitle').html(event.message);
 

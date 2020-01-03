@@ -5,7 +5,7 @@ class CrudController < ApplicationController
     @page_header = 'Records'
     @optional_description = ''
 
-    @crud_records = CrudRecord.all
+    @crud_records = CrudRecord.all.paginate(page: params[:page], per_page: 10)
 
     render layout: 'adminlte'
   end

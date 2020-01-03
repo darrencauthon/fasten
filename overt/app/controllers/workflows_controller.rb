@@ -57,6 +57,14 @@ class WorkflowsController < ApplicationController
                                                    }
                                  },
                                  {
+                                   id:   'AllRecords',
+                                   name: 'All Records',
+                                   default_config: {
+                                                     collection: 'TestRecords',
+                                                     limit: '*',
+                                                   }
+                                 },
+                                 {
                                    id:   'Splitter',
                                    name: 'Splitter',
                                    default_config: {
