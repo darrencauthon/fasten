@@ -50,6 +50,13 @@ class WorkflowsController < ApplicationController
                                                    }
                                  },
                                  {
+                                   id:   'ConvertXmlToData',
+                                   name: 'Convert XML to Data',
+                                   default_config: {
+                                                     path: 'one.two.three'
+                                                   }
+                                 },
+                                 {
                                    id:   'Splitter',
                                    name: 'Splitter',
                                    default_config: {

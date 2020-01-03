@@ -1,4 +1,4 @@
-class Splitter
+class ConvertXmlToData
 
   attr_accessor :config
 
@@ -11,10 +11,12 @@ class Splitter
     data = event.data[segments.shift]
 
     segments.each do |segment|
-      data = data.is_a?(Hash) ? data[segment] : data.send(segment.to_sym)
+      data = data.send segment.to_sym
     end
 
-    data.map { |x| Event.new data: x }
+    data = Hash.from_xml data
+
+    Event.new data: data
 
   end
 
