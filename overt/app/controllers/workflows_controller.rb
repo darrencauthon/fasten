@@ -61,6 +61,7 @@ class WorkflowsController < ApplicationController
                                    name: 'All Records',
                                    default_config: {
                                                      collection: 'TestRecords',
+                                                     limit: '*',
                                                    }
                                  },
                                  {
