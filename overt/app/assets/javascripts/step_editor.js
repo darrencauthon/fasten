@@ -59,7 +59,11 @@ var StepEditor = function(config) {
       incoming_event: JSON.stringify(incomingEventDataEditor.get())
     };
 
+    $('#runStepMessage').html('');
+
     $.post(config.runStepUrl, request).then(function(data){
+
+      $('#runStepMessage').html(data.count + ' event' + (data.count == 1 ? '' : 's') + '.');
 
       for(var i = 0; i < data.events.length; i++){
         var event = data.events[i];

@@ -44,7 +44,7 @@ class StarterController < ApplicationController
 
     events = Event.where(run_id: run.id).paginate(page: 1, per_page: params[:limit] || 10)
 
-    render json: { run: run, events: events }
+    render json: { run: run, events: events, count: events.total_entries }
 
   end
 
