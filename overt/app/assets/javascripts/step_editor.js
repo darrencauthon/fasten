@@ -94,10 +94,18 @@ var StepEditor = function(config) {
     var setStepType = function(stepType) {
   
       if (stepEditor != undefined) stepEditor.destroy();
+
       if (incomingEventDataEditor != undefined) incomingEventDataEditor.destroy();
-  
       incomingEventDataEditor = JsonEditor.create( { id: config.incomingEventEditorId, data: incomingEvent } );
       incomingEventDataEditor.expandAll();
+
+      $('#' + config.incomingEventEditorId + '_load').off().click(function(e){
+        incomingEventDataEditor.destroy();
+        incomingEventDataEditor = JsonEditor.create( { id: config.incomingEventEditorId, data: {test: 'test'} } );
+        incomingEventDataEditor.expandAll();
+        e.preventDefault();
+      });
+      $('#' + config.incomingEventEditorId + '_save').off().click(function(e){e.preventDefault();});
   
       stepEditor = JsonEditor.create( { id: config.stepEditorId, data: step } );
       stepEditor.expandAll();
