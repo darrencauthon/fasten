@@ -55,6 +55,7 @@ var StepEditor = function(config) {
 
     var request = {
       step: JSON.stringify(getStep()),
+      limit: 5,
       incoming_event: JSON.stringify(incomingEventDataEditor.get())
     };
 
