@@ -100,10 +100,8 @@ var StepEditor = function(config) {
       incomingEventDataEditor.expandAll();
 
       $('#' + config.incomingEventEditorId + '_load').off().click(function(e){
-        incomingEventDataEditor.destroy();
         var test_event = step.test_event || {};
-        incomingEventDataEditor = JsonEditor.create( { id: config.incomingEventEditorId, data: test_event } );
-        incomingEventDataEditor.expandAll();
+        incomingEventDataEditor.set(test_event);
         e.preventDefault();
       });
       $('#' + config.incomingEventEditorId + '_save').off().click(function(e){
