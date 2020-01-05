@@ -38,8 +38,9 @@ var EventModal = function() {
 
 var StepEditor = function(config) {
 
-  var stepEditor = undefined;
-  var incomingEventDataEditor = undefined;
+  var stepEditor = JsonEditor.create( { id: config.stepEditorId, data: {} } );
+
+  var incomingEventDataEditor = JsonEditor.create( { id: config.incomingEventEditorId, data: {} } );
   
   var outgoingEventEditors = [];
 
@@ -95,10 +96,7 @@ var StepEditor = function(config) {
 
     var setStepType = function(stepType) {
   
-      if (incomingEventDataEditor == undefined)
-        incomingEventDataEditor = JsonEditor.create( { id: config.incomingEventEditorId, data: incomingEvent } );
-      else
-        incomingEventDataEditor.set(incomingEvent);
+      incomingEventDataEditor.set(incomingEvent);
 
       incomingEventDataEditor.expandAll();
 
@@ -111,11 +109,8 @@ var StepEditor = function(config) {
         step.test_event = incomingEventDataEditor.get();
         e.preventDefault();
       });
-  
-      if (stepEditor == undefined)
-        stepEditor = JsonEditor.create( { id: config.stepEditorId, data: step } );
-      else
-        stepEditor.set(step);
+
+      stepEditor.set(step);
 
       stepEditor.expandAll();
     };
