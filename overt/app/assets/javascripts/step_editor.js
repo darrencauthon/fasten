@@ -99,16 +99,6 @@ var StepEditor = function(config) {
 
       incomingEventDataEditor.expandAll();
 
-      $('#' + config.incomingEventEditorId + '_load').off().click(function(e){
-        var test_event = step.test_event || {};
-        incomingEventDataEditor.set(test_event);
-        e.preventDefault();
-      });
-      $('#' + config.incomingEventEditorId + '_save').off().click(function(e){
-        step.test_event = incomingEventDataEditor.get();
-        e.preventDefault();
-      });
-
       stepEditor.set(step);
 
       stepEditor.expandAll();
@@ -116,6 +106,16 @@ var StepEditor = function(config) {
 
     setStepType(step.type);
   };
+
+  $('#' + config.incomingEventEditorId + '_load').off().click(function(e){
+    var test_event = incomingEventDataEditor.test_event || {};
+    incomingEventDataEditor.set(test_event);
+    e.preventDefault();
+  });
+  $('#' + config.incomingEventEditorId + '_save').off().click(function(e){
+    incomingEventDataEditor.test_event = incomingEventDataEditor.get();
+    e.preventDefault();
+  });
 
   return {
     getStep: getStep,
