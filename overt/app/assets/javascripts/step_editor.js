@@ -95,8 +95,6 @@ var StepEditor = function(config) {
 
     var setStepType = function(stepType) {
   
-      if (stepEditor != undefined) stepEditor.destroy();
-
       if (incomingEventDataEditor == undefined)
         incomingEventDataEditor = JsonEditor.create( { id: config.incomingEventEditorId, data: incomingEvent } );
       else
@@ -114,7 +112,11 @@ var StepEditor = function(config) {
         e.preventDefault();
       });
   
-      stepEditor = JsonEditor.create( { id: config.stepEditorId, data: step } );
+      if (stepEditor == undefined)
+        stepEditor = JsonEditor.create( { id: config.stepEditorId, data: step } );
+      else
+        stepEditor.set(step);
+
       stepEditor.expandAll();
     };
 
