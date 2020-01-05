@@ -95,8 +95,11 @@ var StepEditor = function(config) {
   
       if (stepEditor != undefined) stepEditor.destroy();
 
-      if (incomingEventDataEditor != undefined) incomingEventDataEditor.destroy();
-      incomingEventDataEditor = JsonEditor.create( { id: config.incomingEventEditorId, data: incomingEvent } );
+      if (incomingEventDataEditor == undefined)
+        incomingEventDataEditor = JsonEditor.create( { id: config.incomingEventEditorId, data: incomingEvent } );
+      else
+        incomingEventDataEditor.set(incomingEvent);
+
       incomingEventDataEditor.expandAll();
 
       $('#' + config.incomingEventEditorId + '_load').off().click(function(e){

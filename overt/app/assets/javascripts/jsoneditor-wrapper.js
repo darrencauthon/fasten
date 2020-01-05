@@ -13,17 +13,25 @@ var JsonEditor = function() {
       search: false
     };
 
-    var editor = new JSONEditor(container, options);
+    var editor = undefined;
 
-    editor.set(params.data);
+    var currentEditor = function(){
+      if (editor == undefined) editor = new JSONEditor(container, options);
+      return editor;
+    };
+
+    currentEditor().set(params.data);
 
     return {
       id: params.id,
-      get: function() { return editor.get(); },
-      set: function(data) { return editor.set(data); },
-      expandAll: function() { return editor.expandAll(); },
-      collapseAll: function() { return editor.collapseAll(); },
-      destroy: function() { return editor.destroy(); },
+      get: function() { return currentEditor().get(); },
+      set: function(data) { return currentEditor().set(data); },
+      expandAll: function() { return currentEditor().expandAll(); },
+      collapseAll: function() { return currentEditor().collapseAll(); },
+      destroy: function() {
+        var value = editor.destroy();
+        return value;
+      },
       editor: editor
     };
   };
