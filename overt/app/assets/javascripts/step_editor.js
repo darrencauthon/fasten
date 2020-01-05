@@ -20,7 +20,6 @@ var EventModal = function() {
       if (lastEventEditor == undefined)
         lastEventEditor = JsonEditor.create( { id: 'event-view', data: {} } );
       
-      console.log(event.data);
       lastEventEditor.set(event.data);
 
       $('#modal-event').find('.modal-title').html(event.message);
