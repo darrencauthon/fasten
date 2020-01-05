@@ -16,11 +16,13 @@ var EventModal = function() {
 
   var popThisEvent = function(event_id) {
 
-    if (lastEventEditor)
-      lastEventEditor.destroy();
-
     var displayEvent = function(event) {
-      lastEventEditor = JsonEditor.create( { id: 'event-view', data: event.data, mode: 'view' } );
+      if (lastEventEditor == undefined)
+        lastEventEditor = JsonEditor.create( { id: 'event-view', data: {} } );
+      
+      console.log(event.data);
+      lastEventEditor.set(event.data);
+
       $('#modal-event').find('.modal-title').html(event.message);
       $('#modal-event').modal();
     };
