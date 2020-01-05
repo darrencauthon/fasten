@@ -298,8 +298,6 @@ var func = function() {
 
     var editStep = function(step, incomingEvent) {
 
-      incomingEvent = incomingEvent || {};
-
       step = JSON.parse(JSON.stringify(step));
       delete step.method;
       delete step.label;
@@ -316,7 +314,9 @@ var func = function() {
 
       delete step.parent_step_ids;
       stepRunner.loadStep(step, incomingEvent);
+
     };
+
     stepRunner.findStep = findStep;
     stepRunner.editStep = editStep;
 
