@@ -89,7 +89,6 @@ var StepEditor = function(config) {
 
   var loadStep = function(step, incomingEvent)
   {
-    console.log(step.test_event);
     incomingEvent = incomingEvent || step.test_event || {};
 
     clearOutgoingEvents();
