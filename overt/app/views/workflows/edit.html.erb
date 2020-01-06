@@ -79,6 +79,8 @@
     <div class="box box-info">
       <div class="box-header">
         <h3 class="box-title">Incoming Event</h3>
+        <a href="#" class="pull-right" id="incoming_data_editor_save">[Save]</a>
+        <a href="#" class="pull-right" id="incoming_data_editor_load">[Load]</a>
       </div>
       <div class="box-body pad">
         <div id="incoming_data_editor"></div>
@@ -296,11 +298,13 @@ var func = function() {
 
     var editStep = function(step, incomingEvent) {
 
-      incomingEvent = incomingEvent || {};
-
       step = JSON.parse(JSON.stringify(step));
+
+      stepRunner.setTestEvent(step.test_event);
+
       delete step.method;
       delete step.label;
+      delete step.test_event;
       $('.stepEditorRow').show();
       $('.newStepRow').hide();
       $('.networkViewRow').hide();
@@ -314,7 +318,9 @@ var func = function() {
 
       delete step.parent_step_ids;
       stepRunner.loadStep(step, incomingEvent);
+
     };
+
     stepRunner.findStep = findStep;
     stepRunner.editStep = editStep;
 
@@ -384,6 +390,8 @@ var func = function() {
 	  }
 	}
       }
+
+      newStep.test_event = stepRunner.getTestEvent();
 
       for (var key in stepsToUpdate)
         saveStep(stepsToUpdate[key].newStep, stepsToUpdate[key].oldStep);

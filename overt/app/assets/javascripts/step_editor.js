@@ -16,11 +16,12 @@ var EventModal = function() {
 
   var popThisEvent = function(event_id) {
 
-    if (lastEventEditor)
-      lastEventEditor.destroy();
-
     var displayEvent = function(event) {
-      lastEventEditor = JsonEditor.create( { id: 'event-view', data: event.data, mode: 'view' } );
+      if (lastEventEditor == undefined)
+        lastEventEditor = JsonEditor.create( { id: 'event-view', data: {} } );
+      
+      lastEventEditor.set(event.data);
+
       $('#modal-event').find('.modal-title').html(event.message);
       $('#modal-event').modal();
     };
@@ -36,8 +37,9 @@ var EventModal = function() {
 
 var StepEditor = function(config) {
 
-  var stepEditor = undefined;
-  var incomingEventDataEditor = undefined;
+  var stepEditor = JsonEditor.create( { id: config.stepEditorId, data: {} } );
+
+  var incomingEventDataEditor = JsonEditor.create( { id: config.incomingEventEditorId, data: {} } );
   
   var outgoingEventEditors = [];
 
@@ -87,26 +89,37 @@ var StepEditor = function(config) {
 
   var loadStep = function(step, incomingEvent)
   {
-    incomingEvent = incomingEvent || {};
+    incomingEvent = incomingEvent || step.test_event || {};
 
     clearOutgoingEvents();
 
     var setStepType = function(stepType) {
   
-      if (stepEditor != undefined) stepEditor.destroy();
-      if (incomingEventDataEditor != undefined) incomingEventDataEditor.destroy();
-  
-      incomingEventDataEditor = JsonEditor.create( { id: config.incomingEventEditorId, data: incomingEvent } );
+      incomingEventDataEditor.set(incomingEvent);
+
       incomingEventDataEditor.expandAll();
-  
-      stepEditor = JsonEditor.create( { id: config.stepEditorId, data: step } );
+
+      stepEditor.set(step);
+
       stepEditor.expandAll();
     };
 
     setStepType(step.type);
   };
 
+  $('#' + config.incomingEventEditorId + '_load').off().click(function(e){
+    var test_event = incomingEventDataEditor.test_event || {};
+    incomingEventDataEditor.set(test_event);
+    e.preventDefault();
+  });
+  $('#' + config.incomingEventEditorId + '_save').off().click(function(e){
+    incomingEventDataEditor.test_event = incomingEventDataEditor.get();
+    e.preventDefault();
+  });
+
   return {
+    getTestEvent: function() { return incomingEventDataEditor.test_event; },
+    setTestEvent: function(v) { incomingEventDataEditor.test_event = v },
     getStep: getStep,
     loadStep: loadStep
   };
