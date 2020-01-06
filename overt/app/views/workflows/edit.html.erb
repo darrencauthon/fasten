@@ -299,8 +299,12 @@ var func = function() {
     var editStep = function(step, incomingEvent) {
 
       step = JSON.parse(JSON.stringify(step));
+
+      stepRunner.setTestEvent(step.test_event);
+
       delete step.method;
       delete step.label;
+      delete step.test_event;
       $('.stepEditorRow').show();
       $('.newStepRow').hide();
       $('.networkViewRow').hide();
@@ -387,10 +391,10 @@ var func = function() {
 	}
       }
 
+      newStep.test_event = stepRunner.getTestEvent();
+
       for (var key in stepsToUpdate)
         saveStep(stepsToUpdate[key].newStep, stepsToUpdate[key].oldStep);
-
-      console.log(stepRunner.getTestEvent());
     });
 
     var saveWorkflow = function() {
