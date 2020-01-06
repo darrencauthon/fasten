@@ -89,7 +89,8 @@ var StepEditor = function(config) {
 
   var loadStep = function(step, incomingEvent)
   {
-    incomingEvent = incomingEvent || {};
+    console.log(step.test_event);
+    incomingEvent = incomingEvent || step.test_event || {};
 
     clearOutgoingEvents();
 
@@ -118,6 +119,8 @@ var StepEditor = function(config) {
   });
 
   return {
+    getTestEvent: function() { return incomingEventDataEditor.test_event; },
+    setTestEvent: function(v) { incomingEventDataEditor.test_event = v },
     getStep: getStep,
     loadStep: loadStep
   };

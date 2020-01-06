@@ -389,6 +389,8 @@ var func = function() {
 
       for (var key in stepsToUpdate)
         saveStep(stepsToUpdate[key].newStep, stepsToUpdate[key].oldStep);
+
+      console.log(stepRunner.getTestEvent());
     });
 
     var saveWorkflow = function() {
