@@ -87,6 +87,7 @@ class WorkflowsController < ApplicationController
                                  {
                                    id:   'CrudInsert',
                                    name: 'Upsert Record',
+                                   queue: 'crud',
                                    default_config: {
                                                      collection: 'TestRecords',
                                                      record_id: '{{id}}',
@@ -121,6 +122,7 @@ class WorkflowsController < ApplicationController
                                  {
                                    id:   'WebRequest',
                                    name: 'WebRequest',
+                                   queue: 'web_request',
                                    default_config: {
                                                      url: 'http://www.github.com',
                                                    }
