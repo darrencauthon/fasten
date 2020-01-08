@@ -2,6 +2,10 @@
 :queues:
   - default
   - single
+  - web_request
+  - crud
 :limits:
   default: 10
   single: 1
+  web_request: 1
+  crud: 1
