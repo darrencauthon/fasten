@@ -1,4 +1,7 @@
 :concurrency: 10
 :queues:
   - default
-  - single_worker
+  - single
+:limits:
+  default: 10
+  single: 1
