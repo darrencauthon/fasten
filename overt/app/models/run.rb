@@ -54,7 +54,7 @@ class Run < ApplicationRecord
     end
 
     def run_this_step step, event, workflow
-      RunAStepWorker.perform_async step[:id], event.id, workflow.id
+      RunAStepWorker.set(queue: :single).perform_async step[:id], event.id, workflow.id
     end
 
   end
