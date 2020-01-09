@@ -48,4 +48,19 @@ module Mashing
     [value].flatten.join(',').split(',').select { |x| x }.map { |x| x.strip }
   end
 
+  def self.dig(key, data)
+
+    return nil unless key
+
+    segments = key.split '.'
+
+    data = data[segments.shift]
+
+    segments.each do |segment|
+      data = data.is_a?(Hash) ? data[segment] : data.send(segment.to_sym)
+    end
+
+    data
+  end
+
 end
