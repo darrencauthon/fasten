@@ -22,9 +22,9 @@ class HtmlParser
     end
 
     if config['output_as_a_single_event'].to_s != 'true'
-      records.map { |r| Event.new data: r }
+      records
     else
-      Event.new data: { (config[:single_event_path] || 'records') => records }
+      { (config[:single_event_path] || 'records') => records }
     end
 
   end

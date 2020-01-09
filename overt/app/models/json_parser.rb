@@ -6,9 +6,8 @@ class JsonParser
 
     path = config[:path]
     data = event.data[path]
-    json = data ? JSON.parse(data) : {}
 
-    Event.new data: json
+    data ? JSON.parse(data) : {}
 
   end
 

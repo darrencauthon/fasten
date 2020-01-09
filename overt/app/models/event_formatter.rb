@@ -7,7 +7,7 @@ class EventFormatter
     config[:instructions].each do |key, value|
       data[key] = Mashing.mash_single_value(value, event.data)
     end
-    Event.new data: data
+    data
   end
 
 end

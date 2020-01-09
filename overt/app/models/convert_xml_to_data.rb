@@ -14,9 +14,7 @@ class ConvertXmlToData
       data = data.send segment.to_sym
     end
 
-    data = Hash.from_xml data
-
-    Event.new data: data
+    Hash.from_xml data
 
   end
 
