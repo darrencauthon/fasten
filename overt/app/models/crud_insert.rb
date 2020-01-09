@@ -29,12 +29,11 @@ class CrudInsert
 
     crud_record.save
 
-    new_event = Event.new
-    new_event.data = event.data
-    new_event.data[:collection] = crud_record.collection_name
-    new_event.data[:record_id] = crud_record.record_id
-    new_event.data[:action] = action
-    new_event
+    data = event.data
+    data[:collection] = crud_record.collection_name
+    data[:record_id] = crud_record.record_id
+    data[:action] = action
+    data
   end
 
 end
