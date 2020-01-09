@@ -48,6 +48,15 @@ class Workflow
         .flatten
         .select { |x| x.is_a? Hash }
 
+      if (event_handler.carry)
+        carry = [event_handler.carry].flatten.join(',').split(',').select { |x| x }.map { |x| x.strip }
+        events = events.map do |e|
+          data = {}
+          carry.each { |a| data[a] = e[a] || e[a.to_sym] }
+          data
+        end
+      end
+
       copy_event_data_from event.data, events, event_handler.merge
 
       events = events
@@ -77,9 +86,11 @@ class Workflow
     class << event_handler
       attr_accessor :message
       attr_accessor :merge
+      attr_accessor :carry
     end
     event_handler.message = step[:message] || step[:config][:message]
     event_handler.merge   = step[:merge]   || step[:config][:merge]
+    event_handler.carry   = step[:carry]
 
     event_handler
   end
