@@ -48,10 +48,10 @@ class Workflow
         .flatten
         .select { |x| x.is_a? Hash }
 
+      copy_event_data_from event.data, events, event_handler.merge
+
       events = events
         .map { |x| Event.new(data: x) }
-
-      copy_event_data_from event, events, event_handler.merge
 
       events
         .reject { |x| x.message }
@@ -91,11 +91,10 @@ class Workflow
     merge = [merge].flatten.join(',').split(',').select { |x| x }.map { |x| x.strip }
 
     target_events.each do |target_event|
-      target_event.data = Hash.new unless target_event.data
-      source_event.data.keys
+      source_event.keys
         .select { |k| merge[0] == '*' || merge.include?(k) }
-        .reject { |k| target_event.data.keys.include? k }
-        .each   { |k| target_event.data[k] = source_event.data[k] }
+        .reject { |k| target_event.keys.include? k }
+        .each   { |k| target_event[k] = source_event[k] }
     end
   end
 
