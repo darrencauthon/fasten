@@ -48,8 +48,8 @@ class Workflow
         .flatten
         .select { |x| x.is_a? Hash }
 
-      if (event_handler.carry)
-        carry = [event_handler.carry].flatten.join(',').split(',').select { |x| x }.map { |x| x.strip }
+      carry = Mashing.arrayify(event_handler.carry)
+      if (carry.any?)
         events = events.map do |e|
           data = {}
           carry.each { |a| data[a] = e[a] || e[a.to_sym] }
@@ -99,7 +99,7 @@ class Workflow
 
   def self.copy_event_data_from source_event, target_events, merge
 
-    merge = [merge].flatten.join(',').split(',').select { |x| x }.map { |x| x.strip }
+    merge = Mashing.arrayify merge
 
     target_events.each do |target_event|
       source_event.keys

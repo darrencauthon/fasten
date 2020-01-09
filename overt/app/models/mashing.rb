@@ -44,4 +44,8 @@ module Mashing
       .render SymbolizedHash.new(data)
   end
 
+  def self.arrayify value
+    [value].flatten.join(',').split(',').select { |x| x }.map { |x| x.strip }
+  end
+
 end
