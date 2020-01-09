@@ -44,9 +44,8 @@ class Workflow
 
       event_handler.config = Mashing.mash(event_handler.config, event.data)
 
-      events = [event_handler.receive(event)].flatten
-
-      events = events
+      events = [event_handler.receive(event)]
+        .flatten
         .select { |x| x.is_a? Hash }
         .map    { |x| Event.new(data: x) }
 
