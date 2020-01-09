@@ -22,7 +22,7 @@ class Post
     response = faraday.run_request(config[:method].to_sym,
                  config[:url], data.to_json, config[:headers])
 
-    Event.new data: {
+    {
       status: response.status,
       url: config[:url],
       reason_phrase: response.reason_phrase,

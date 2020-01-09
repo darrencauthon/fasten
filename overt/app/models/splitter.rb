@@ -14,7 +14,7 @@ class Splitter
       data = data.is_a?(Hash) ? data[segment] : data.send(segment.to_sym)
     end
 
-    data.map { |x| Event.new data: x }
+    data
 
   end
 

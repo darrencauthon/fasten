@@ -5,7 +5,9 @@ class Trigger
   def receive(event)
 
     if (this_matches(event))
-      Event.new data: event.data
+      event.data
+    else
+      nil
     end
 
   end

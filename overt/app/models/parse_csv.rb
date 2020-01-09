@@ -13,11 +13,11 @@ class ParseCsv
 
     rows.map do |row|
       if headers
-        Event.new data: row.to_hash
+        row.to_hash
       else
 	data = {}
 	row.each_with_index { |r, i| data[i] = r }
-        Event.new data: data
+        data
       end
     end
 

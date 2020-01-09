@@ -10,7 +10,6 @@ class AllRecords
 
     records
       .map { |x| { id: x.id, name: x.name, data: x.data } }
-      .map { |x| Event.new data: x }
 
   end
 
