@@ -52,7 +52,7 @@ class Workflow
       if (carry.any?)
         events = events.map do |e|
           data = {}
-          carry.each { |a| data[a] = e[a] || e[a.to_sym] }
+          carry.each { |a| data[a] = Mashing.dig(a, e) }
           data
         end
       end

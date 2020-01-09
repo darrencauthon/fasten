@@ -54,10 +54,8 @@ module Mashing
 
     segments = key.split '.'
 
-    data = data[segments.shift]
-
     segments.each do |segment|
-      data = data.is_a?(Hash) ? data[segment] : data.send(segment.to_sym)
+      data = data.is_a?(Hash) ? (data[segment] || data[segment.to_sym]) : (data ? data.send(segment.to_sym) : nil)
     end
 
     data
