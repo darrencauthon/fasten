@@ -47,7 +47,9 @@ class Workflow
       events = [event_handler.receive(event)]
         .flatten
         .select { |x| x.is_a? Hash }
-        .map    { |x| Event.new(data: x) }
+
+      events = events
+        .map { |x| Event.new(data: x) }
 
       copy_event_data_from event, events, event_handler.merge
 
