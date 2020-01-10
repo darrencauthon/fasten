@@ -55,13 +55,12 @@ class Workflow
           data = apply_the_carry(data, carry) if carry.any?
           data = data.merge(data_to_merge)
 
-          Event.new(data:    data,
-                    message: Mashing.mash_single_value(event_handler.message, raw_data.merge(event.data)))
-        end
+          event = Event.new(data: data)
 
-      events
-        .select { |x| x.message.to_s == '' }
-        .each   { |e| e.message = "Event #{e.id}" }
+          event.message = Mashing.mash_single_value(event_handler.message, raw_data.merge(event.data)) || "Event #{event.id}"
+
+          event
+        end
 
       events
 
