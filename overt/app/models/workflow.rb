@@ -60,11 +60,7 @@ class Workflow
       copy_event_data_from event.data, events, event_handler.merge
 
       events = events
-        .map { |x| Event.new(data: x) }
-
-      events
-        .reject { |x| x.message }
-        .each   { |e| e.message = Mashing.mash_single_value(event_handler.message, e.data) }
+        .map { |x| Event.new(data: x, message: Mashing.mash_single_value(event_handler.message, x)) }
 
       events
         .select { |x| x.message.to_s == '' }
