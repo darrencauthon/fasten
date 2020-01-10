@@ -44,18 +44,17 @@ class Workflow
 
       event_handler.config = Mashing.mash(event_handler.config, event.data)
 
-      events = [event_handler.receive(event)]
-        .flatten
-        .select { |x| x.is_a? Hash }
-
       carry = Mashing.arrayify(event_handler.carry)
       data_to_merge = get_the_data_to_merge event.data, event_handler.merge
 
-      events = events
+      events = [event_handler.receive(event)]
+        .flatten
+        .select { |x| x.is_a? Hash }
         .map do |raw_data|
           data = raw_data
           data = apply_the_carry(data, carry) if carry.any?
           data = data.merge(data_to_merge)
+
           Event.new(data:    data,
                     message: Mashing.mash_single_value(event_handler.message, raw_data.merge(event.data)))
         end
