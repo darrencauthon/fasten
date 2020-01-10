@@ -101,11 +101,15 @@ class Workflow
     merge = Mashing.arrayify merge
 
     target_events.each do |target_event|
-      source_event.keys
-        .select { |k| merge[0] == '*' || merge.include?(k) }
-        .reject { |k| target_event.keys.include? k }
-        .each   { |k| target_event[k] = source_event[k] }
+      merge_this source_event, target_event, merge
     end
+  end
+
+  def self.merge_this source_event, target_event, merge
+    source_event.keys
+      .select { |k| merge[0] == '*' || merge.include?(k) }
+      .reject { |k| target_event.keys.include? k }
+      .each   { |k| target_event[k] = source_event[k] }
   end
 
 end
