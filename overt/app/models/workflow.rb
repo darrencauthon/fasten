@@ -54,7 +54,7 @@ class Workflow
       events = events
         .map do |raw_data|
           data = raw_data
-          data = carry_me(data, carry) if carry.any?
+          data = apply_the_carry(data, carry) if carry.any?
           data = data.merge(data_to_merge)
           Event.new(data:    data,
                     message: Mashing.mash_single_value(event_handler.message, raw_data.merge(event.data)))
@@ -96,7 +96,7 @@ class Workflow
     merge.include?('*') ? event : Mashing.fluff(merge.reduce({}) { |k, i| k[i] = Mashing.dig(i, event); k })
   end
 
-  def self.carry_me event, carry
+  def self.apply_the_carry event, carry
     data = {}
     carry.each { |a| data[a] = Mashing.dig(a, event) }
     Mashing.fluff data
