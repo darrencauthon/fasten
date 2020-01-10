@@ -97,8 +97,7 @@ class Workflow
   end
 
   def self.apply_the_carry event, carry
-    data = {}
-    carry.each { |a| data[a] = Mashing.dig(a, event) }
+    data = carry.reduce({}) { |t, i| t[i] = Mashing.dig(i, event); t }
     Mashing.fluff data
   end
 
