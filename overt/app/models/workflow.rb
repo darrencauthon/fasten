@@ -53,7 +53,7 @@ class Workflow
         events = events.map do |e|
           data = {}
           carry.each { |a| data[a] = Mashing.dig(a, e) }
-          data
+          Mashing.fluff data
         end
       end
 

@@ -61,4 +61,23 @@ module Mashing
     data
   end
 
+  def self.fluff data
+    result = HashWithIndifferentAccess.new
+    data.each do |key, value|
+      segments = key.split '.'
+
+      layer = result
+      segments.each_with_index do |segment, index|
+        if index < segments.length - 1
+          layer[segment] = HashWithIndifferentAccess.new unless layer[segment]
+          layer = layer[segment]
+        else
+          layer[segment] = value
+        end
+      end
+
+    end
+    result
+  end
+
 end
