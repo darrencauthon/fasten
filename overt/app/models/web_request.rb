@@ -4,6 +4,8 @@ class WebRequest
 
   def receive(event)
 
+    url = config[:url]
+
     conn = Faraday.new do |connection|
       connection.response :encoding
       connection.adapter Faraday.default_adapter
