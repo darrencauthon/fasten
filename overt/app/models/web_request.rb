@@ -3,12 +3,6 @@ class WebRequest
   attr_accessor :config
 
   def receive(event)
-    url = config[:url]
-
-    get url
-  end
-
-  def get(url)
 
     conn = Faraday.new do |connection|
       connection.response :encoding
@@ -28,6 +22,7 @@ class WebRequest
       response_headers: response.headers,
       body: (config[:no_body] ? '' : response.body)
     }
+
   end
 
 end
