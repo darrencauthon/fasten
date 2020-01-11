@@ -15,7 +15,11 @@ class WebRequest
       connection.adapter Faraday.default_adapter
     end
 
-    response = conn.get url
+    method = (config[:method] || 'get').to_sym
+
+    response = conn.send(method, url) do |req|
+      raise req.inspect
+    end
 
     {
       status: response.status,
