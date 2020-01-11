@@ -14,7 +14,6 @@ class WebRequest
     method = (config[:method] || 'get').to_sym
 
     response = conn.send(method, url) do |req|
-      raise req.inspect
     end
 
     {
