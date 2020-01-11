@@ -44,21 +44,23 @@ class Workflow
 
       event_handler.config = Mashing.mash(event_handler.config, event.data)
 
-      events = [event_handler.receive(event)].flatten
+      carry = Mashing.arrayify(event_handler.carry)
+      data_to_merge = get_the_data_to_merge event.data, event_handler.merge
 
-      events = events
+      events = [event_handler.receive(event)]
+        .flatten
         .select { |x| x.is_a? Hash }
-        .map    { |x| Event.new(data: x) }
+        .map do |raw_data|
+          data = raw_data
+          data = apply_the_carry(data, carry) if carry.any?
+          data = data.merge(data_to_merge)
 
-      copy_event_data_from event, events, event_handler.merge
+          event = Event.new(data: data)
 
-      events
-        .reject { |x| x.message }
-        .each   { |e| e.message = Mashing.mash_single_value(event_handler.message, e.data) }
+          event.message = Mashing.mash_single_value(event_handler.message, raw_data.merge(event.data)) || "Event #{event.id}"
 
-      events
-        .select { |x| x.message.to_s == '' }
-        .each   { |e| e.message = "Event #{e.id}" }
+          event
+        end
 
       events
 
@@ -76,26 +78,25 @@ class Workflow
     class << event_handler
       attr_accessor :message
       attr_accessor :merge
+      attr_accessor :carry
     end
     event_handler.message = step[:message] || step[:config][:message]
     event_handler.merge   = step[:merge]   || step[:config][:merge]
+    event_handler.carry   = step[:carry]
 
     event_handler
   end
 
   private
 
-  def self.copy_event_data_from source_event, target_events, merge
+  def self.get_the_data_to_merge event, merge
+    merge = Mashing.arrayify merge
+    merge.include?('*') ? event : Mashing.fluff(merge.reduce({}) { |k, i| k[i] = Mashing.dig(i, event); k })
+  end
 
-    merge = [merge].flatten.join(',').split(',').select { |x| x }.map { |x| x.strip }
-
-    target_events.each do |target_event|
-      target_event.data = Hash.new unless target_event.data
-      source_event.data.keys
-        .select { |k| merge[0] == '*' || merge.include?(k) }
-        .reject { |k| target_event.data.keys.include? k }
-        .each   { |k| target_event.data[k] = source_event.data[k] }
-    end
+  def self.apply_the_carry event, carry
+    data = carry.reduce({}) { |t, i| t[i] = Mashing.dig(i, event); t }
+    Mashing.fluff data
   end
 
 end

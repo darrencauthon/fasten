@@ -44,4 +44,40 @@ module Mashing
       .render SymbolizedHash.new(data)
   end
 
+  def self.arrayify value
+    [value].flatten.join(',').split(',').select { |x| x }.map { |x| x.strip }
+  end
+
+  def self.dig(key, data)
+
+    return nil unless key
+
+    segments = key.split '.'
+
+    segments.each do |segment|
+      data = data.is_a?(Hash) ? (data[segment] || data[segment.to_sym]) : (data ? data.send(segment.to_sym) : nil)
+    end
+
+    data
+  end
+
+  def self.fluff data
+    result = HashWithIndifferentAccess.new
+    data.each do |key, value|
+      segments = key.split '.'
+
+      layer = result
+      segments.each_with_index do |segment, index|
+        if index < segments.length - 1
+          layer[segment] = HashWithIndifferentAccess.new unless layer[segment]
+          layer = layer[segment]
+        else
+          layer[segment] = value
+        end
+      end
+
+    end
+    result
+  end
+
 end
