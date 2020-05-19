@@ -2,6 +2,12 @@ require 'sidekiq/web'
 require 'sidekiq/cron/web'
 Rails.application.routes.draw do
 
+  get 'overt', to: 'overt#home'
+  get 'overt/workflows', to: 'overt#workflows'
+  get 'overt/workflow/:id', to: 'overt#workflow'
+
+  #############################################
+
   get 'events', to: 'events#new_index'
   get 'workflows', to: 'workflows#index'
   get 'workflows/json/:id', to: 'workflows#json'

@@ -1,0 +1,14 @@
+<table>
+  <thead>
+    <tr>
+      <td>Workflow</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @workflows.each do |workflow| %>
+      <tr>
+        <td><a href="/overt/workflow/<%= workflow.id %>"><%= workflow.id %></a></td>
+      </tr>
+    <% end %>
+  </tbody>
+<table>

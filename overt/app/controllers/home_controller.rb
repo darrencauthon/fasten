@@ -5,7 +5,7 @@ class HomeController < ApplicationController
     @page_header = 'Home'
     @optional_description = ''
 
-    render layout: 'adminlte'
+    render layout: 'water'
   end
 
 end
