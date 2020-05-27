@@ -1,0 +1,19 @@
+{
+  "context": {
+  },
+  "steps": [
+    {
+      "id": "pull-all-urls",
+      "name": "Pull All Urls",
+      "label": "Pull All Urls",
+      "type": "AllRecords",
+      "parent_step_ids": [
+
+      ],
+      "config": {
+        "collection": "Urls"
+      }
+    }
+  ],
+  "id": "loop-through-all-urls"
+}
