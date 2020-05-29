@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   get 'overt', to: 'overt#home'
   get 'overt/workflows', to: 'overt#workflows'
-  get 'overt/workflow/:id', to: 'overt#workflow'
+  get 'overt/workflow/view/:id', to: 'overt#workflow'
 
   #############################################
 
