@@ -2,11 +2,10 @@
   jQuery.ajax({
     url: "/overt/workflow/step-json/<%=h @workflow.id %>/<%=h @step[:id] %>"
   }).done(function(data) {
-            console.log(data);
-            console.log(JsonEditor.create({
-                                            id: 'config',
-                                            data: data.step.config
-                                          }));
+            JsonEditor.create({
+                                id: 'config',
+                                data: data.step.config
+                              });
           });
 </script>
 
