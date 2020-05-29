@@ -13,7 +13,7 @@
     <label for="name">Name</label>
     <input type="text" name="name" value="<%=h @step[:name] %>">
 
-    <label for="parent_step_ids">Id</label>
+    <label for="parent_step_ids">Parent Steps</label>
     <select name="parent_step_ids" id="parent_step_ids" multiple="">
       <% @workflow.steps.select { |x| x[:id] != @step[:id] }.each do |s| %>
           <option value="<%=h s[:id] %>"<%= @step[:parent_step_ids].include?(s[:id]) ? ' selected' : '' %>><%= s[:name] %></option>
