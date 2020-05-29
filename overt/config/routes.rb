@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'overt/workflows', to: 'overt#workflows'
   get 'overt/workflow/view/:id', to: 'overt#workflow'
   get 'overt/workflow/view-step/:workflow_id/:id', to: 'overt#step'
+  get 'overt/workflow/step-json/:workflow_id/:id', to: 'overt#step_json'
 
   #############################################
 
