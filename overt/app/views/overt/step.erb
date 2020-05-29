@@ -27,7 +27,14 @@
                                                limit: 5
                                              };
                                   jQuery.ajax({ url: '/starter/run_step', data: data, method: 'POST'})
-                                        .done(function(x) { console.log(x); });
+                                        .done(function(x) {
+
+                                                $('#output_events').html('');
+                                                jQuery(x.events).each(function(i, x){
+                                                  $('#output_events').append(jQuery('<tr>').append(jQuery('<td>').text(x.message)));
+                                                });
+
+                                              });
                                 });
           });
 </script>
@@ -65,4 +72,14 @@
     <div id="test_event" style="height:400px"></div>
 
     <button type="button" id="run">Run</button>
+
+    <table>
+      <thead>
+        <tr>
+          <td>Event</td>
+        </tr>
+      </thead>
+      <tbody id="output_events">
+      </tbody>
+    <table>
 </fieldset>
