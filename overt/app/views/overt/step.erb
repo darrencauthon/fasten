@@ -1,15 +1,10 @@
 <h1><%=h @step[:name] %></h1>
 <fieldset>
     <legend>Details</legend>
+
     <label for="id">Id</label>
     <input readonly type="text" name="id" value="<%=h @step[:id] %>">
-    <label for="name">Name</label>
-    <input type="text" name="name" value="<%=h @step[:name] %>">
-</fieldset>
-<fieldset>
-    <legend>JSON</legend>
-    <label for="id">Id</label>
-    <input readonly type="text" name="id" value="<%=h @step[:id] %>">
+
     <label for="name">Name</label>
     <input type="text" name="name" value="<%=h @step[:name] %>">
 
@@ -19,4 +14,8 @@
           <option value="<%=h s[:id] %>"<%= @step[:parent_step_ids].include?(s[:id]) ? ' selected' : '' %>><%= s[:name] %></option>
       <% end %>
     </select>
+</fieldset>
+
+<fieldset>
+    <legend>JSON</legend>
 </fieldset>
