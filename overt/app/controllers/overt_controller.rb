@@ -14,4 +14,10 @@ class OvertController < ApplicationController
       render layout: 'water'
     end
 
+    def step
+      @workflow = Workflow.find params[:workflow_id]
+      @step = @workflow.steps.detect { |x| x[:id] == params[:id] }
+      render layout: 'water'
+    end
+
 end
