@@ -1,3 +1,9 @@
+<script type="text/javascript">
+  jQuery.ajax({
+    url: "/overt/workflow/step-json/<%=h @workflow.id %>/<%=h @step[:id] %>",
+  }).done(function(x) { console.log(x); } );
+</script>
+
 <h1><%=h @step[:name] %></h1>
 <fieldset>
     <legend>Details</legend>
