@@ -2,16 +2,33 @@
   jQuery.ajax({
     url: "/overt/workflow/step-json/<%=h @workflow.id %>/<%=h @step[:id] %>"
   }).done(function(data) {
-            JsonEditor.create({
-                                id: 'config',
-                                data: data.step.config
-                              });
+    console.log(data);
+            var config = JsonEditor.create({
+                                             id: 'config',
+                                             data: data.step.config
+                                           });
 
-            var test_event = data.step.test_event ? data.step.test_event : {};
-            JsonEditor.create({
-                                id: 'test_event',
-                                data: test_event
-                              });
+            var test_event = JsonEditor.create({
+                               id: 'test_event',
+                               data: data.step.test_event ? data.step.test_event : {}
+                             });
+
+            jQuery('#run').click(function() {
+                                  var event = test_event.get();
+                                  var step = {
+                                    id: jQuery('[name=id]').val(),
+                                    name: jQuery('[name=name]').val(),
+                                    type: jQuery('[name=type]').val(),
+                                    config: config.get()
+                                  };
+                                  var data = {
+                                               incoming_event: JSON.stringify(event),
+                                               step: JSON.stringify(step),
+                                               limit: 5
+                                             };
+                                  jQuery.ajax({ url: '/starter/run_step', data: data, method: 'POST'})
+                                        .done(function(x) { console.log(x); });
+                                });
           });
 </script>
 
@@ -23,7 +40,10 @@
     <input readonly type="text" name="id" value="<%=h @step[:id] %>">
 
     <label for="name">Name</label>
-    <input type="text" name="name" value="<%=h @step[:name] %>">
+    <input readonly type="text" name="name" value="<%=h @step[:name] %>">
+
+    <label for="type">Type</label>
+    <input readonly type="text" name="type" value="<%=h @step[:type] %>">
 
     <label for="parent_step_ids">Parent Steps</label>
     <select name="parent_step_ids" id="parent_step_ids" multiple="">
@@ -43,4 +63,6 @@
     <legend>Testing</legend>
 
     <div id="test_event" style="height:400px"></div>
+
+    <button type="button" id="run">Run</button>
 </fieldset>
