@@ -8,12 +8,17 @@
       "label": "Pull All Urls",
       "type": "AllRecords",
       "parent_step_ids": [
+<<<<<<< HEAD
         "every-minute",
         "when-asked"
+=======
+
+>>>>>>> 764a9d59a2d6db462ce17359a3f690ee02115c22
       ],
       "config": {
         "collection": "Urls"
       }
+<<<<<<< HEAD
     },
     {
       "id": "when-asked",
@@ -39,6 +44,8 @@
         "url": "/testing/this"
       },
       "message": "TESTING"
+=======
+>>>>>>> 764a9d59a2d6db462ce17359a3f690ee02115c22
     }
   ],
   "id": "loop-through-all-urls"
