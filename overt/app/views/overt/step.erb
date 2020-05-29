@@ -6,6 +6,12 @@
                                 id: 'config',
                                 data: data.step.config
                               });
+
+            var test_event = data.step.test_event ? data.step.test_event : {};
+            JsonEditor.create({
+                                id: 'test_event',
+                                data: test_event
+                              });
           });
 </script>
 
@@ -31,4 +37,10 @@
     <legend>Config</legend>
 
     <div id="config"></div>
+</fieldset>
+
+<fieldset>
+    <legend>Testing</legend>
+
+    <div id="test_event"></div>
 </fieldset>
