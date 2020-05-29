@@ -1,1 +1,24 @@
 <h1><%= @workflow.id %></h1>
+<fieldset>
+    <legend>Details</legend>
+    <label for="id">Id</label>
+    <input readonly type="text" name="id" value="<%=h @workflow.id %>">
+</fieldset>
+<table>
+  <thead>
+    <tr>
+      <td>Step</td>
+      <td>Type</td>
+      <td>Parents</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @workflow.steps.each do |step| %>
+      <tr>
+        <td><a href="/overt/workflow/view/<%=h step[:id] %>"><%=h step[:name] %></a></td>
+        <td><%=h step[:type] %></td>
+        <td><%=h step[:parent_step_ids].map { |x| (@workflow.steps.detect { |y| y[:id] == x } || { name: x } )[:name] } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+<table>
