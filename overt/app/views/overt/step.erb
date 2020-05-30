@@ -35,6 +35,13 @@
                                                     .append(jQuery('<td>').text(x.message))
                                                     .append(jQuery('<td>').html('<button type="button" data-id="' + x.id + '" class="run">View</button>' + '<button type="button" data-id="' + x.id + '" class="run">Jump To</button>'))
                                                   );
+
+                                                  $('body').append('<div class="modal go data-modal-' + x.id + '">'
+                                                    + '<p>Thanks for clicking. That felt good.</p>'
+                                                    + '<a href="#" rel="modal:close">Close</a>'
+                                                    + '</div>');
+
+                                                  $('.data-modal-' + x.id).modal();
                                                 });
 
                                               });
