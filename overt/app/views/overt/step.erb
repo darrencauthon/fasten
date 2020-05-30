@@ -31,7 +31,9 @@
 
                                                 $('#output_events').html('');
                                                 jQuery(x.events).each(function(i, x){
-                                                  $('#output_events').append(jQuery('<tr>').append(jQuery('<td>').text(x.message)));
+                                                  $('#output_events').append(jQuery('<tr>')
+                                                    .append(jQuery('<td>').text(x.message))
+                                                    .append(jQuery('<td>').html('<button type="button" data-id="' + x.id + '" class="run">View</button>')));
                                                 });
 
                                               });
