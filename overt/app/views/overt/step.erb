@@ -35,18 +35,14 @@
                                                 jQuery(x.events).each(function(i, x){
 
                                                   var viewButton = '<button type="button" data-id="' + x.id + '" class="runButton">View</button>';
-                                                  var jumpButton = '<button type="button" data-id="' + x.id + '" class="jumpButton">Jump To</button>';
 
                                                   $('#output_events').append(jQuery('<tr>')
                                                     .append(jQuery('<td>').text(x.message))
-                                                    .append(jQuery('<td>').html(viewButton + jumpButton))
                                                   );
 
                                                   var div = jQuery('<div><div class="modal view-event data-modal-' + x.id + '" data-id="' + x.id + '"><pre id="json-' + x.id + '"></pre><a href="#" rel="modal:close">Close</a></div>');
 
                                                   $('body').append(div.html());
-
-                                                  x.data.darren = 'cauthon';
 
                                                   $('#json-' + x.id).html(prettyPrintJson.toHtml(x.data));
                                                 });
