@@ -42,9 +42,13 @@
                                                     .append(jQuery('<td>').html(viewButton + jumpButton))
                                                   );
 
-                                                  var div = jQuery('<div><div class="modal view-event data-modal-' + x.id + '" data-id="' + x.id + '" data-event="' + JSON.stringify(x.data) + '"><a href="#" rel="modal:close">Close</a></div>');
+                                                  var div = jQuery('<div><div class="modal view-event data-modal-' + x.id + '" data-id="' + x.id + '"><pre id="json-' + x.id + '"></pre><a href="#" rel="modal:close">Close</a></div>');
 
                                                   $('body').append(div.html());
+
+                                                  x.data.darren = 'cauthon';
+
+                                                  $('#json-' + x.id).html(prettyPrintJson.toHtml(x.data));
                                                 });
 
                                                 $('.runButton').click(function(_){
