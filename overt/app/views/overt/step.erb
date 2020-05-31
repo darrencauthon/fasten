@@ -42,12 +42,9 @@
                                                     .append(jQuery('<td>').html(viewButton + jumpButton))
                                                   );
 
-                                                  var p = jQuery('<p>').attr('data-thing', JSON.stringify(x.data));
+                                                  var div = jQuery('<div><div class="modal view-event data-modal-' + x.id + '" data-id="' + x.id + '" data-event="' + JSON.stringify(x.data) + '"><a href="#" rel="modal:close">Close</a></div>');
 
-                                                  var thing = jQuery('<div><div class="modal view-event data-modal-' + x.id + '"><a href="#" rel="modal:close">Close</a></div></div>').append(p);
-
-                                                  console.log(jQuery(thing).html());
-                                                  $('body').append(thing.html());
+                                                  $('body').append(div.html());
                                                 });
 
                                                 $('.runButton').click(function(_){
