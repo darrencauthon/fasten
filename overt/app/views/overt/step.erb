@@ -3,6 +3,8 @@
     url: "/overt/workflow/step-json/<%=h @workflow.id %>/<%=h @step[:id] %>"
   }).done(function(data) {
     console.log(data);
+            var workflow = data.workflow;
+            var step_id = data.step.id;
             var config = JsonEditor.create({
                                              id: 'config',
                                              data: data.step.config
@@ -52,8 +54,9 @@
                                                 jQuery('.runButton').click(function(_){
 
                                                   var options = {'': 'New Step'};
-                                                  jQuery('option.step').each(function(_, x){
-                                                    options[jQuery(x).data('id')] = jQuery(x).data('name');
+                                                  jQuery(workflow.steps).each(function(_, x) {
+                                                    if (x.parent_step_ids.includes(step_id))
+                                                      options[x.id] = x.name;
                                                   });
 
                                                   jQuery('select[name=jumpSelect] option').remove();

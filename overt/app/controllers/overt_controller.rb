@@ -23,7 +23,7 @@ class OvertController < ApplicationController
     def step_json
       workflow = Workflow.find params[:workflow_id]
       step = workflow.steps.detect { |x| x[:id] == params[:id] }
-      render json: { step: step }
+      render json: { step: step, workflow: workflow }
     end
 
 end
