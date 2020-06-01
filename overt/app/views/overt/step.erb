@@ -29,33 +29,38 @@
                                   jQuery.ajax({ url: '/starter/run_step', data: data, method: 'POST'})
                                         .done(function(x) {
 
-                                                $('.view-event').remove();
-                                                $('#output_events').html('');
+                                                jQuery('.view-event').remove();
+                                                jQuery('#output_events').html('');
 
                                                 jQuery(x.events).each(function(i, x){
 
                                                   var viewButton = '<button type="button" data-id="' + x.id + '" class="runButton">View</button>';
 
-                                                  $('#output_events').append(jQuery('<tr>')
+                                                  jQuery('#output_events').append(jQuery('<tr>')
                                                     .append(jQuery('<td>').text(x.message))
                                                     .append(jQuery('<td>').html(viewButton))
                                                   );
 
-                                                  var div = jQuery('<div><div class="modal view-event data-modal-' + x.id + '" data-id="' + x.id + '"><pre id="json-' + x.id + '"></pre><select name="jumpSelect"></select><button type="button" id="jump-' + x.id + '">Jump To</button><button type="button" id="close-' + x.id + '">Close</button></div>');
+                                                  var div = jQuery('<div><div class="modal view-event data-modal-' + x.id + '" data-id="' + x.id + '"><pre id="json-' + x.id + '"></pre><button type="button" id="jump-' + x.id + '">Jump To</button><select name="jumpSelect"></select><button type="button" id="close-' + x.id + '">Close</button></div>');
 
-                                                  $('body').append(div.html());
+                                                  jQuery('body').append(div.html());
 
-                                                  $('#json-' + x.id).html(prettyPrintJson.toHtml(x.data));
-                                                  $('#close-' + x.id).click(function(){ jQuery('.close-modal').click()});
+                                                  jQuery('#json-' + x.id).html(prettyPrintJson.toHtml(x.data));
+                                                  jQuery('#close-' + x.id).click(function(){ jQuery('.close-modal').click()});
                                                 });
 
-                                                $('.runButton').click(function(_){
-                                                  $('select[name=jumpSelect] option').remove();
-                                                  $('option.step').each(function(_, x){
-                                                    var option = $('<option>').val($(x).data('id')).text($(x).data('name'));
-                                                    $('select[name=jumpSelect]').append(option);
-                                                  })
-                                                  $('.data-modal-' + jQuery(this).data('id')).modal();
+                                                jQuery('.runButton').click(function(_){
+
+                                                  var options = {'': 'New Step'};
+                                                  jQuery('option.step').each(function(_, x){
+                                                    options[jQuery(x).data('id')] = jQuery(x).data('name');
+                                                  });
+
+                                                  jQuery('select[name=jumpSelect] option').remove();
+                                                  for (var prop in options)
+                                                    jQuery('select[name=jumpSelect]').append(jQuery('<option>').val(prop).text(options[prop]));
+
+                                                  jQuery('.data-modal-' + jQuery(this).data('id')).modal();
                                                 });
 
                                               });
