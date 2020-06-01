@@ -1,13 +1,33 @@
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function(){
+    jQuery('.use_this').click(function(x){
+      jQuery('#type').val(jQuery(x.target).data('type'));
+    });
+  });
+</script>
+
 <h1><%=h @workflow.id %></h1>
 <fieldset>
-    <legend>Step</legend>
-    <% @step_types.each do |step_type| %>
-      <details>
-        <summary><%=h step_type[:name] %></summary>
-        <p>
-          <%=h step_type[:name] %>
-        </p>
-        <button data-id="<%= step_type[:id] %>">Use This</button>
-      </details>
-    <% end %>
+  <legend>Step</legend>
+  <% @step_types.each do |step_type| %>
+    <details>
+      <summary><%=h step_type[:name] %></summary>
+      <p>
+        <%=h step_type[:name] %>
+      </p>
+      <button data-type="<%= step_type[:id] %>" class="use_this">Use This</button>
+    </details>
+  <% end %>
+</fieldset>
+<fieldset>
+  <legend>Fields</legend>
+    <label for="id">Id</label>
+    <input type="text" name="id" value="<%=h SecureRandom.uuid %>" required>
+
+    <label for="name">Name</label>
+    <input type="text" name="name" value="" required>
+
+    <label for="type">Type</label>
+    <input readonly type="text" name="type" value="" id="type">
+    <button>Create This Step</button>
 </fieldset>
