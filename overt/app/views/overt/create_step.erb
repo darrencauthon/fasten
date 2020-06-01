@@ -1,10 +1,12 @@
 <h1><%=h @workflow.id %></h1>
 <fieldset>
     <legend>Step</legend>
-    <details>
-      <summary>Test</summary>
-      <p>
-      Something here
-      </p>
-    </details>
+    <% @step_types.each do |step_type| %>
+      <details>
+        <summary><%=h step_type[:id] %></summary>
+        <p>
+        <%=h step_type[:id] %>
+        </p>
+      </details>
+    <% end %>
 </fieldset>
