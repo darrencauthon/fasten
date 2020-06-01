@@ -3,10 +3,11 @@
     <legend>Step</legend>
     <% @step_types.each do |step_type| %>
       <details>
-        <summary><%=h step_type[:id] %></summary>
+        <summary><%=h step_type[:name] %></summary>
         <p>
-        <%=h step_type[:id] %>
+        <%=h step_type[:name] %>
         </p>
+        <button>Use This</button>
       </details>
     <% end %>
 </fieldset>
