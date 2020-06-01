@@ -12,7 +12,7 @@
 
             var test_event = JsonEditor.create({
                                id: 'test_event',
-                               data: data.step.test_event ? data.step.test_event : {}
+                               data: data.event.data ? data.event.data : (data.step.test_event ? data.step.test_event : {})
                              });
 
             jQuery('#run').click(function() {
