@@ -5,9 +5,9 @@
       <details>
         <summary><%=h step_type[:name] %></summary>
         <p>
-        <%=h step_type[:name] %>
+          <%=h step_type[:name] %>
         </p>
-        <button>Use This</button>
+        <button data-id="<%= step_type[:id] %>">Use This</button>
       </details>
     <% end %>
 </fieldset>
