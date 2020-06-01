@@ -25,12 +25,14 @@ class OvertController < ApplicationController
       @workflow = Workflow.find params[:workflow_id]
       @event_id = params[:event_id]
       @step_types = StepType.all
+      @parent_step_id = params[:parent_step_id]
       render layout: 'water'
     end
 
     def create_a_new_step
       @workflow = Workflow.find params[:workflow_id]
-      @id = SecureRandom.uuid
+      @id = params[:id] || SecureRandom.uuid
+      @name = params[:name] || @id
       @event_id = params[:event_id]
 
       step = {
@@ -38,8 +40,12 @@ class OvertController < ApplicationController
                name: @id,
                label: @id,
                type: params[:type],
+               config: {},
                parent_step_ids: [params[:parent_step_id]]
              }
+
+      step[:parent_step_ids] = [params[:parent_step_id]] if params[:parent_step_id]
+
       @workflow.steps << step
 
       @workflow.steps.each { |s| s.delete(:method) }
