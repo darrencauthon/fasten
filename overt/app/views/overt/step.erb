@@ -41,7 +41,7 @@
                                                     .append(jQuery('<td>').html(viewButton))
                                                   );
 
-                                                  var div = jQuery('<div><div class="modal view-event data-modal-' + x.id + '" data-id="' + x.id + '"><pre id="json-' + x.id + '"></pre><button type="button" id="close-' + x.id + '">Close</button></div>');
+                                                  var div = jQuery('<div><div class="modal view-event data-modal-' + x.id + '" data-id="' + x.id + '"><pre id="json-' + x.id + '"></pre><select name="jumpSelect"></select><button type="button" id="jump-' + x.id + '">Jump To</button><button type="button" id="close-' + x.id + '">Close</button></div>');
 
                                                   $('body').append(div.html());
 
@@ -50,6 +50,11 @@
                                                 });
 
                                                 $('.runButton').click(function(_){
+                                                  $('select[name=jumpSelect] option').remove();
+                                                  $('option.step').each(function(_, x){
+                                                    var option = $('<option>').val($(x).data('id')).text($(x).data('name'));
+                                                    $('select[name=jumpSelect]').append(option);
+                                                  })
                                                   $('.data-modal-' + jQuery(this).data('id')).modal();
                                                 });
 
@@ -74,7 +79,7 @@
     <label for="parent_step_ids">Parent Steps</label>
     <select name="parent_step_ids" id="parent_step_ids" multiple="">
       <% @workflow.steps.select { |x| x[:id] != @step[:id] }.each do |s| %>
-          <option value="<%=h s[:id] %>"<%= @step[:parent_step_ids].include?(s[:id]) ? ' selected' : '' %>><%= s[:name] %></option>
+          <option class="step" id="option-<%=h s[:id] %>" data-id="<%=h s[:id] %>" data-name="<%=h s[:name] %>" value="<%=h s[:id] %>"<%= @step[:parent_step_ids].include?(s[:id]) ? ' selected' : '' %>><%= s[:name] %></option>
       <% end %>
     </select>
 </fieldset>
