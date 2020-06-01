@@ -17,13 +17,15 @@ class OvertController < ApplicationController
     def step
       @workflow = Workflow.find params[:workflow_id]
       @step = @workflow.steps.detect { |x| x[:id] == params[:id] }
+      @event_id = params[:event_id]
       render layout: 'water'
     end
 
     def step_json
       workflow = Workflow.find params[:workflow_id]
       step = workflow.steps.detect { |x| x[:id] == params[:id] }
-      render json: { step: step, workflow: workflow }
+      event = (params[:event_id] ? Event.where(id: params[:event_id]).first : nil) || {}
+      render json: { step: step, workflow: workflow, event: event }
     end
 
 end
