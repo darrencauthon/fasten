@@ -64,6 +64,10 @@
                                                   for (var prop in options)
                                                     jQuery('select[name=jumpSelect]').append(jQuery('<option>').val(prop).text(options[prop]));
 
+                                                  jQuery('select[name=jumpSelect]').each(function(_, x){
+                                                    jQuery(x).val(jQuery('#' + jQuery(x).attr('id') + ' option:last').val());
+                                                  });
+
                                                   jQuery('.data-modal-' + jQuery(this).data('id')).modal();
                                                 });
 
