@@ -42,6 +42,8 @@ class OvertController < ApplicationController
              }
       @workflow.steps << step
 
+      @workflow.steps.each { |s| s.delete(:method) }
+
       File.open("/workflows/#{@workflow.id}.json", 'w') do |file|
         file.write JSON.pretty_generate(JSON.parse(@workflow.to_json))
       end
