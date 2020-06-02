@@ -21,6 +21,7 @@
                                     id: jQuery('[name=id]').val(),
                                     name: jQuery('[name=name]').val(),
                                     type: jQuery('[name=type]').val(),
+                                    message: jQuery('[name=message]').val(),
                                     config: config.get()
                                   };
                                   var data = {
@@ -96,6 +97,9 @@
 
     <label for="type">Type</label>
     <input readonly type="text" name="type" value="<%=h @step[:type] %>">
+
+    <label for="message">Message</label>
+    <input type="text" name="message" value="<%=h @step[:message] %>">
 
     <label for="parent_step_ids">Parent Steps</label>
     <select name="parent_step_ids" id="parent_step_ids" multiple="">
