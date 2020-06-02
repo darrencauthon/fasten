@@ -126,4 +126,15 @@ class OvertController < ApplicationController
     render json: { }
   end
 
+  def manual_starts
+
+    @steps = Workflow.all
+      .map { |x| x.steps.each { |s| s[:workflow_id] = x.id; s[:workflow_name] = x.name }; x.steps }
+      .flatten
+      .select { |x| x[:type] == 'ManualStart' }
+      .flatten
+
+    render layout: 'water'
+  end
+
 end

@@ -1,0 +1,25 @@
+<h1>Manual Starts</h1>
+<table>
+    <thead>
+    <tr>
+        <td>Name</td>
+        <td>Workflow</td>
+    </tr>
+    </thead>
+    <tbody>
+        <% @steps.each do |step| %>
+          <tr>
+            <td>
+              <a href="/overt/manual_starts/view/<%=h step[:workflow_id] %>/<%=h step[:id] %>">
+                <%=h step[:name] %>
+              </a>
+            </td>
+            <td>
+              <a href="/overt/workflows/view/<%=h step[:workflow_id] %>">
+                <%=h step[:workflow_name] %>
+              </a>
+            </td>
+          </tr>
+        <% end %>
+    </tbody>
+<table>

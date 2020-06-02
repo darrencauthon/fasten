@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get 'overt/workflows/step-json/:workflow_id/:id', to: 'overt#step_json'
   get 'overt/workflows/build-step/:workflow_id', to: 'overt#build_step'
   get 'overt/workflows/build-workflow', to: 'overt#build_workflow'
+  get 'overt/manual-starts', to: 'overt#manual_starts'
 
   post 'overt/workflows/create-workflow', to: 'overt#create_workflow'
   post 'overt/workflows/save-workflow', to: 'overt#save_workflow'
