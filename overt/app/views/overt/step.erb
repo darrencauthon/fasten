@@ -22,6 +22,7 @@
                                     name: jQuery('[name=name]').val(),
                                     type: jQuery('[name=type]').val(),
                                     message: jQuery('[name=message]').val(),
+                                    merge: jQuery('[name=merge]').val(),
                                     config: config.get()
                                   };
                                   var data = {
@@ -100,6 +101,9 @@
 
     <label for="message">Message</label>
     <input type="text" name="message" value="<%=h @step[:message] %>">
+
+    <label for="merge">Merge</label>
+    <input type="text" name="merge" value="<%=h @step[:merge] %>">
 
     <label for="parent_step_ids">Parent Steps</label>
     <select name="parent_step_ids" id="parent_step_ids" multiple="">
