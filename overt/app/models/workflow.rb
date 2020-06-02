@@ -57,7 +57,8 @@ class Workflow
 
           event = Event.new(data: data)
 
-          event.message = Mashing.mash_single_value(event_handler.message, raw_data.merge(event.data)) || "Event #{event.id}"
+          event.message = Mashing.mash_single_value(event_handler.message, raw_data.merge(event.data))
+          event.message = "Event #{event.id}" if event.message.nil? || event.message == ''
 
           event
         end
