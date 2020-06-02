@@ -43,10 +43,12 @@ class OvertController < ApplicationController
                label: @id,
                type: params[:type],
                config: {},
-               parent_step_ids: [params[:parent_step_id]]
              }
 
       step[:parent_step_ids] = [params[:parent_step_id]] if params[:parent_step_id]
+
+      event = params[:event_id] ? Event.where(id: params[:event_id]).first : nil
+      step[:test_event] = event.data if event
 
       @workflow.steps << step
 
