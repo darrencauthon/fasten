@@ -60,9 +60,10 @@ class OvertController < ApplicationController
               message: params[:message],
               type: params[:type],
               config: config,
+              parent_step_ids: []
             }
 
-    step[:parent_step_ids] = [params[:parent_step_id]] if params[:parent_step_id]
+    step[:parent_step_ids] = [params[:parent_step_id]] unless params[:parent_step_id].empty?
 
     event = params[:event_id] ? Event.where(id: params[:event_id]).first : nil
     step[:test_event] = event.data if event
