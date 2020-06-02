@@ -32,7 +32,6 @@ class OvertController < ApplicationController
     end
 
     def create_a_new_step
-      @workflow = Workflow.find params[:workflow_id]
       @id = params[:id] || SecureRandom.uuid
       @name = params[:name] || @id
       @event_id = params[:event_id]
@@ -52,8 +51,8 @@ class OvertController < ApplicationController
       event = params[:event_id] ? Event.where(id: params[:event_id]).first : nil
       step[:test_event] = event.data if event
 
+      @workflow = Workflow.find params[:workflow_id]
       @workflow.steps << step
-
       @workflow.steps.each { |s| s.delete(:method) }
 
       File.open("/workflows/#{@workflow.id}.json", 'w') do |file|
