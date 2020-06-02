@@ -107,6 +107,16 @@ class OvertController < ApplicationController
 
   end
 
+  def save_test_event
+    workflow = Workflow.find params[:id]
+    step = workflow.steps.select { |x| x[:id] == params[:step_id] }.first
+    if step && params[:test_event]
+      step[:test_event] = JSON.parse(params[:test_event]) || {}
+    end
+    workflow.save
+    render json: {}
+  end
+
   def delete_step
     workflow = Workflow.find params[:id]
 

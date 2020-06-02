@@ -50,6 +50,25 @@
                                                 });
                                   });
 
+              jQuery('#save_test_event').click(function() {
+                                    var event = test_event.get();
+                                    var step = {
+                                      id: jQuery('[name=id]').val(),
+                                      name: jQuery('[name=name]').val(),
+                                      type: jQuery('[name=type]').val(),
+                                      message: jQuery('[name=message]').val(),
+                                      parent_step_ids: jQuery('[name=parent_step_ids]').val(),
+                                      merge: jQuery('[name=merge]').val(),
+                                      config: config.get()
+                                    };
+                                    var data = {
+                                                test_event: JSON.stringify(event),
+                                                step_id: step_id
+                                              };
+                                    jQuery.ajax({ url: '/overt/workflows/save-test-event/' + workflow.id, data: data, method: 'POST'})
+                                          .done(function(x) {});
+              });
+
               jQuery('#run').click(function() {
                                     var event = test_event.get();
                                     var step = {
@@ -183,6 +202,7 @@
     <div id="test_event" style="height:400px"></div>
 
     <button type="button" id="run">Run</button>
+    <button type="button" id="save_test_event">Save Test Event</button>
 
     <table>
       <thead>
