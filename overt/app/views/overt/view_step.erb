@@ -1,110 +1,112 @@
 <script type="text/javascript">
-  jQuery.ajax({
-    url: "/overt/workflows/step-json/<%=h @workflow.id %>/<%=h @step[:id] %>?event_id=<%=h @event_id %>"
-  }).done(function(data) {
-    console.log(data);
-            var workflow = data.workflow;
-            var step_id = data.step.id;
-            var config = JsonEditor.create({
-                                             id: 'config',
-                                             data: data.step.config
-                                           });
+  document.addEventListener("DOMContentLoaded", function() {
+    jQuery.ajax({
+      url: "/overt/workflows/step-json/<%=h @workflow.id %>/<%=h @step[:id] %>?event_id=<%=h @event_id %>"
+    }).done(function(data) {
+      console.log(data);
+              var workflow = data.workflow;
+              var step_id = data.step.id;
+              var config = JsonEditor.create({
+                                              id: 'config',
+                                              data: data.step.config
+                                            });
 
-            var test_event = JsonEditor.create({
-                               id: 'test_event',
-                               data: data.event.data ? data.event.data : (data.step.test_event ? data.step.test_event : {})
-                             });
+              var test_event = JsonEditor.create({
+                                id: 'test_event',
+                                data: data.event.data ? data.event.data : (data.step.test_event ? data.step.test_event : {})
+                              });
 
-            jQuery('#save').click(function() {
-                                  var event = test_event.get();
-                                  var step = {
-                                    id: jQuery('[name=id]').val(),
-                                    name: jQuery('[name=name]').val(),
-                                    type: jQuery('[name=type]').val(),
-                                    message: jQuery('[name=message]').val(),
-                                    parent_step_ids: jQuery('[name=parent_step_ids]').val(),
-                                    merge: jQuery('[name=merge]').val(),
-                                    config: config.get()
-                                  };
-                                  var data = {
-                                               incoming_event: JSON.stringify(event),
-                                               step: JSON.stringify(step)
-                                             };
-                                  jQuery.ajax({ url: '/overt/workflows/save-step/' + workflow.id, data: data, method: 'POST'})
-                                        .done(function(x) {
-                                              });
-                                });
+              jQuery('#save').click(function() {
+                                    var event = test_event.get();
+                                    var step = {
+                                      id: jQuery('[name=id]').val(),
+                                      name: jQuery('[name=name]').val(),
+                                      type: jQuery('[name=type]').val(),
+                                      message: jQuery('[name=message]').val(),
+                                      parent_step_ids: jQuery('[name=parent_step_ids]').val(),
+                                      merge: jQuery('[name=merge]').val(),
+                                      config: config.get()
+                                    };
+                                    var data = {
+                                                incoming_event: JSON.stringify(event),
+                                                step: JSON.stringify(step)
+                                              };
+                                    jQuery.ajax({ url: '/overt/workflows/save-step/' + workflow.id, data: data, method: 'POST'})
+                                          .done(function(x) {
+                                                });
+                                  });
 
-            jQuery('#run').click(function() {
-                                  var event = test_event.get();
-                                  var step = {
-                                    id: jQuery('[name=id]').val(),
-                                    name: jQuery('[name=name]').val(),
-                                    type: jQuery('[name=type]').val(),
-                                    message: jQuery('[name=message]').val(),
-                                    parent_step_ids: jQuery('[name=parent_step_ids]').val(),
-                                    merge: jQuery('[name=merge]').val(),
-                                    config: config.get()
-                                  };
-                                  var data = {
-                                               incoming_event: JSON.stringify(event),
-                                               step: JSON.stringify(step),
-                                               limit: 5
-                                             };
-                                  jQuery.ajax({ url: '/starter/run_step', data: data, method: 'POST'})
-                                        .done(function(x) {
+              jQuery('#run').click(function() {
+                                    var event = test_event.get();
+                                    var step = {
+                                      id: jQuery('[name=id]').val(),
+                                      name: jQuery('[name=name]').val(),
+                                      type: jQuery('[name=type]').val(),
+                                      message: jQuery('[name=message]').val(),
+                                      parent_step_ids: jQuery('[name=parent_step_ids]').val(),
+                                      merge: jQuery('[name=merge]').val(),
+                                      config: config.get()
+                                    };
+                                    var data = {
+                                                incoming_event: JSON.stringify(event),
+                                                step: JSON.stringify(step),
+                                                limit: 5
+                                              };
+                                    jQuery.ajax({ url: '/starter/run_step', data: data, method: 'POST'})
+                                          .done(function(x) {
 
-                                                jQuery('.view-event').remove();
-                                                jQuery('#output_events').html('');
+                                                  jQuery('.view-event').remove();
+                                                  jQuery('#output_events').html('');
 
-                                                jQuery(x.events).each(function(i, x){
+                                                  jQuery(x.events).each(function(i, x){
 
-                                                  var viewButton = '<button type="button" data-id="' + x.id + '" class="runButton">View</button>';
+                                                    var viewButton = '<button type="button" data-id="' + x.id + '" class="runButton">View</button>';
 
-                                                  jQuery('#output_events').append(jQuery('<tr>')
-                                                    .append(jQuery('<td>').text(x.message))
-                                                    .append(jQuery('<td>').html(viewButton))
-                                                  );
+                                                    jQuery('#output_events').append(jQuery('<tr>')
+                                                      .append(jQuery('<td>').text(x.message))
+                                                      .append(jQuery('<td>').html(viewButton))
+                                                    );
 
-                                                  var div = jQuery('<div><div class="modal view-event data-modal-' + x.id + '" data-id="' + x.id + '"><pre id="json-' + x.id + '"></pre><select name="jumpSelect" style="float:left" id="next-' + x.id + '"></select><button type="button" id="jump-' + x.id + '">Jump To</button><button type="button" id="close-' + x.id + '">Close</button></div>');
+                                                    var div = jQuery('<div><div class="modal view-event data-modal-' + x.id + '" data-id="' + x.id + '"><pre id="json-' + x.id + '"></pre><select name="jumpSelect" style="float:left" id="next-' + x.id + '"></select><button type="button" id="jump-' + x.id + '">Jump To</button><button type="button" id="close-' + x.id + '">Close</button></div>');
 
-                                                  jQuery('body').append(div.html());
+                                                    jQuery('body').append(div.html());
 
-                                                  jQuery('#json-' + x.id).html(prettyPrintJson.toHtml(x.data));
-                                                  jQuery('#close-' + x.id).click(function(){ jQuery('.close-modal').click()});
+                                                    jQuery('#json-' + x.id).html(prettyPrintJson.toHtml(x.data));
+                                                    jQuery('#close-' + x.id).click(function(){ jQuery('.close-modal').click()});
 
-                                                  jQuery('#jump-' + x.id).click(function() {
-                                                                                  var step_id = jQuery('#next-' + x.id).val();
-                                                                                  url = (step_id != '')
-                                                                                          ? '/overt/workflows/view-step/' + workflow.id + '/' + step_id + '?'
-                                                                                          : '/overt/workflows/build-step/' + workflow.id + '?parent_step_id=' + step.id + '&';
-                                                                                  url = url + 'event_id=' + x.id;
-                                                                                  window.location = url;
+                                                    jQuery('#jump-' + x.id).click(function() {
+                                                                                    var step_id = jQuery('#next-' + x.id).val();
+                                                                                    url = (step_id != '')
+                                                                                            ? '/overt/workflows/view-step/' + workflow.id + '/' + step_id + '?'
+                                                                                            : '/overt/workflows/build-step/' + workflow.id + '?parent_step_id=' + step.id + '&';
+                                                                                    url = url + 'event_id=' + x.id;
+                                                                                    window.location = url;
+                                                      });
+                                                  });
+
+                                                  jQuery('.runButton').click(function(_){
+
+                                                    var options = {'': 'New Step'};
+                                                    jQuery(workflow.steps).each(function(_, x) {
+                                                      if (x.parent_step_ids.includes(step_id))
+                                                        options[x.id] = x.name;
                                                     });
-                                                });
 
-                                                jQuery('.runButton').click(function(_){
+                                                    jQuery('select[name=jumpSelect] option').remove();
+                                                    for (var prop in options)
+                                                      jQuery('select[name=jumpSelect]').append(jQuery('<option>').val(prop).text(options[prop]));
 
-                                                  var options = {'': 'New Step'};
-                                                  jQuery(workflow.steps).each(function(_, x) {
-                                                    if (x.parent_step_ids.includes(step_id))
-                                                      options[x.id] = x.name;
+                                                    jQuery('select[name=jumpSelect]').each(function(_, x){
+                                                      jQuery(x).val(jQuery('#' + jQuery(x).attr('id') + ' option:last').val());
+                                                    });
+
+                                                    jQuery('.data-modal-' + jQuery(this).data('id')).modal();
                                                   });
 
-                                                  jQuery('select[name=jumpSelect] option').remove();
-                                                  for (var prop in options)
-                                                    jQuery('select[name=jumpSelect]').append(jQuery('<option>').val(prop).text(options[prop]));
-
-                                                  jQuery('select[name=jumpSelect]').each(function(_, x){
-                                                    jQuery(x).val(jQuery('#' + jQuery(x).attr('id') + ' option:last').val());
-                                                  });
-
-                                                  jQuery('.data-modal-' + jQuery(this).data('id')).modal();
                                                 });
-
-                                              });
-                                });
-          });
+                                  });
+            });
+});
 </script>
 
 <h1><%=h @step[:name] %></h1>
