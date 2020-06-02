@@ -153,7 +153,7 @@
     <label for="parent_step_ids">Parent Steps</label>
     <select name="parent_step_ids" id="parent_step_ids" multiple="">
       <% @workflow.steps.select { |x| x[:id] != @step[:id] }.each do |s| %>
-          <option class="step" id="option-<%=h s[:id] %>" data-id="<%=h s[:id] %>" data-name="<%=h s[:name] %>" value="<%=h s[:id] %>"<%= @step[:parent_step_ids].include?(s[:id]) ? ' selected' : '' %>><%= s[:name] %></option>
+          <option class="step" id="option-<%=h s[:id] %>" data-id="<%=h s[:id] %>" data-name="<%=h s[:name] %>" value="<%=h s[:id] %>"<%= (@step[:parent_step_ids] || []).include?(s[:id]) ? ' selected' : '' %>><%= s[:name] %></option>
       <% end %>
     </select>
 </fieldset>
