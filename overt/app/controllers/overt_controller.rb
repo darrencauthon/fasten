@@ -23,7 +23,7 @@ class OvertController < ApplicationController
       render layout: 'water'
     end
 
-    def create_step
+    def build_step
       @workflow = Workflow.find params[:workflow_id]
       @event_id = params[:event_id]
       @step_types = StepType.all
