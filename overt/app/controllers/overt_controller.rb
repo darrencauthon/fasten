@@ -39,7 +39,7 @@ class OvertController < ApplicationController
 
       step = {
                id: @id,
-               name: @id,
+               name: @name,
                label: @id,
                type: params[:type],
                config: {},
