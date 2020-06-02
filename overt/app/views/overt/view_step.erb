@@ -15,6 +15,20 @@
                                 id: 'test_event',
                                 data: data.event.data ? data.event.data : (data.step.test_event ? data.step.test_event : {})
                               });
+              jQuery('#delete').click(function(){
+                                          $('#delete').hide();
+                                          $('#delete_confirmation').show();
+                                      });
+              jQuery('#delete_no').click(function(){
+                                            $('#delete').show();
+                                            $('#delete_confirmation').hide();
+                                         });
+              jQuery('#delete_yes').click(function(){
+                                            jQuery.ajax({ url: '/overt/workflows/delete-step/' + workflow.id, data: {step_id: step_id}, method: 'POST'})
+                                                  .done(function(x) {
+                                                            window.location = '/overt/workflows/view/' + workflow.id;
+                                                        });
+                                          });
 
               jQuery('#save').click(function() {
                                     var event = test_event.get();
@@ -151,12 +165,24 @@
 </fieldset>
 
 <fieldset>
+  <legend>Actions</legend>
+  <button type="button" id="save">Save</button>
+  <button type="button" id="delete">Delete This Step</button>
+
+  <fieldset id="delete_confirmation" style="display:none">
+    <legend>Are You Sure?</legend>
+    <button type="button" id="delete_yes">Yes</button>
+    <button type="button" id="delete_no">No</button>
+  </fieldset>
+
+</fieldset>
+
+<fieldset>
     <legend>Testing</legend>
 
     <div id="test_event" style="height:400px"></div>
 
     <button type="button" id="run">Run</button>
-    <button type="button" id="save">Save</button>
 
     <table>
       <thead>

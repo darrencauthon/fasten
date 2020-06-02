@@ -107,4 +107,13 @@ class OvertController < ApplicationController
 
   end
 
+  def delete_step
+    workflow = Workflow.find params[:id]
+
+    workflow.steps = workflow.steps.select { |x| x[:id] != params[:step_id] }
+    workflow.save
+
+    render json: { }
+  end
+
 end
