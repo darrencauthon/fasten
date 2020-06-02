@@ -1,3 +1,18 @@
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function(){
+    jQuery('#save').click(function(x){
+      var data = {
+        id: jQuery('[data-map=id]').val(),
+        name: jQuery('[data-map=name]').val()
+      };
+      console.log(data);
+      jQuery.post('/overt/workflows/save-workflow', data, function(){
+        //window.location = '/overt/workflows/view-step/' + data.workflow_id + '/' + data.id;
+      });
+    });
+  });
+</script>
+
 <h1><%= @workflow.id %></h1>
 
 <span>/</span>
@@ -7,8 +22,14 @@
 
 <fieldset>
     <legend>Details</legend>
+
     <label for="id">Id</label>
-    <input readonly type="text" name="id" value="<%=h @workflow.id %>">
+    <input readonly type="text" name="id" data-map="id" value="<%=h @workflow.id %>">
+
+    <label for="name">Name</label>
+    <input type="text" name="name" data-map="name" value="<%=h @workflow.name %>">
+
+    <button id="save">Save This Workflow</button>
 </fieldset>
 <table>
   <thead>

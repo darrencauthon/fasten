@@ -11,8 +11,9 @@ Rails.application.routes.draw do
   get 'overt/workflows/build-workflow', to: 'overt#build_workflow'
 
   post 'overt/workflows/create-workflow', to: 'overt#create_workflow'
-  post 'overt/workflows/save-step/:id', to: 'overt#save_step'
+  post 'overt/workflows/save-workflow', to: 'overt#save_workflow'
   post 'overt/workflows/create-step/:workflow_id', to: 'overt#create_a_new_step'
+  post 'overt/workflows/save-step/:id', to: 'overt#save_step'
 
   #############################################
 

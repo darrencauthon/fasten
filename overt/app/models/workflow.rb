@@ -1,6 +1,7 @@
 class Workflow
 
   attr_accessor :id
+  attr_accessor :name
   attr_accessor :steps
   attr_accessor :context
 
@@ -27,6 +28,7 @@ class Workflow
     workflow = Workflow.new
 
     workflow.id = definition[:id]
+    workflow.name = definition[:name]
 
     workflow.steps = definition[:steps]
 

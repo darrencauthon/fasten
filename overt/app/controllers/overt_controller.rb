@@ -78,6 +78,15 @@ class OvertController < ApplicationController
     render json: { step: step, workflow: workflow, event: event }
   end
 
+  def save_workflow
+    workflow = Workflow.find params[:id]
+    workflow.name = params[:name]
+
+    workflow.save
+
+    render json: { }
+  end
+
   def save_step
 
     step = JSON.parse(params[:step])
