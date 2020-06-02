@@ -41,6 +41,8 @@ class OvertController < ApplicationController
                id: @id,
                name: @name,
                label: @id,
+               merge: params[:merge],
+               message: params[:message],
                type: params[:type],
                config: {},
              }
