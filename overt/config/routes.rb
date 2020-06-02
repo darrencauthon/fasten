@@ -4,13 +4,13 @@ Rails.application.routes.draw do
 
   get 'overt', to: 'overt#home'
   get 'overt/workflows', to: 'overt#workflows'
-  get 'overt/workflow/view/:id', to: 'overt#workflow'
-  get 'overt/workflow/view-step/:workflow_id/:id', to: 'overt#step'
-  get 'overt/workflow/step-json/:workflow_id/:id', to: 'overt#step_json'
-  get 'overt/workflow/build-step/:workflow_id', to: 'overt#create_step'
+  get 'overt/workflows/view/:id', to: 'overt#workflow'
+  get 'overt/workflows/view-step/:workflow_id/:id', to: 'overt#step'
+  get 'overt/workflows/step-json/:workflow_id/:id', to: 'overt#step_json'
+  get 'overt/workflows/build-step/:workflow_id', to: 'overt#create_step'
 
-  post 'overt/workflow/save_step/:id', to: 'overt#save_step'
-  post 'overt/workflow/create-step/:workflow_id', to: 'overt#create_a_new_step'
+  post 'overt/workflows/save_step/:id', to: 'overt#save_step'
+  post 'overt/workflows/create-step/:workflow_id', to: 'overt#create_a_new_step'
 
   #############################################
 

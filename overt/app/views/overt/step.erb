@@ -1,6 +1,6 @@
 <script type="text/javascript">
   jQuery.ajax({
-    url: "/overt/workflow/step-json/<%=h @workflow.id %>/<%=h @step[:id] %>?event_id=<%=h @event_id %>"
+    url: "/overt/workflows/step-json/<%=h @workflow.id %>/<%=h @step[:id] %>?event_id=<%=h @event_id %>"
   }).done(function(data) {
     console.log(data);
             var workflow = data.workflow;
@@ -30,7 +30,7 @@
                                                incoming_event: JSON.stringify(event),
                                                step: JSON.stringify(step)
                                              };
-                                  jQuery.ajax({ url: '/overt/workflow/save_step/' + workflow.id, data: data, method: 'POST'})
+                                  jQuery.ajax({ url: '/overt/workflows/save_step/' + workflow.id, data: data, method: 'POST'})
                                         .done(function(x) {
                                               });
                                 });
@@ -76,8 +76,8 @@
                                                   jQuery('#jump-' + x.id).click(function() {
                                                                                   var step_id = jQuery('#next-' + x.id).val();
                                                                                   url = (step_id != '')
-                                                                                          ? '/overt/workflow/view-step/' + workflow.id + '/' + step_id + '?'
-                                                                                          : '/overt/workflow/build-step/' + workflow.id + '?parent_step_id=' + step.id + '&';
+                                                                                          ? '/overt/workflows/view-step/' + workflow.id + '/' + step_id + '?'
+                                                                                          : '/overt/workflows/build-step/' + workflow.id + '?parent_step_id=' + step.id + '&';
                                                                                   url = url + 'event_id=' + x.id;
                                                                                   window.location = url;
                                                     });
