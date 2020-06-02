@@ -42,6 +42,7 @@ class OvertController < ApplicationController
                label: @id,
                merge: params[:merge],
                message: params[:message],
+               parent_step_ids: params[:parent_step_ids],
                type: params[:type],
                config: StepType.all.first { |x| x[:id] == params[:type] }[:default_config] || {},
              }
