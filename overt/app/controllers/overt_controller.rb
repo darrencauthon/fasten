@@ -53,13 +53,8 @@ class OvertController < ApplicationController
 
       @workflow = Workflow.find params[:workflow_id]
       @workflow.steps << step
-      @workflow.steps.each { |s| s.delete(:method) }
 
-      File.open("/workflows/#{@workflow.id}.json", 'w') do |file|
-        file.write JSON.pretty_generate(JSON.parse(@workflow.to_json))
-      end
-
-      CronEvent.setup_all
+      @workflow.save
 
       render json: { test: 'water' }
     end

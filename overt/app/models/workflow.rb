@@ -88,6 +88,16 @@ class Workflow
     event_handler
   end
 
+  def save
+    self.steps.each { |s| s.delete(:method) }
+
+    File.open("/workflows/#{self.id}.json", 'w') do |file|
+      file.write JSON.pretty_generate(JSON.parse(self.to_json))
+    end
+
+    CronEvent.setup_all
+  end
+
   private
 
   def self.get_the_data_to_merge event, merge
