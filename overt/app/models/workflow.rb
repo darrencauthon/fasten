@@ -16,7 +16,7 @@ class Workflow
   def self.all
     files = Dir["/workflows/*.json"]
       .map do |x|
-	content = ''
+        content = ''
         File.open(x) { |f| f.each_line { |l| content = content + l } }
         JSON.parse content, symbolize_names: true
       end
