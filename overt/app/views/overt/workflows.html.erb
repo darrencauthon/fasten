@@ -20,7 +20,7 @@
   <tbody>
     <% @workflows.each do |workflow| %>
       <tr>
-        <td><a href="/overt/workflows/view/<%= workflow.id %>"><%= workflow.id %></a></td>
+        <td><a href="/overt/workflows/view/<%= workflow.id %>"><%= workflow.name %></a></td>
       </tr>
     <% end %>
   </tbody>
