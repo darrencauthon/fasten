@@ -74,8 +74,7 @@ class OvertController < ApplicationController
 
       workflow = Workflow.find params[:id]
 
-      workflow.steps = workflow.steps.map { |x| x[:id] == step[:id] ? step : x }
-      raise workflow.steps.inspect
+      workflow.steps = workflow.steps.map { |x| x[:id] == step['id'] ? step : x }
       workflow.save
 
       render json: { }
