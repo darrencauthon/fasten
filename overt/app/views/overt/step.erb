@@ -49,7 +49,15 @@
 
                                                   jQuery('#json-' + x.id).html(prettyPrintJson.toHtml(x.data));
                                                   jQuery('#close-' + x.id).click(function(){ jQuery('.close-modal').click()});
-                                                  jQuery('#jump-' + x.id).click(function() { window.location = '/overt/workflow/view-step/' + workflow.id + '/' + jQuery('#next-' + x.id).val() + '?event_id=' + x.id; });
+
+                                                  jQuery('#jump-' + x.id).click(function() {
+                                                                                  var step_id = jQuery('#next-' + x.id).val();
+                                                                                  url = (step_id != '')
+                                                                                          ? '/overt/workflow/view-step/' + workflow.id + '/' + step_id + '?'
+                                                                                          : '/overt/workflow/create-step/' + workflow.id + '?parent_step_id=' + step.id + '&';
+                                                                                  url = url + 'event_id=' + x.id;
+                                                                                  window.location = url;
+                                                    });
                                                 });
 
                                                 jQuery('.runButton').click(function(_){

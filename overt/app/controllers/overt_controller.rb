@@ -1,5 +1,7 @@
 class OvertController < ApplicationController
 
+    skip_before_action :verify_authenticity_token
+
     def home
       render layout: 'water'
     end

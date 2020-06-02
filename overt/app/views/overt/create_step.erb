@@ -11,6 +11,10 @@
       jQuery('[data-map]').each(function(_, x) {
         data[jQuery(x).data('map')] = jQuery(x).val();
       });
+
+      jQuery.post('/overt/workflow/create-a-new-step/<%=h @workflow.id %>', data, function(){
+        window.location = '/overt/workflow/view-step/' + data.workflow_id + '/' + data.id;
+      });
       console.log(data);
     });
   });

@@ -89,6 +89,17 @@
       ],
       "config": {
       }
+    },
+    {
+      "id": "1c7b3a96-e757-4a81-a1b7-12d9240aa61f",
+      "name": "1c7b3a96-e757-4a81-a1b7-12d9240aa61f",
+      "label": "1c7b3a96-e757-4a81-a1b7-12d9240aa61f",
+      "type": "EventFormatter",
+      "config": {
+      },
+      "parent_step_ids": [
+        "start-the-job"
+      ]
     }
   ],
   "id": "applesauce"
