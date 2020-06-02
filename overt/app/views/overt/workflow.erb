@@ -10,6 +10,10 @@
         //window.location = '/overt/workflows/view-step/' + data.workflow_id + '/' + data.id;
       });
     });
+
+    jQuery('#create-step').click(function() {
+      window.location = '/overt/workflows/build-step/' + jQuery('[data-map=id]').val();
+    });
   });
 </script>
 
@@ -49,3 +53,5 @@
     <% end %>
   </tbody>
 <table>
+
+<button type="button" id="create-step">Create a Step</button>
