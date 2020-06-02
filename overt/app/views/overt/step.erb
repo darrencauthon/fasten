@@ -77,7 +77,7 @@
                                                                                   var step_id = jQuery('#next-' + x.id).val();
                                                                                   url = (step_id != '')
                                                                                           ? '/overt/workflow/view-step/' + workflow.id + '/' + step_id + '?'
-                                                                                          : '/overt/workflow/create-step/' + workflow.id + '?parent_step_id=' + step.id + '&';
+                                                                                          : '/overt/workflow/build-step/' + workflow.id + '?parent_step_id=' + step.id + '&';
                                                                                   url = url + 'event_id=' + x.id;
                                                                                   window.location = url;
                                                     });
