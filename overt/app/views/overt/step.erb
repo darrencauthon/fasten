@@ -15,6 +15,25 @@
                                data: data.event.data ? data.event.data : (data.step.test_event ? data.step.test_event : {})
                              });
 
+            jQuery('#save').click(function() {
+                                  var event = test_event.get();
+                                  var step = {
+                                    id: jQuery('[name=id]').val(),
+                                    name: jQuery('[name=name]').val(),
+                                    type: jQuery('[name=type]').val(),
+                                    message: jQuery('[name=message]').val(),
+                                    merge: jQuery('[name=merge]').val(),
+                                    config: config.get()
+                                  };
+                                  var data = {
+                                               incoming_event: JSON.stringify(event),
+                                               step: JSON.stringify(step)
+                                             };
+                                  jQuery.ajax({ url: '/overt/workflow/save_step/' + workflow.id, data: data, method: 'POST'})
+                                        .done(function(x) {
+                                              });
+                                });
+
             jQuery('#run').click(function() {
                                   var event = test_event.get();
                                   var step = {
@@ -125,6 +144,7 @@
     <div id="test_event" style="height:400px"></div>
 
     <button type="button" id="run">Run</button>
+    <button type="button" id="save">Save</button>
 
     <table>
       <thead>

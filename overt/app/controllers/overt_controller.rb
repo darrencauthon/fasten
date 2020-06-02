@@ -66,4 +66,20 @@ class OvertController < ApplicationController
       render json: { step: step, workflow: workflow, event: event }
     end
 
+    def save_step
+
+      step = JSON.parse(params[:step])
+
+      incoming_event = JSON.parse(params[:incoming_event])
+
+      workflow = Workflow.find params[:id]
+
+      workflow.steps = workflow.steps.map { |x| x[:id] == step[:id] ? step : x }
+      raise workflow.steps.inspect
+      workflow.save
+
+      render json: { }
+
+    end
+
 end
