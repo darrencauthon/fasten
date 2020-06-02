@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get 'overt', to: 'overt#home'
   get 'overt/workflows', to: 'overt#workflows'
   get 'overt/workflows/view/:id', to: 'overt#workflow'
-  get 'overt/workflows/view-step/:workflow_id/:id', to: 'overt#step'
+  get 'overt/workflows/view-step/:workflow_id/:id', to: 'overt#view_step'
   get 'overt/workflows/step-json/:workflow_id/:id', to: 'overt#step_json'
   get 'overt/workflows/build-step/:workflow_id', to: 'overt#build_step'
 
