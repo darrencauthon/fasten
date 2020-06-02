@@ -2,7 +2,7 @@
   document.addEventListener("DOMContentLoaded", function(){
     jQuery('#create').click(function(x){
       var data = {
-        id: jQuery('#id').val()
+        id: jQuery('[data-map=id]').val()
       };
       jQuery.post('/overt/workflows/create-workflow', data, function(){
         window.location = '/overt/workflows/view/' + data.id;
@@ -21,6 +21,6 @@
 <fieldset>
   <legend>Fields</legend>
     <label for="id">Id</label>
-    <input type="text" name="id" value="<%=h SecureRandom.uuid %>" data-map="id" required>
+    <input type="text" name="id" data-map="id" value="<%=h SecureRandom.uuid %>" data-map="id" required>
     <button id="create">Create This Workflow</button>
 </fieldset>

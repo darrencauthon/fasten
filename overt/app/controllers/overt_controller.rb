@@ -36,6 +36,10 @@ class OvertController < ApplicationController
   end
 
   def create_workflow
+    workflow = Workflow.new
+    workflow.id = params[:id]
+    workflow.save
+
     render json: { test: 'water' }
   end
 
