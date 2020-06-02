@@ -44,7 +44,7 @@ class OvertController < ApplicationController
                merge: params[:merge],
                message: params[:message],
                type: params[:type],
-               config: {},
+               config: StepType.all.first { |x| x[:id] == params[:type] }[:default_config] || {},
              }
 
       step[:parent_step_ids] = [params[:parent_step_id]] if params[:parent_step_id]
