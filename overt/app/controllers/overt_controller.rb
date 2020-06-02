@@ -49,6 +49,9 @@ class OvertController < ApplicationController
     @name = params[:name] || @id
     @event_id = params[:event_id]
 
+    step_type = StepType.all.select { |x| x[:id] == params[:type] }.first
+    config = step_type[:default_config] || {}
+
     step = {
               id: @id,
               name: @name,
@@ -56,7 +59,7 @@ class OvertController < ApplicationController
               merge: params[:merge],
               message: params[:message],
               type: params[:type],
-              config: StepType.all.first { |x| x[:id] == params[:type] }[:default_config] || {},
+              config: config,
             }
 
     step[:parent_step_ids] = [params[:parent_step_id]] if params[:parent_step_id]
