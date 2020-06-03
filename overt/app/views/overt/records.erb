@@ -24,4 +24,4 @@
     </tbody>
 <table>
 
-<%= will_paginate @records %>
+<%= will_paginate @records %> (<%= @records.count %> record<%= @records.count == 1 ? '' : 's' %>)
