@@ -3,13 +3,19 @@
     <thead>
     <tr>
         <td>Id</td>
+        <td>Collection</td>
     </tr>
     </thead>
     <tbody>
         <% @crud_records.each do |record| %>
           <tr>
             <td>
-                <%=h record[:id] %>
+              <a href="/overt/records/view/<%= record.id %>">
+                  <%=h record[:name] %>
+              </a>
+            </td>
+            <td>
+                <%=h record.collection_name %>
             </td>
           </tr>
         <% end %>

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get 'overt/manual-starts', to: 'overt#manual_starts'
 
   get 'overt/records', to: 'overt#records'
+  get 'overt/records/view/:id', to: 'overt#view_record'
 
   post 'overt/workflows/create-workflow', to: 'overt#create_workflow'
   post 'overt/workflows/save-workflow', to: 'overt#save_workflow'

@@ -150,4 +150,9 @@ class OvertController < ApplicationController
     render layout: 'water'
   end
 
+  def view_record
+    @record = CrudRecord.find params[:id]
+    render layout: 'water'
+  end
+
 end
