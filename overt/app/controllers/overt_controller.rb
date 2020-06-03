@@ -145,7 +145,7 @@ class OvertController < ApplicationController
   end
 
   def records
-    @crud_records = CrudRecord.all.paginate(page: params[:page], per_page: 10)
+    @records = CrudRecord.all.paginate(page: params[:page], per_page: 10)
 
     render layout: 'water'
   end
