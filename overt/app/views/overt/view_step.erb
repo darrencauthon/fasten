@@ -36,6 +36,7 @@
                                       id: jQuery('[name=id]').val(),
                                       name: jQuery('[name=name]').val(),
                                       type: jQuery('[name=type]').val(),
+                                      queue: jQuery('[name=queue]').val(),
                                       message: jQuery('[name=message]').val(),
                                       parent_step_ids: jQuery('[name=parent_step_ids]').val(),
                                       merge: jQuery('[name=merge]').val(),
@@ -56,6 +57,7 @@
                                       id: jQuery('[name=id]').val(),
                                       name: jQuery('[name=name]').val(),
                                       type: jQuery('[name=type]').val(),
+                                      queue: jQuery('[name=queue]').val(),
                                       message: jQuery('[name=message]').val(),
                                       parent_step_ids: jQuery('[name=parent_step_ids]').val(),
                                       merge: jQuery('[name=merge]').val(),
@@ -75,6 +77,7 @@
                                       id: jQuery('[name=id]').val(),
                                       name: jQuery('[name=name]').val(),
                                       type: jQuery('[name=type]').val(),
+                                      queue: jQuery('[name=queue]').val(),
                                       message: jQuery('[name=message]').val(),
                                       parent_step_ids: jQuery('[name=parent_step_ids]').val(),
                                       merge: jQuery('[name=merge]').val(),
@@ -168,6 +171,13 @@
 
     <label for="merge">Merge</label>
     <input type="text" name="merge" value="<%=h @step[:merge] %>">
+
+    <label for="queue">Queue</label>
+    <select name="queue" id="queue">
+      <% ['default', 'web_request', 'single', 'crud'].each do |s| %>
+          <option id="<%=h s %>" data-id="<%=h s %>" data-name="<%=h s %>" value="<%=h s %>"<%= (@step[:queue] || []).include?(s) ? ' selected' : '' %>><%= s %></option>
+      <% end %>
+    </select>
 
     <label for="parent_step_ids">Parent Steps</label>
     <select name="parent_step_ids" id="parent_step_ids" multiple="">
