@@ -22,7 +22,7 @@ class WebRequest
       url: url,
       reason_phrase: response.reason_phrase,
       response_headers: response.headers,
-      body: (config[:no_body] ? '' : response.body)
+      body: (config[:no_body].to_s.downcase.strip == 'true' ? '' : response.body)
     }
   end
 
