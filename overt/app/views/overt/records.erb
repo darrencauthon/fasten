@@ -1,0 +1,17 @@
+<h1>Records</h1>
+<table>
+    <thead>
+    <tr>
+        <td>Id</td>
+    </tr>
+    </thead>
+    <tbody>
+        <% @crud_records.each do |record| %>
+          <tr>
+            <td>
+                <%=h record[:id] %>
+            </td>
+          </tr>
+        <% end %>
+    </tbody>
+<table>
