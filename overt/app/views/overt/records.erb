@@ -15,7 +15,9 @@
               </a>
             </td>
             <td>
-                <%=h record.collection_name %>
+                <a href="/overt/records/view_collection/<%= record.collection_name %>">
+                  <%=h record.collection_name %>
+                </a>
             </td>
           </tr>
         <% end %>

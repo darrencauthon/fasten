@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   get 'overt/records', to: 'overt#records'
   get 'overt/records/view/:id', to: 'overt#view_record'
+  get 'overt/records/view_collection/:collection', to: 'overt#records'
 
   post 'overt/workflows/create-workflow', to: 'overt#create_workflow'
   post 'overt/workflows/save-workflow', to: 'overt#save_workflow'
