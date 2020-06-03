@@ -100,11 +100,18 @@ class OvertController < ApplicationController
 
     workflow = Workflow.find params[:id]
 
-    workflow.steps = workflow.steps.map { |x| x[:id] == step['id'] ? step : x }
+    workflow.steps = workflow.steps.map do |x|
+      if x[:id] == step['id']
+        step[:test_event] = x[:test_event]
+        step
+      else
+        x
+      end
+    end
+
     workflow.save
 
     render json: { }
-
   end
 
   def save_test_event
