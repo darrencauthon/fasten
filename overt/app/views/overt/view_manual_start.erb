@@ -4,8 +4,16 @@
       url: "/overt/manual-starts/json/<%=h @workflow_id %>/<%=h @step_id %>"
     }).done(function(data) {
       var data = data.step.config.default_event ? data.step.config.default_event : {};
-      JsonEditor.create( { id: 'manual_start', data: data } );
-    })
+      var eventEditor = JsonEditor.create( { id: 'manual_start', data: data } );
+
+      $('#fire').click(function(){
+        console.log(eventEditor.get());
+        var success = function(x){
+          console.log(x);
+        };
+        jQuery.post('/manual_starts/fire/<%= @workflow_id %>/<%= @step_id %>', { event_data: eventEditor.get() }, success);
+      });
+    });
 });
 </script>
 
