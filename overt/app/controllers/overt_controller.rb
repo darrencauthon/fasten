@@ -147,6 +147,11 @@ class OvertController < ApplicationController
   def view_manual_start
     @workflow_id = params[:workflow_id]
     @step_id = params[:step_id]
+
+    @step = Workflow.find(@workflow_id).steps
+      .select { |x| x[:id] == @step_id }
+      .first
+
     render layout: 'water'
   end
 

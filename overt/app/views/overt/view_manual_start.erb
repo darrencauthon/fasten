@@ -1,9 +1,16 @@
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function() {
     jQuery.ajax({
-      url: "/overt/workflows/manual-starts/json/<%=h @workflow_id %>/<%=h @step_id %>"
+      url: "/overt/manual-starts/json/<%=h @workflow_id %>/<%=h @step_id %>"
     }).done(function(data) {
-      console.log(data);
+      var data = data.step.config.default_event ? data.step.config.default_event : {};
+      JsonEditor.create( { id: 'manual_start', data: data } );
     })
 });
 </script>
+
+<h1>View <%=h @step[:name] %></h1>
+
+<div id="manual_start"></div>
+
+<button type="button" id="fire">Start the Workflow</button>
