@@ -144,6 +144,23 @@ class OvertController < ApplicationController
     render layout: 'water'
   end
 
+  def view_manual_start
+    @workflow_id = params[:workflow_id]
+    @step_id = params[:step_id]
+    render layout: 'water'
+  end
+
+  def manual_start_json
+    workflow_id = params[:workflow_id]
+    step_id = params[:step_id]
+
+    step = Workflow.find(workflow_id).steps
+      .select { |x| x[:id] == step_id }
+      .first
+
+    render json: { step: step }
+  end
+
   def records
     records = params[:collection] ? CrudRecord.where(collection_name: params[:collection]) : CrudRecord.all
 

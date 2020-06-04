@@ -1,0 +1,9 @@
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function() {
+    jQuery.ajax({
+      url: "/overt/workflows/manual-starts/json/<%=h @workflow_id %>/<%=h @step_id %>"
+    }).done(function(data) {
+      console.log(data);
+    })
+});
+</script>
