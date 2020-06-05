@@ -187,8 +187,9 @@ class OvertController < ApplicationController
 
   def run_json
     events = Event.where(run_id: params[:id])
+                  .paginate(page: params[:page], per_page: 10)
 
-    render json: { events: events }
+    render json: { events: events, total_events: events.count }
   end
 
 end
