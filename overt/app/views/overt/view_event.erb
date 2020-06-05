@@ -31,7 +31,9 @@
     </thead>
     <tbody>
       <% @child_events.each do |event| %>
-        <td><a href="/overt/runs/view_event/<%= event.id %>"><%= event.message %></a></td>
+        <tr>
+          <td><a href="/overt/runs/view_event/<%= event.id %>"><%= event.message %></a></td>
+        </tr>
       <% end %>
     </tbody>
   <table>
