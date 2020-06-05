@@ -195,8 +195,10 @@ class OvertController < ApplicationController
   def view_event
     @event = Event.find params[:id]
 
-    @parent_event = @event ? Event.where(parent_event_id: @event.parent_event_id).first : nil
-    @parent_event = nil if @parent_event.id == @event.id
+    @parent_event = @event ? Event.where(id: @event.parent_event_id).first : nil
+
+    @child_events = Event.where(parent_event_id: @event.id)
+                         .paginate(page: params[:page], per_page: 10)
 
     render layout: 'water'
   end

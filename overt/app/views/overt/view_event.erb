@@ -17,4 +17,22 @@
   <div><a href="/overt/runs/view_event/<%= @parent_event.id %>"><%= @parent_event.message %></a></div>
 <% end %>
 
+
+
 <div id="event"></div>
+
+<fieldset>
+  <legend>Childlren</legend>
+  <table>
+    <thead>
+      <tr>
+        <td>Event</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @child_events.each do |event| %>
+        <td><a href="/overt/runs/view_event/<%= event.id %>"><%= event.message %></a></td>
+      <% end %>
+    </tbody>
+  <table>
+</fieldset>
