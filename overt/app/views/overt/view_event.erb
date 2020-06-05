@@ -17,13 +17,9 @@
 <span>/</span>
 <span><%=h @event.message %></span>
 
-<h1><%=h @event.message %></h1>
-
 <% if @parent_event %>
   <div><a href="/overt/runs/view_event/<%= @parent_event.id %>"><%= @parent_event.message %></a></div>
 <% end %>
-
-
 
 <div id="event"></div>
 
