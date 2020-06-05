@@ -195,6 +195,8 @@ class OvertController < ApplicationController
   def view_event
     @event = Event.find params[:id]
 
+    @run = Run.find @event.run_id
+
     @related_events = {
       'Parent'   => Event.where(id: @event.parent_event_id),
       'Children' => Event.where(parent_event_id: @event.id),

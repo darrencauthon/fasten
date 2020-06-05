@@ -19,7 +19,13 @@
   } );
 </script>
 
-<h1>View <%= @run.id %></h1>
+<span><a href="/overt">Home</a></span>
+<span>/</span>
+<span><a href="/overt/runs">Runs</a></span>
+<span>/</span>
+<span><%=h @run[:id] %></span>
+
+<h1><%= @run.id %></h1>
 
 <fieldset>
     <legend>Events</legend>
