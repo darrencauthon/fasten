@@ -192,4 +192,10 @@ class OvertController < ApplicationController
     render json: { events: events, total_events: events.count }
   end
 
+  def view_event
+    @event = Event.find params[:id]
+
+    render layout: 'water'
+  end
+
 end
