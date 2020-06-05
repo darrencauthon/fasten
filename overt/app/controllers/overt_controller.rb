@@ -180,9 +180,15 @@ class OvertController < ApplicationController
   end
 
   def view_run
-    @run = Run.find(params[:id])
+    @run = Run.find params[:id]
 
     render layout: 'water'
+  end
+
+  def run_json
+    events = Event.where(run_id: params[:id])
+
+    render json: { events: events }
   end
 
 end

@@ -1,11 +1,11 @@
 <script type="text/javascript">
-  //jQuery.ajax( {
-    //method: 'GET',
-    //url: '/records/json/<%= @run.id %>',
-    //success: function(data) {
-               //JsonEditor.create( { id: 'record', data: data.data } );
-             //}
-  //} );
+  jQuery.ajax( {
+    method: 'GET',
+    url: '/overt/runs/json/<%= @run.id %>',
+    success: function(data) {
+                 console.log(data);
+             }
+  } );
 </script>
 
 <h1>View <%= @run.id %></h1>
