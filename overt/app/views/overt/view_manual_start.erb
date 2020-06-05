@@ -9,7 +9,9 @@
       $('#fire').click(function(){
         console.log(eventEditor.get());
         var success = function(x){
-          console.log(x);
+          $('#view').click(function() {
+            window.location = '/overt/runs/' + x.run_id;
+          }).show();
         };
         jQuery.post('/manual_starts/fire/<%= @workflow_id %>/<%= @step_id %>', { event_data: eventEditor.get() }, success);
       });
@@ -22,3 +24,4 @@
 <div id="manual_start"></div>
 
 <button type="button" id="fire">Start the Workflow</button>
+<button type="button" id="view" style="display:none">View the Run</button>
