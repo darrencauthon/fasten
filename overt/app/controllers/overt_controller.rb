@@ -180,7 +180,7 @@ class OvertController < ApplicationController
   end
 
   def runs
-    @runs = Run.all.paginate(page: params[:page], per_page: 10)
+    @runs = Run.all.order('created_at DESC').paginate(page: params[:page], per_page: 10)
 
     render layout: 'water'
   end

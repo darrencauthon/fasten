@@ -6,6 +6,7 @@
     <thead>
     <tr>
         <td>Run</td>
+        <td>Created At</td>
     </tr>
     </thead>
     <tbody>
@@ -16,7 +17,12 @@
                 <%=h run.id %>
               </a>
             </td>
+            <td>
+              <%=h run.created_at %>
+            </td>
           </tr>
         <% end %>
     </tbody>
 <table>
+
+<%= will_paginate @runs %> (<%= @runs.count %> run<%= @runs.count == 1 ? '' : 's' %>)
