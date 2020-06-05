@@ -11,7 +11,7 @@
   });
 </script>
 
-<h1>View <%= @event.id %></h1>
+<h1><%= @event.message %></h1>
 
 <% if @parent_event %>
   <div><a href="/overt/runs/view_event/<%= @parent_event.id %>"><%= @parent_event.message %></a></div>
@@ -21,20 +21,22 @@
 
 <div id="event"></div>
 
-<fieldset>
-  <legend>Children</legend>
-  <table>
-    <thead>
-      <tr>
-        <td>Event</td>
-      </tr>
-    </thead>
-    <tbody>
-      <% @child_events.each do |event| %>
+<% @related_events.each do |k, v| %>
+  <fieldset>
+    <legend><%=h k %></legend>
+    <table>
+      <thead>
         <tr>
-          <td><a href="/overt/runs/view_event/<%= event.id %>"><%= event.message %></a></td>
+          <td>Event</td>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-</fieldset>
+      </thead>
+      <tbody>
+        <% v.each do |event| %>
+          <tr>
+            <td><a href="/overt/runs/view_event/<%= event.id %>"><%= event.message %></a></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </fieldset>
+<% end %>
