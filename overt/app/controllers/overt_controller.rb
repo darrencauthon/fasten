@@ -182,6 +182,8 @@ class OvertController < ApplicationController
   def runs
     @runs = Run.all.order('created_at DESC').paginate(page: params[:page], per_page: 10)
 
+    @runs_as_a_hash = @runs.map { |x| { id: x.id, created_at: x.created_at } }
+
     render layout: 'water'
   end
 

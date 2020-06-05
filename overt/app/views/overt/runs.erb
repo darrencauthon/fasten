@@ -10,15 +10,15 @@
     </tr>
     </thead>
     <tbody>
-        <% @runs.each do |run| %>
+        <% @runs_as_a_hash.each do |run| %>
           <tr>
             <td>
-              <a href="/overt/runs/view/<%=h run.id %>">
-                <%=h run.id %>
+              <a href="/overt/runs/view/<%=h run[:id] %>">
+                <%=h run[:id] %>
               </a>
             </td>
             <td>
-              <%=h run.created_at %>
+              <%=h run[:created_at] %>
             </td>
           </tr>
         <% end %>
