@@ -179,6 +179,12 @@ class OvertController < ApplicationController
     render layout: 'water'
   end
 
+  def runs
+    @runs = Run.all.paginate(page: params[:page], per_page: 10)
+
+    render layout: 'water'
+  end
+
   def view_run
     @run = Run.find params[:id]
 

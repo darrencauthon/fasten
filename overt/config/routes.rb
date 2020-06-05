@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get 'overt/records/view/:id', to: 'overt#view_record'
   get 'overt/records/view_collection/:collection', to: 'overt#records'
 
+  get 'overt/runs', to: 'overt#runs'
   get 'overt/runs/view/:id', to: 'overt#view_run'
   get 'overt/runs/json/:id', to: 'overt#run_json'
   get 'overt/runs/view_event/:id', to: 'overt#view_event'
