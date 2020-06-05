@@ -13,7 +13,7 @@
             window.location = '/overt/runs/view/' + x.run_id;
           }).show();
         };
-        jQuery.post('/manual-starts/fire/<%= @workflow_id %>/<%= @step_id %>', { event_data: eventEditor.get() }, success);
+        jQuery.post('/manual_starts/fire/<%= @workflow_id %>/<%= @step_id %>', { event_data: eventEditor.get() }, success);
       });
     });
 });
