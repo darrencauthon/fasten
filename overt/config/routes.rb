@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   get 'overt/runs/view/:id', to: 'overt#view_run'
   get 'overt/runs/json/:id', to: 'overt#run_json'
   get 'overt/runs/view_event/:id', to: 'overt#view_event'
+  get 'overt/runs/event_json/:id', to: 'overt#event_json'
 
   post 'overt/workflows/create-workflow', to: 'overt#create_workflow'
   post 'overt/workflows/save-workflow', to: 'overt#save_workflow'

@@ -1,0 +1,16 @@
+<script type="text/javascript">
+  jQuery.ajax( {
+    method: 'GET',
+    url: '/overt/runs/event_json/<%= @event.id %>',
+    success: function(data) {
+               JsonEditor.create({
+                 id: 'event',
+                 data: data.event
+               });
+             }
+  });
+</script>
+
+<h1>View <%= @event.id %></h1>
+
+<div id="event"></div>
