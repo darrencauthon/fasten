@@ -2,6 +2,13 @@
   document.addEventListener("DOMContentLoaded", function(){
     jQuery('.use_this').click(function(x){
       jQuery('#type').val(jQuery(x.target).data('type'));
+      $('#pick_a_step_type').hide();
+      $('#fields').show();
+    });
+
+    jQuery('#change_step_type').click(function(){
+      $('#pick_a_step_type').show();
+      $('#fields').hide();
     });
 
     jQuery('#create').click(function() {
@@ -28,37 +35,42 @@
 <span>/</span>
 <span>Build a New Step</span>
 
-<fieldset>
-  <legend>Step</legend>
-  <% @step_types.each do |step_type| %>
-    <details>
-      <summary><%=h step_type[:name] %></summary>
-      <p>
-        <%=h step_type[:name] %>
-      </p>
-      <button data-type="<%= step_type[:id] %>" class="use_this">Use This</button>
-    </details>
-  <% end %>
-</fieldset>
-<fieldset>
-  <legend>Fields</legend>
-    <label for="id">Id</label>
-    <input type="text" name="id" value="<%=h SecureRandom.uuid %>" data-map="id" required>
+<div id="pick_a_step_type">
+  <fieldset>
+    <legend>Step</legend>
+    <% @step_types.each do |step_type| %>
+      <details>
+        <summary><%=h step_type[:name] %></summary>
+        <p>
+          <%=h step_type[:name] %>
+        </p>
+        <button data-type="<%= step_type[:id] %>" class="use_this">Use This</button>
+      </details>
+    <% end %>
+  </fieldset>
+</div>
 
-    <label for="name">Name</label>
-    <input type="text" name="name" value="" data-map="name" required>
+<div id="fields" style="display:none">
+  <fieldset>
+    <legend>Fields</legend>
+      <label for="id">Id</label>
+      <input type="text" name="id" value="<%=h SecureRandom.uuid %>" data-map="id" required>
 
-    <label for="type">Type</label>
-    <input readonly type="text" name="type" value="" data-map="type" id="type">
+      <label for="name">Name</label>
+      <input type="text" name="name" value="" data-map="name" required>
 
-    <label for="message">Message</label>
-    <input type="text" name="message" value="" data-map="message" id="message">
+      <label for="type">Type</label> <a href="#" id="change_step_type">[Change]</a>
+      <input readonly type="text" name="type" value="" data-map="type" id="type">
 
-    <label for="merge">Merge</label>
-    <input type="text" name="merge" value="*" data-map="merge" id="merge">
+      <label for="message">Message</label>
+      <input type="text" name="message" value="" data-map="message" id="message">
 
-    <input type="hidden" value="<%=h @parent_step_id %>" data-map="parent_step_id">
-    <input type="hidden" value="<%=h @workflow.id %>" data-map="workflow_id">
-    <input type="hidden" value="<%=h @event_id %>" data-map="event_id">
-    <button id="create">Create This Step</button>
-</fieldset>
+      <label for="merge">Merge</label>
+      <input type="text" name="merge" value="*" data-map="merge" id="merge">
+
+      <input type="hidden" value="<%=h @parent_step_id %>" data-map="parent_step_id">
+      <input type="hidden" value="<%=h @workflow.id %>" data-map="workflow_id">
+      <input type="hidden" value="<%=h @event_id %>" data-map="event_id">
+      <button id="create">Create This Step</button>
+  </fieldset>
+</div>
