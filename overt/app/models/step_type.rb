@@ -85,7 +85,8 @@ class StepType
             id:   'WebEndpoint',
             name: 'WebEndpoint' ,
             default_config: {
-            }
+                                url: '/url/here'
+                            }
             },
             {
             id:   'WebEndpointJsonResponse',
