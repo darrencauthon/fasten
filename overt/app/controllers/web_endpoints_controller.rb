@@ -27,9 +27,9 @@ class WebEndpointsController < ApplicationController
     Workflow.all.each do |w|
       w.steps.select { |x| x[:type] == 'WebEndpoint' }.each do |s|
         if s[:config] && s[:config][:url] == data[:url]
-	  workflow = w
-	  step = s
-	end
+          workflow = w
+          step = s
+        end
       end
     end
 
