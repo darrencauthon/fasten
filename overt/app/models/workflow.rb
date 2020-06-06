@@ -24,6 +24,10 @@ class Workflow
       .map { |x| Workflow.build x }
   end
 
+  def self.steps_of_type type
+    all.map { |w| w.steps.select { |x| x[:type] == type } }.flatten
+  end
+
   def self.build(definition)
     workflow = Workflow.new
 
