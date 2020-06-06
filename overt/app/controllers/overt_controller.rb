@@ -134,12 +134,7 @@ class OvertController < ApplicationController
   end
 
   def manual_starts
-
-    @steps = Workflow.all
-      .map { |x| x.steps.each { |s| s[:workflow_id] = x.id; s[:workflow_name] = x.name }; x.steps }
-      .flatten
-      .select { |x| x[:type] == 'ManualStart' }
-      .flatten
+    @steps = Workflow.steps_of_type 'ManualStart'
 
     render layout: 'water'
   end
