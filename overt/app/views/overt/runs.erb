@@ -6,6 +6,7 @@
     <thead>
     <tr>
         <td>Run</td>
+        <td>Workflow</td>
         <td>Created At</td>
     </tr>
     </thead>
@@ -16,6 +17,15 @@
               <a href="/overt/runs/view/<%=h run[:id] %>">
                 <%=h run[:message] %>
               </a>
+            </td>
+            <td>
+              <% if run[:workflow_name] %>
+              <a href="/overt/workflows/view/<%=h run[:workflow_id] %>">
+                <%=h run[:workflow_name] %>
+              </a>
+              <% else %>
+                <%=h run[:workflow_id] %>
+              <% end %>
             </td>
             <td>
               <%=h run[:created_at] %>

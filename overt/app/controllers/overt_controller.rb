@@ -180,11 +180,21 @@ class OvertController < ApplicationController
   end
 
   def runs
-    @runs = Run.all.order('created_at DESC').paginate(page: params[:page], per_page: 10)
+    @runs = Run.all
+               .where.not(workflow_id: nil)
+               .order('created_at DESC')
+               .paginate(page: params[:page], per_page: 10)
 
     @runs_as_a_hash = @runs.map do |x|
+      workflow = Workflow.find x.workflow_id
       event = Event.where(run_id: x.id).order(:created_at).first
-      { id: x.id, created_at: x.created_at, message: event ? event.message : x.id }
+      {
+        id: x.id,
+        created_at: x.created_at,
+        message: event ? event.message : x.id,
+        workflow_id: x.workflow_id,
+        workflow_name: workflow ? workflow.name : nil,
+      }
     end
 
     render layout: 'water'
