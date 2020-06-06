@@ -3,7 +3,7 @@
     method: 'GET',
     url: '/records/json/<%= @record.id %>',
     success: function(data) {
-               JsonEditor.create( { id: 'record', data: data.data } );
+               JsonEditor.create( { id: 'record', data: data.data, mode: 'view' } );
              }
   } );
 </script>
