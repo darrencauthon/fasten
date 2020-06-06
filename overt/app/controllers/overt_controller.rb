@@ -185,6 +185,12 @@ class OvertController < ApplicationController
                .order('created_at DESC')
                .paginate(page: params[:page], per_page: 10)
 
+    workflows = @runs.group_by { |x| x.workflow_id }.keys
+                     .map      { |x| Workflow.find x }
+                     .select   { |x| x }
+                     .map      { |x| [x.id, x.name] }
+                     .to_h
+
     @runs_as_a_hash = @runs.map do |x|
       workflow = Workflow.find x.workflow_id
       event = Event.where(run_id: x.id).order(:created_at).first
@@ -193,7 +199,7 @@ class OvertController < ApplicationController
         created_at: x.created_at,
         message: event ? event.message : x.id,
         workflow_id: x.workflow_id,
-        workflow_name: workflow ? workflow.name : nil,
+        workflow_name: workflows[x.workflow_id],
       }
     end
 
