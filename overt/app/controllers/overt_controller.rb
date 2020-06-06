@@ -240,4 +240,37 @@ class OvertController < ApplicationController
     render json: { event: event }
   end
 
+  def web_endpoints
+
+    @steps = Workflow.all
+      .map { |x| x.steps.each { |s| s[:workflow_id] = x.id; s[:workflow_name] = x.name }; x.steps }
+      .flatten
+      .select { |x| x[:type] == 'WebEndpoint' }
+      .flatten
+
+    render layout: 'water'
+  end
+
+  def view_web_endpoint
+    @workflow_id = params[:workflow_id]
+    @step_id = params[:step_id]
+
+    @step = Workflow.find(@workflow_id).steps
+      .select { |x| x[:id] == @step_id }
+      .first
+
+    render layout: 'water'
+  end
+
+  def web_endpoint_json
+    workflow_id = params[:workflow_id]
+    step_id = params[:step_id]
+
+    step = Workflow.find(workflow_id).steps
+      .select { |x| x[:id] == step_id }
+      .first
+
+    render json: { step: step }
+  end
+
 end

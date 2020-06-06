@@ -10,6 +10,10 @@ Rails.application.routes.draw do
   get 'overt/workflows/build-step/:workflow_id', to: 'overt#build_step'
   get 'overt/workflows/build-workflow', to: 'overt#build_workflow'
 
+  get 'overt/web-endpoints', to: 'overt#web_endpoints'
+  get 'overt/web-endpoints/view/:workflow_id/:step_id', to: 'overt#view_web_endpoint'
+  get 'overt/web-endpoints/json/:workflow_id/:step_id', to: 'overt#web_endpoint_json'
+
   get 'overt/manual-starts', to: 'overt#manual_starts'
   get 'overt/manual-starts/view/:workflow_id/:step_id', to: 'overt#view_manual_start'
   get 'overt/manual-starts/json/:workflow_id/:step_id', to: 'overt#manual_start_json'
