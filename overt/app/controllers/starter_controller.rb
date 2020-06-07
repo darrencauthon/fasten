@@ -23,29 +23,4 @@ class StarterController < ApplicationController
     render layout: 'adminlte'
   end
 
-  def run_step
-
-    step = JSON.parse(params[:step])
-
-    incoming_event = JSON.parse(params[:incoming_event])
-
-    values = HashWithIndifferentAccess.new
-    values[:definition] = {
-      steps: [step]
-    }
-
-    originating_event = Event.new(data: incoming_event)
-
-    workflow = Workflow.build values[:definition]
-
-    step_off_of_the_built_workflow = workflow.steps.first
-
-    run = Run.start originating_event, step_off_of_the_built_workflow, workflow
-
-    events = Event.where(run_id: run.id).paginate(page: 1, per_page: params[:limit] || 10)
-
-    render json: { run: run, events: events, count: events.total_entries }
-
-  end
-
 end

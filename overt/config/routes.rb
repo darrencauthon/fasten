@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   get 'overt/runs/json/:id', to: 'overt#run_json'
   get 'overt/runs/view_event/:id', to: 'overt#view_event'
   get 'overt/runs/event_json/:id', to: 'overt#event_json'
+  post 'overt/run_step', to: 'overt#run_step'
 
   post 'overt/workflows/create-workflow', to: 'overt#create_workflow'
   post 'overt/workflows/save-workflow', to: 'overt#save_workflow'
@@ -50,7 +51,6 @@ Rails.application.routes.draw do
 
   get 'starter', to: 'starter#index'
   get 'starter/step', to: 'starter#step'
-  post 'starter/run_step', to: 'starter#run_step'
 
   get '', to: 'home#index'
   get 'runs', to: 'runs#index'
