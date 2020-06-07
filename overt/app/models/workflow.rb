@@ -37,6 +37,11 @@ class Workflow
     workflow.steps = definition[:steps]
 
     workflow.steps.each do |step|
+      step[:workflow_id] = workflow.id
+      step[:workflow_name] = workflow.name
+    end
+
+    workflow.steps.each do |step|
       set_up_the_method step, workflow
     end
 

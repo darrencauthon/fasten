@@ -263,4 +263,32 @@ class OvertController < ApplicationController
     render json: { step: step }
   end
 
+  def crons
+    @steps = Workflow.steps_of_type 'CronEvent'
+
+    render layout: 'water'
+  end
+
+  def view_cron
+    @workflow_id = params[:workflow_id]
+    @step_id = params[:step_id]
+
+    @step = Workflow.find(@workflow_id).steps
+      .select { |x| x[:id] == @step_id }
+      .first
+
+    render layout: 'water'
+  end
+
+  def cron_json
+    workflow_id = params[:workflow_id]
+    step_id = params[:step_id]
+
+    step = Workflow.find(workflow_id).steps
+      .select { |x| x[:id] == step_id }
+      .first
+
+    render json: { step: step }
+  end
+
 end

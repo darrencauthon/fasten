@@ -14,6 +14,10 @@ Rails.application.routes.draw do
   get 'overt/web-endpoints/view/:workflow_id/:step_id', to: 'overt#view_web_endpoint'
   get 'overt/web-endpoints/json/:workflow_id/:step_id', to: 'overt#web_endpoint_json'
 
+  get 'overt/crons', to: 'overt#crons'
+  get 'overt/crons/view/:workflow_id/:step_id', to: 'overt#view_cron'
+  get 'overt/crons/json/:workflow_id/:step_id', to: 'overt#cron_json'
+
   get 'overt/manual-starts', to: 'overt#manual_starts'
   get 'overt/manual-starts/view/:workflow_id/:step_id', to: 'overt#view_manual_start'
   get 'overt/manual-starts/json/:workflow_id/:step_id', to: 'overt#manual_start_json'
