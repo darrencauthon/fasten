@@ -174,6 +174,11 @@ class OvertController < ApplicationController
     render layout: 'water'
   end
 
+  def record_json
+    @record = CrudRecord.find params[:id]
+    render json: { record: @record }
+  end
+
   def runs
     @runs = Run.all
                .where.not(workflow_id: nil)
