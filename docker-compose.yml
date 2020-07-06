@@ -29,7 +29,7 @@ services:
     ports:
       - 3002:3000
     volumes:
-      #- ./overt:/app
+      - ./overt:/app
       - ./workflows:/workflows
     env_file:
       - .env
