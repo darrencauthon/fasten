@@ -54,8 +54,6 @@ Rails.application.routes.draw do
 
   get 'step_editor/index'
 
-  get 'web_endpoints', to: 'web_endpoints#index'
-
   mount Sidekiq::Web => '/sidekiq'
 
   match '*path', to: 'web_endpoints#fire', via: :all
