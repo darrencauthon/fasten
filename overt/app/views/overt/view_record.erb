@@ -1,0 +1,17 @@
+<script type="text/javascript">
+  jQuery.ajax( {
+    method: 'GET',
+    url: '/overt/records/json/<%= @record.id %>',
+    success: function(data) {
+               JsonEditor.create( { id: 'record', data: data.record, mode: 'view' } );
+             }
+  } );
+</script>
+
+<span><a href="/overt">Home</a></span>
+<span>/</span>
+<span><a href="/overt/records">Records</a></span>
+<span>/</span>
+<span><%=h @record[:name] %></span>
+
+<div id="record"></div>

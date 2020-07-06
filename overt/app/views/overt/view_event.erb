@@ -1,0 +1,41 @@
+<script type="text/javascript">
+  jQuery.ajax( {
+    method: 'GET',
+    url: '/overt/runs/event_json/<%= @event.id %>',
+    success: function(data) {
+               JsonEditor.create({
+                 id: 'event',
+                 mode: 'view',
+                 data: data.event
+               });
+             }
+  });
+</script>
+
+<span><a href="/overt">Home</a></span>
+<span>/</span>
+<span><a href="/overt/runs">Runs</a></span>
+<span>/</span>
+<span><%=h @event.message %></span>
+
+<div style="height:600px" id="event"></div>
+
+<% @related_events.each do |k, v| %>
+  <fieldset>
+    <legend><%=h k %></legend>
+    <table>
+      <thead>
+        <tr>
+          <td>Event</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% v.each do |event| %>
+          <tr>
+            <td><a href="/overt/runs/view_event/<%= event.id %>"><%= event.message %></a></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </fieldset>
+<% end %>

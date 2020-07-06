@@ -1,0 +1,30 @@
+<span><a href="/overt">Home</a></span>
+<span>/</span>
+<span>Records</span>
+
+<table>
+    <thead>
+    <tr>
+        <td>Id</td>
+        <td>Collection</td>
+    </tr>
+    </thead>
+    <tbody>
+        <% @records.each do |record| %>
+          <tr>
+            <td>
+              <a href="/overt/records/view/<%= record.id %>">
+                  <%=h record[:name] %>
+              </a>
+            </td>
+            <td>
+                <a href="/overt/records/view_collection/<%= record.collection_name %>">
+                  <%=h record.collection_name %>
+                </a>
+            </td>
+          </tr>
+        <% end %>
+    </tbody>
+<table>
+
+<%= will_paginate @records %> (<%= @records.count %> record<%= @records.count == 1 ? '' : 's' %>)

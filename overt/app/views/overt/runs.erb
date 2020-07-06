@@ -1,0 +1,38 @@
+<span><a href="/overt">Home</a></span>
+<span>/</span>
+<span>Runs</span>
+
+<table>
+    <thead>
+    <tr>
+        <td>Run</td>
+        <td>Workflow</td>
+        <td>Created At</td>
+    </tr>
+    </thead>
+    <tbody>
+        <% @runs_as_a_hash.each do |run| %>
+          <tr>
+            <td>
+              <a href="/overt/runs/view/<%=h run[:id] %>">
+                <%=h run[:message] %>
+              </a>
+            </td>
+            <td>
+              <% if run[:workflow_name] %>
+              <a href="/overt/workflows/view/<%=h run[:workflow_id] %>">
+                <%=h run[:workflow_name] %>
+              </a>
+              <% else %>
+                <%=h run[:workflow_id] %>
+              <% end %>
+            </td>
+            <td>
+              <%=h run[:created_at] %>
+            </td>
+          </tr>
+        <% end %>
+    </tbody>
+<table>
+
+<%= will_paginate @runs %> (<%= @runs.count %> run<%= @runs.count == 1 ? '' : 's' %>)

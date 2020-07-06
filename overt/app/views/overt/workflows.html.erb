@@ -1,0 +1,28 @@
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function(){
+    jQuery('#create').click(function(x){
+      window.location = '/overt/workflows/build-workflow';
+    });
+  });
+</script>
+
+<span><a href="/overt">Home</a></span>
+<span>/</span>
+<span>Workflows</span>
+
+<table>
+  <thead>
+    <tr>
+      <td>Name</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @workflows.each do |workflow| %>
+      <tr>
+        <td><a href="/overt/workflows/view/<%= workflow.id %>"><%= workflow.name %></a></td>
+      </tr>
+    <% end %>
+  </tbody>
+<table>
+
+<button type="button" id="create">Create New Workflow</button>

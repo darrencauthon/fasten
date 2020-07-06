@@ -1,0 +1,31 @@
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function() {
+    jQuery.ajax({
+      url: "/overt/manual-starts/json/<%=h @workflow_id %>/<%=h @step_id %>"
+    }).done(function(data) {
+      var data = data.step.config.default_event ? data.step.config.default_event : {};
+      var eventEditor = JsonEditor.create( { id: 'manual_start', data: data } );
+
+      $('#fire').click(function(){
+        console.log(eventEditor.get());
+        var success = function(x){
+          $('#view').click(function() {
+            window.location = '/overt/runs/view/' + x.run_id;
+          }).show();
+        };
+        jQuery.post('/overt/manual-starts/fire/<%= @workflow_id %>/<%= @step_id %>', { event_data: eventEditor.get() }, success);
+      });
+    });
+});
+</script>
+
+<span><a href="/overt">Home</a></span>
+<span>/</span>
+<span><a href="/overt/manual-starts">Manual Starts</a></span>
+<span>/</span>
+<span><%=h @step[:name] %></a></span>
+
+<div id="manual_start"></div>
+
+<button type="button" id="fire">Start the Workflow</button>
+<button type="button" id="view" style="display:none">View the Run</button>

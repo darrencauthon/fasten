@@ -1,6 +1,7 @@
 class Workflow
 
   attr_accessor :id
+  attr_accessor :name
   attr_accessor :steps
   attr_accessor :context
 
@@ -16,19 +17,29 @@ class Workflow
   def self.all
     files = Dir["/workflows/*.json"]
       .map do |x|
-	content = ''
+        content = ''
         File.open(x) { |f| f.each_line { |l| content = content + l } }
         JSON.parse content, symbolize_names: true
       end
       .map { |x| Workflow.build x }
   end
 
+  def self.steps_of_type type
+    all.map { |w| w.steps.select { |x| x[:type] == type } }.flatten
+  end
+
   def self.build(definition)
     workflow = Workflow.new
 
     workflow.id = definition[:id]
+    workflow.name = definition[:name]
 
     workflow.steps = definition[:steps]
+
+    workflow.steps.each do |step|
+      step[:workflow_id] = workflow.id
+      step[:workflow_name] = workflow.name
+    end
 
     workflow.steps.each do |step|
       set_up_the_method step, workflow
@@ -57,7 +68,8 @@ class Workflow
 
           event = Event.new(data: data)
 
-          event.message = Mashing.mash_single_value(event_handler.message, raw_data.merge(event.data)) || "Event #{event.id}"
+          event.message = Mashing.mash_single_value(event_handler.message, raw_data.merge(event.data))
+          event.message = "Event #{event.id}" if event.message.nil? || event.message == ''
 
           event
         end
@@ -85,6 +97,16 @@ class Workflow
     event_handler.carry   = step[:carry]
 
     event_handler
+  end
+
+  def save
+    self.steps.each { |s| s.delete(:method) }
+
+    File.open("/workflows/#{self.id}.json", 'w') do |file|
+      file.write JSON.pretty_generate(JSON.parse(self.to_json))
+    end
+
+    CronEvent.setup_all
   end
 
   private

@@ -1,0 +1,39 @@
+<script type="text/javascript">
+  jQuery.ajax( {
+    method: 'GET',
+    url: '/overt/runs/json/<%= @run.id %>',
+    success: function(data) {
+                console.log(data);
+
+                jQuery('#output_events').html('');
+
+                jQuery(data.events).each(function(i, x){
+
+                  var viewButton = jQuery('<a href="/overt/runs/view_event/' + x.id + '">Event</a>').text(x.message);
+
+                  jQuery('#output_events').append(jQuery('<tr>')
+                    .append(jQuery('<td>').html(viewButton))
+                  );
+                });
+             }
+  } );
+</script>
+
+<span><a href="/overt">Home</a></span>
+<span>/</span>
+<span><a href="/overt/runs">Runs</a></span>
+<span>/</span>
+<span><%=h @run[:id] %></span>
+
+<fieldset>
+    <legend>Events</legend>
+    <table>
+      <thead>
+        <tr>
+          <td>Event</td>
+        </tr>
+      </thead>
+      <tbody id="output_events">
+      </tbody>
+    <table>
+</fieldset>
