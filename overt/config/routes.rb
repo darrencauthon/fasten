@@ -50,8 +50,6 @@ Rails.application.routes.draw do
   get 'workflows/edit/:id', to: 'workflows#edit'
   get 'workflows/step_types', to: 'workflows#step_types'
 
-  get 'sequence/new'
-
   get 'step_editor/index'
 
   mount Sidekiq::Web => '/sidekiq'
