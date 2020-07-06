@@ -53,10 +53,6 @@ Rails.application.routes.draw do
   get 'starter', to: 'starter#index'
   get 'starter/step', to: 'starter#step'
 
-  get '', to: 'home#index'
-  get 'runs', to: 'runs#index'
-  get 'runs/view/:id', to: 'runs#view'
-
   get 'sequence/new'
 
   get 'step_editor/index'
