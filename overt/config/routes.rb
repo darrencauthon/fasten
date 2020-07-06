@@ -50,9 +50,6 @@ Rails.application.routes.draw do
   get 'workflows/edit/:id', to: 'workflows#edit'
   get 'workflows/step_types', to: 'workflows#step_types'
 
-  get 'starter', to: 'starter#index'
-  get 'starter/step', to: 'starter#step'
-
   get 'sequence/new'
 
   get 'step_editor/index'
