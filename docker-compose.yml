@@ -31,7 +31,7 @@ services:
     volumes:
       #- ./overt:/app                   # uncomment this to run from the local copy
       - ./overt/tmp:/app/tmp          # uncomment this to use a built container
-      - ./overt/db:/app/db        # uncomment this to use a built container
+      - ./overt/db:/app/db            # uncomment this to use a built container
       - ./workflows:/workflows
     env_file:
       - .env
