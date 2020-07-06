@@ -16,11 +16,11 @@ services:
     image: redis:latest
 
   myapp:
-    tty: true # Enables debugging capabilities when attached to this container.
-    image: 'bitnami/rails:latest'      # uncomment this to run from the local copy
-    #build:                            # uncomment this to use a built container
-    #  context: .                      # uncomment this to use a built container
-    #  dockerfile: docker/Dockerfile   # uncomment this to use a built container
+    tty: true
+    image: 'bitnami/rails:latest'          # uncomment this to run from the local copy
+    #build:                                # uncomment this to use a built container
+      #context: .                          # uncomment this to use a built container
+      #dockerfile: docker/web/Dockerfile   # uncomment this to use a built container
     labels:
       kompose.service.type: nodeport
     depends_on:
@@ -35,23 +35,21 @@ services:
       - ./workflows:/workflows
     env_file:
       - .env
-    environment:
-      - SKIP_DB_SETUP=no
 
-  sidekiq:
-    tty: true # Enables debugging capabilities when attached to this container.
-    image: 'bitnami/rails:latest'
-    command: bundle exec sidekiq
-    labels:
-      kompose.service.type: nodeport
-    depends_on:
-      - mariadb
-      - redis
-    volumes:
-      - ./overt:/app
-      - ./tmp_sidekiq:/app/tmp
-      - ./workflows:/workflows
-    env_file:
-      - .env
-    environment:
-      - SKIP_DB_SETUP=yes
+#  sidekiq:
+#    tty: true # Enables debugging capabilities when attached to this container.
+#    image: 'bitnami/rails:latest'
+#    command: bundle exec sidekiq
+#    labels:
+#      kompose.service.type: nodeport
+#    depends_on:
+#      - mariadb
+#      - redis
+#    volumes:
+#      - ./overt:/app
+#      - ./tmp_sidekiq:/app/tmp
+#      - ./workflows:/workflows
+#    env_file:
+#      - .env
+#    environment:
+#      - SKIP_DB_SETUP=yes
