@@ -17,10 +17,10 @@ services:
 
   myapp:
     tty: true # Enables debugging capabilities when attached to this container.
-    #image: 'bitnami/rails:latest'
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
+    image: 'bitnami/rails:latest'      # uncomment this to run from the local copy
+    #build:                            # uncomment this to use a built container
+      #context: .                      # uncomment this to use a built container
+      #dockerfile: docker/Dockerfile   # uncomment this to use a built container
     labels:
       kompose.service.type: nodeport
     depends_on:
@@ -29,9 +29,9 @@ services:
     ports:
       - 3002:3000
     volumes:
-      #- ./overt:/app
-      - ./overt/tmp:/app/tmp
-      - ./overt/app/db:/app/db
+      - ./overt:/app                   # uncomment this to run from the local copy
+      #- ./overt/tmp:/app/tmp          # uncomment this to use a built container
+      #- ./overt/app/db:/app/db        # uncomment this to use a built container
       - ./workflows:/workflows
     env_file:
       - .env
