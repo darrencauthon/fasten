@@ -42,16 +42,6 @@ Rails.application.routes.draw do
   post 'overt/workflows/save-test-event/:id', to: 'overt#save_test_event'
   post 'overt/workflows/delete-step/:id', to: 'overt#delete_step'
 
-  #############################################
-
-  get 'workflows', to: 'workflows#index'
-  get 'workflows/json/:id', to: 'workflows#json'
-  post 'workflows/json/:id', to: 'workflows#save'
-  get 'workflows/edit/:id', to: 'workflows#edit'
-  get 'workflows/step_types', to: 'workflows#step_types'
-
-  get 'step_editor/index'
-
   mount Sidekiq::Web => '/sidekiq'
 
   match '*path', to: 'web_endpoints#fire', via: :all

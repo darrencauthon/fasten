@@ -17,10 +17,10 @@ services:
 
   myapp:
     tty: true
-    #image: 'bitnami/rails:latest'          # uncomment this to run from the local copy
-    build:                                # uncomment this to use a built container
-      context: .                          # uncomment this to use a built container
-      dockerfile: docker/web/Dockerfile   # uncomment this to use a built container
+    image: 'bitnami/rails:latest'          # uncomment this to run from the local copy
+    #build:                                # uncomment this to use a built container
+      #context: .                          # uncomment this to use a built container
+      #dockerfile: docker/web/Dockerfile   # uncomment this to use a built container
     labels:
       kompose.service.type: nodeport
     depends_on:
@@ -29,8 +29,8 @@ services:
     ports:
       - 3002:3000
     volumes:
-      #- ./overt:/app                   # uncomment this to run from the local copy
-      - ./overt/db:/app/db            # uncomment this to use a built container
+      - ./overt:/app                   # uncomment this to run from the local copy
+      #- ./overt/db:/app/db            # uncomment this to use a built container
       - ./tmp_web:/app/tmp
       - ./workflows:/workflows
     env_file:
@@ -38,10 +38,10 @@ services:
 
   sidekiq:
     tty: true
-    #image: 'bitnami/rails:latest'          # uncomment this to run from the local copy
-    build:                                    # uncomment this to use a built container
-      context: .                              # uncomment this to use a built container
-      dockerfile: docker/sidekiq/Dockerfile   # uncomment this to use a built container
+    image: 'bitnami/rails:latest'          # uncomment this to run from the local copy
+    #build:                                    # uncomment this to use a built container
+      #context: .                              # uncomment this to use a built container
+      #dockerfile: docker/sidekiq/Dockerfile   # uncomment this to use a built container
     command: bundle exec sidekiq
     labels:
       kompose.service.type: nodeport
@@ -49,8 +49,8 @@ services:
       - mariadb
       - redis
     volumes:
-      #- ./overt:/app                   # uncomment this to run from the local copy
-      - ./overt/db:/app/db            # uncomment this to use a built container
+      - ./overt:/app                   # uncomment this to run from the local copy
+      #- ./overt/db:/app/db            # uncomment this to use a built container
       - ./tmp_sidekiq:/app/tmp
       - ./workflows:/workflows
     env_file:
