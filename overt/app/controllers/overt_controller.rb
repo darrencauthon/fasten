@@ -227,7 +227,7 @@ class OvertController < ApplicationController
     @related_events = {
       'Parent'   => Event.where(id: @event.parent_event_id),
       'Children' => Event.where(parent_event_id: @event.id),
-      'Siblings' => Event.where(parent_event_id: @event.parent_event_id),
+      'Siblings' => Event.where(parent_event_id: @event.parent_event_id).where.not(id: @event.id),
       'Cousins'  => Event.where(run_id: @event.run_id, step_id: @event.step_id),
     }.each { |_, v| v = v.paginate(page: params[:page], per_page: 10) }
 
