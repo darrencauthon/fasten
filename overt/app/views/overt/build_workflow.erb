@@ -9,6 +9,12 @@
         window.location = '/overt/workflows/view/' + data.id;
       });
     });
+
+    jQuery('input[name=name]').keyup(function(x){
+      jQuery('input[name=id]').val(jQuery('input[name=name]').val().toLowerCase().replace(/[\W_]+/g, "-"));
+    });
+    jQuery('input[name=name]').focus();
+
   });
 </script>
 
@@ -21,11 +27,11 @@
 <fieldset>
   <legend>Fields</legend>
 
-    <label for="id">Id</label>
-    <input type="text" name="id" data-map="id" value="<%=h SecureRandom.uuid %>" required>
-
     <label for="name">Name</label>
     <input type="text" name="name" data-map="name" value="" required>
+
+    <label for="id">Id</label>
+    <input type="text" name="id" data-map="id" value="" required readonly>
 
     <button id="create">Create This Workflow</button>
 </fieldset>

@@ -4,6 +4,7 @@
       jQuery('#type').val(jQuery(x.target).data('type'));
       $('#pick_a_step_type').hide();
       $('#fields').show();
+      jQuery('input[name=name]').focus();
     });
 
     jQuery('#change_step_type').click(function(){
@@ -24,6 +25,11 @@
       });
       console.log(data);
     });
+
+    jQuery('input[name=name]').keyup(function(x){
+      jQuery('input[name=id]').val(jQuery('input[name=name]').val().toLowerCase().replace(/[\W_]+/g, "-"));
+    });
+
   });
 </script>
 
@@ -53,11 +59,11 @@
 <div id="fields" style="display:none">
   <fieldset>
     <legend>Fields</legend>
-      <label for="id">Id</label>
-      <input type="text" name="id" value="<%=h SecureRandom.uuid %>" data-map="id" required>
-
       <label for="name">Name</label>
       <input type="text" name="name" value="" data-map="name" required>
+
+      <label for="id">Id</label>
+      <input type="text" name="id" value="" data-map="id" required readonly>
 
       <label for="type">Type</label> <a href="#" id="change_step_type">[Change]</a>
       <input readonly type="text" name="type" value="" data-map="type" id="type">
