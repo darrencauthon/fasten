@@ -4,6 +4,7 @@
       jQuery('#type').val(jQuery(x.target).data('type'));
       $('#pick_a_step_type').hide();
       $('#fields').show();
+      jQuery('input[name=name]').focus();
     });
 
     jQuery('#change_step_type').click(function(){
@@ -25,10 +26,9 @@
       console.log(data);
     });
 
-    jQuery('input[name=name').keyup(function(x){
+    jQuery('input[name=name]').keyup(function(x){
       jQuery('input[name=id]').val(jQuery('input[name=name]').val().toLowerCase().replace(/[\W_]+/g, "-"));
     });
-    jQuery('input[name=name').focus();
 
   });
 </script>
