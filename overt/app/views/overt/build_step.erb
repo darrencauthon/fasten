@@ -26,7 +26,7 @@
     });
 
     jQuery('input[name=name').keyup(function(x){
-      console.log(jQuery('input[name=name').val());
+      jQuery('input[name=id]').val(jQuery('input[name=name]').val().toLowerCase().replace(/[\W_]+/g, "-"));
     });
 
   });
